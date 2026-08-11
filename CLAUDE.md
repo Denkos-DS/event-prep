@@ -26,6 +26,17 @@ the skill gets wrong under real conditions, and building first risks hardening t
 wrong things. Findings go in `docs/PHASE-0-FINDINGS.md` as they turn up — it's
 already seeded with a pre-event pass over the example documents.
 
+**Confirmed findings have been folded back into `skill/` as prose.** That is not
+Phase 1 and doesn't breach the gate above — the gate exists so that *scripts*
+aren't written against guesses, and knowledge belongs in `references/` by the
+standing decision below. What went in: the intake questions the skill never
+asked (committed costs, how many sites, what the organiser already owns), the
+multi-site section in `logistics.md`, the rewritten power section covering
+batteries, solar and V2L alongside generators, the unit-trap category in
+`SKILL.md`, and six additions to the audit checklist.
+
+`scripts/` and `assets/` remain gated on the event happening.
+
 **Phase 1 — harden the skill.** The next work. Details below.
 
 ## First task when Phase 1 starts

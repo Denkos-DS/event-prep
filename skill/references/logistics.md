@@ -2,15 +2,22 @@
 
 Venue constraints, rentals, power, cooking timelines, and transport.
 
-**Contents:** Venue survey · Cooking capacity · Cook-day timelines · Power and
-generators · Sound systems · Sourcing and store routing · Cold chain and
-transport · Make-ahead
+**Contents:** Venue survey · Multiple sites · Cooking capacity · Cook-day
+timelines · Power · Generators · Batteries, solar and vehicles · Sound systems ·
+Sourcing and store routing · Cold chain and transport · Make-ahead
 
 ---
 
 ## Venue survey
 
 Ask these before planning the menu. Each one has bitten a plan that skipped it.
+
+**Sites** — ask this first, because the rest of the survey assumes an answer
+- How many separate places does this happen in? Never assume one.
+- How far apart, in walking minutes rather than metres?
+- Is there vehicle access between them?
+- Where is there mains power, and where isn't there?
+- Is the route between them lit?
 
 **Kitchen**
 - How many ovens, across how many buildings? What size?
@@ -32,6 +39,39 @@ Ask these before planning the menu. Each one has bitten a plan that skipped it.
 **Beds and buildings**
 - If people are split across multiple units, the kitchen work is split too. Name
   who is responsible for which building's oven.
+
+## Multiple sites
+
+**Ask how many places the event happens in before anything else, and treat
+single-site as the special case.** Camping trips and festival camps are
+multi-site by definition — the stage, the tents, the water and the cooking are
+in four different places. Even a chalet weekend can have the party somewhere the
+kitchen isn't.
+
+Measure the separation in **walking minutes, not metres**. Ten minutes each way
+means every forgotten thing costs twenty.
+
+What a second site changes:
+
+- **Consumables have to be where the people are.** Nobody walks twenty minutes
+  for a drink, so drinks and ice migrate to the other site — into coolers, which
+  lose ice far faster than a fridge does. A quantity computed for one location is
+  wrong for two.
+- **Fuel, spares and tools belong at the site that consumes them.** Running dry
+  mid-set with the fuel ten minutes away is twenty-five minutes of silence.
+- **Load-in becomes a scheduled task.** Speakers, a sub, stands, cables, a
+  generator and fuel do not travel 500–800 m spontaneously. Ask about vehicle
+  access; if there is none, it's two people and several trips, and it needs a
+  slot with names on it.
+- **A curfew triggers a migration, not just silence.** When the music stops
+  everyone walks back. Put the late-night food at the destination *before* people
+  leave, or they arrive to a dark kitchen.
+- **Light the route.** People walking unlit ground late at night after several
+  hours of drinking is the highest-consequence risk in most weekends. Phone
+  torches are the default plan and half the phones will be flat. Solar stake
+  lights, headlamps or lanterns at the turns cost almost nothing in advance and
+  cannot be bought on the night.
+- **Each site needs an owner**, and it can't be the same person.
 
 ## Cooking capacity
 
@@ -75,28 +115,52 @@ Build in 30–40 minutes of slack and say that it's there.
 and "don't reduce it further" both look like mistakes to a helpful person. Attach
 the why or they'll be overridden.
 
-## Power and generators
+## Power
+
+**Watts and watt-hours answer different questions, and most power problems are a
+confusion between them.**
+
+- **Watts (W)** — how much can run *at once*. Exceed it and something trips or
+  cuts out. This is a wall, and it is instant.
+- **Watt-hours (Wh)** — how *long* it lasts. Capacity divided by average draw.
+
+Size the source on watts. Size the battery on watt-hours. Say which one any
+number you're given refers to, and if it's ambiguous, ask.
+
+**Peak decides what trips; average decides how long it lasts.** Powered speakers
+draw their nameplate figure only on bass peaks — a rig peaking at 2,780 W can
+average 820 W over an evening. Using peak for runtime makes batteries look three
+times worse than they are; using average for sizing trips the supply on the first
+loud song.
 
 **Household circuits are the constraint people hit first.** A 15 A / 120 V circuit
 is 1,800 W, and you should plan on 1,440 W continuous (the 80% rule). Two air
 fryers alone are roughly 3,000 W. They will trip a breaker if they share a
 circuit with a kettle.
 
-Typical running loads:
+Typical loads:
 
-| Appliance | Running W | Surge |
-|---|---|---|
-| Air fryer | 1,400–1,700 | — |
-| Kettle | 1,500 | — |
-| Coffee maker | 800–1,200 | — |
-| Microwave | 1,000–1,500 | — |
-| Fridge | 150–200 | 600–800 |
-| Powered speaker, 12–15" | 300–800 | — |
-| Powered subwoofer | 500–1,000 | — |
-| LED string lighting | 50–100 | — |
-| Portable AC | 1,000–1,500 | 2,500+ |
+| Appliance | Running W | Average W | Surge |
+|---|---|---|---|
+| Air fryer | 1,400–1,700 | same | — |
+| Kettle | 1,500 | same | — |
+| Coffee maker | 800–1,200 | same | — |
+| Microwave | 1,000–1,500 | same | — |
+| Fridge | 150–200 | 50–80 | 600–800 |
+| **Electric cooler, 12 V compressor** | **40–60** | **15–25** | — |
+| Powered speaker, 12–15" | 300–800 | 120–200 | — |
+| Powered subwoofer | 500–1,000 | 250–350 | — |
+| LED string lighting | 50–100 | same | — |
+| Portable AC | 1,000–1,500 | same | 2,500+ |
 
-**Sizing a generator:**
+**The loads that break a plan are the sustained ones, not the loud ones.** An air
+fryer draws twenty times what an electric cooler does and runs for fifteen
+minutes. The cooler draws almost nothing and runs while everyone is asleep — two
+of them are roughly 864 Wh a day, which is most of a typical camping battery
+bank. Anything that runs unattended for twenty-four hours gets multiplied by
+twenty-four before you compare it to anything.
+
+## Generators
 
 1. Sum the running watts of everything that will be on simultaneously.
 2. Add the *largest single* surge figure, not all of them — motors rarely start
@@ -108,10 +172,63 @@ mid-size inverter generator. Add cooking appliances and you're at 5,000 W+.
 
 **Inverter generators cost more and are worth it** for anything with audio or
 electronics — clean power, and dramatically quieter, which matters when there's
-already a noise curfew. Check the rated noise in dBA at 7 m.
+already a noise curfew, and matters double when the generator sits with the
+crowd rather than with the neighbours. Check the rated noise in dBA at 7 m.
 
-Confirm fuel type and run time per tank, and buy fuel in advance. Generators are
-rated in running watts *and* peak watts; the peak figure is the marketing number.
+**A rental line is not a rental spec.** A price tells you nothing about whether
+the machine carries the load. Whenever a rental appears as a budget line, ask
+what it has to run.
+
+**Ask for run time at 50% load, not the headline figure**, which is quoted at
+quarter load. Tank sizes in the same power class vary by a factor of two, so
+"3,500 W inverter" can mean five hours or nine. Confirm fuel type, buy fuel in
+advance, and keep it at the site the generator is on. Generators are rated in
+running watts *and* peak watts; the peak figure is the marketing number.
+
+## Batteries, solar and vehicles
+
+Increasingly the answer isn't a generator at all. Ask what the organiser already
+owns before sizing anything to rent.
+
+**Power stations — the output rating is a ceiling you cannot raise.** A 500 W
+station cannot start an 800 W speaker; it cuts out instantly. And **stations
+cannot be ganged** — each device sees exactly one battery, so owning six of them
+doesn't raise the ceiling at all. Generator sizing is additive; battery sizing is
+not. This single distinction settles most "can we run the PA off batteries"
+questions, and the answer is almost always no.
+
+**Power banks are rated in mAh at 3.7 V, not at the 5 V they hand you.** Convert
+before comparing to anything: `Wh = mAh × 3.7 ÷ 1000`, then take roughly 65% for
+conversion losses. 136,000 mAh sounds enormous and is about 327 Wh usable —
+around 22 phone charges. Banks are USB only. Never a speaker, never a cooler.
+
+**Solar recharges; it does not supply.** Realistic daily yield is roughly
+`nominal W × peak sun hours × 0.65` — about 585 Wh/day for 200 W of folding panel
+in a northern summer. Against a running PA that's a fraction of live demand. It
+refills a bank overnight; it cannot feed a party.
+
+**An EV with V2L is in a different league — 50–100× everything else combined**,
+and typically outputs 3.7 kW, enough to run a whole party rig silently with no
+fuel and no refuelling trip. Whether a given car supports it is the highest-
+leverage question in this whole section, and **owners frequently don't know** —
+it varies by model year and market, and often needs a specific adapter. Ask them
+to check the charging menu or the manual. If it works, it beats a generator on
+every axis except that you should still keep the generator as backup.
+
+**Multi-day battery budget**, which is the camping case:
+
+```
+daily draw  = sum of (average W × hours per day) for everything
+daily solar = nominal panel W × peak sun hours × 0.65
+net         = daily solar − daily draw
+days        = bank Wh ÷ net, when net is negative
+```
+
+State the day it runs out, not just the deficit. "Two nights work, the third
+night is where the coolers die" is actionable; "379 Wh/day short" isn't. Close a
+gap by running fewer of the sustained loads, raising a fridge setpoint, pre-
+chilling on mains before leaving, or adding panel — in that order, because the
+first three are free.
 
 ## Sound systems
 

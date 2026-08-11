@@ -41,14 +41,18 @@ Once installed it triggers on its own — "we're renting a chalet for the weeken
 
 ```
 skill/
-├── SKILL.md              process, audit checklist, budget reconciliation
+├── SKILL.md              intake order, audit checklist, budget reconciliation
 └── references/
     ├── quantities.md     per-person maths for food, drink and ice
-    ├── logistics.md      venue survey, power, rentals, timelines, cold chain
+    ├── logistics.md      sites, venue survey, power, rentals, timelines, cold chain
     └── documents.md      the three-document set
 
 examples/
 └── chalet-weekend-aug-2026/    a real worked example, 33 guests, 4 days
+
+docs/
+├── PRODUCT.md            nine functions, five phases — the build plan
+└── PHASE-0-FINDINGS.md   what using it for real turned up
 ```
 
 ---
@@ -79,6 +83,21 @@ chalky. Oil, aromatics and zest ahead; juice 45 minutes before cooking.
 exactly twelve 750 ml bottles of sparkling. Buy fewer and you're holding aperitif
 you can't serve.
 
+**Power stations can't be ganged.** A 500 W station cannot start an 800 W
+speaker, and buying five more doesn't change that — each device sees exactly one
+battery. Generator sizing is additive; battery sizing isn't. Meanwhile a power
+bank's 20,000 mAh is about 48 Wh once you convert from cell voltage and pay the
+conversion losses.
+
+**The loads that break a plan are the sustained ones.** An air fryer draws twenty
+times what an electric cooler does and runs for fifteen minutes. Two coolers run
+while everyone is asleep and eat most of a camping battery bank every day.
+
+**Ask how far apart things are, in walking minutes.** If the party is ten minutes
+from the kitchen, the drinks have to move, the fuel has to be at the stage, the
+curfew starts a migration rather than a silence, and somebody has to light the
+path people walk back along at midnight.
+
 ---
 
 ## Where this is going
@@ -92,13 +111,30 @@ session drifts, and a script makes that class of error structurally impossible.
 
 Everything after that is optional.
 
+[`docs/PHASE-0-FINDINGS.md`](docs/PHASE-0-FINDINGS.md) is the open log of what
+using this for real has turned up. The gaps found so far are mostly in *intake*
+rather than in the maths: it never asked what was already committed, never asked
+whether the event happened in more than one place, and never asked what the
+organiser already owned. Each of those changed a plan materially once asked.
+
 ---
+
+## Contributing
+
+Worked examples are the most useful thing you can send. A real event that broke
+in a way the skill didn't predict is worth more than a correction to a table —
+`docs/PHASE-0-FINDINGS.md` shows the shape. Open an issue or a PR with what went
+wrong and what the plan had said instead.
+
+Two conventions if you're adding to the skill itself: judgement stays as prose in
+`references/`, and arithmetic belongs in scripts once they exist. Keep `SKILL.md`
+under 500 lines and push detail into a reference file.
 
 ## Origin
 
 Built from an actual chalet weekend — 33 guests, four days, three cooked meals,
-seven vegan, a $2,850 budget across five stores and three phone-ahead orders. The
-worked example in `examples/` is that event, unedited.
+seven vegan, five stores and three phone-ahead orders. The worked example in
+`examples/` is that event, unedited — including the mistakes caught along the way.
 
 ## Licence
 

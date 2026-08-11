@@ -24,6 +24,12 @@ about 30% bone. Five kilos of drumsticks is 3.5 kg of edible meat — 135 g each
 across 26 people, which is thin for a main. Five kilos of boneless is 5 kg of
 meat. When someone gives a weight, establish which they mean before scaling.
 
+It is also the clearest example of a trap this domain is full of — two quantities
+that share a name or a unit, mean different things, and break the plan somewhere
+unrelated to where the mistake was made. See "Quantities that look
+interchangeable and aren't" in `SKILL.md`, and `logistics.md` for the electrical
+versions. Treat an ambiguous unit as a question, not a value.
+
 Boneless also eats *smaller* than bone-in at the same weight: no picking, no
 second piece, less mess. People stop sooner.
 
