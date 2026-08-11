@@ -4,3 +4,9 @@ Thumbs.db
 node_modules/
 .venv/
 __pycache__/
+
+# Personal data stays out of the public repo — see CLAUDE.md.
+# Store, venue and group profiles live in ../event-prep-private/.
+private/
+*-sourcing.md
+
