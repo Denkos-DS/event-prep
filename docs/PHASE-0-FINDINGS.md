@@ -150,7 +150,50 @@ These aren't drift; they're wrong in every copy.
    in four different places. A survey that can only describe one location will be
    wrong about both of them in the same way it was wrong here.
 
-4. **The ice figure contradicts the skill's own table.** `quantities.md` says
+4. **`logistics.md` knows about generators and nothing else that makes
+   electricity.** Its power section is one appliance table and a
+   generator-sizing rule. The organiser turned out to own a stack of camping
+   power stations, folding solar panels, and access to two electric cars — none
+   of which the skill has a single line about. It could not have helped, because
+   it doesn't know they exist.
+
+   Working the numbers surfaced a domain trap worth encoding verbatim, because
+   it's the exact shape of the bone-in chicken correction: **watts and
+   watt-hours look interchangeable and aren't.** A "500 W" power station is an
+   *output* rating — what can be plugged in at once. Capacity is a separate
+   number on the same label. Given only one of them, you cannot answer either
+   "will this run?" or "for how long?", and the plan fails in a completely
+   different place depending on which was meant.
+
+   What the arithmetic actually showed, all of it generalisable:
+
+   - **Output rating is a wall, not a shortage.** A 500 W station cannot start
+     an 800 W speaker — it cuts out instantly. And **stations can't be ganged**;
+     each device sees exactly one battery. Owning more of them changes nothing.
+     Generator sizing is additive; battery sizing is not. That distinction is
+     the whole difference and the reference doesn't make it.
+   - **Peak decides what trips; average decides how long it lasts.** Powered
+     speakers draw nameplate only on bass peaks — a rig with a 2,780 W peak
+     averaged 820 W. Size the source on peak, size the battery on average, and
+     say which number each table is quoting.
+   - **Solar recharges, it doesn't supply.** 200 W of panel against an 820 W
+     draw is a quarter of live demand. It's an overnight top-up.
+   - **An EV with V2L is 50–100× everything else combined**, and outputs enough
+     to run a whole party rig silently. Whether a given car supports it is the
+     single highest-leverage question, and it is not something owners generally
+     know about their own car.
+
+   **Add a power-sources section covering batteries, solar and V2L, and add
+   "what do you already own?" to intake.** The best answer to this event's power
+   problem was sitting in the organiser's garage the entire time and no question
+   in the skill would ever have found it.
+
+   This matters most for exactly the event types `PRODUCT.md` names next.
+   **Camping and festival camps are battery-and-solar events, not generator
+   events** — the current reference is written for the one case that's least
+   typical of where this is going.
+
+5. **The ice figure contradicts the skill's own table.** `quantities.md` says
    1–1.5 kg per person per day for a cocktail-heavy event. 33 guests over Friday
    and Saturday is **66–99 kg**. The plan buys 60 kg and says it "gets you
    through Friday and Saturday" — that's 0.9 kg/person/day, below the bottom of
