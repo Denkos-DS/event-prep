@@ -109,7 +109,48 @@ These aren't drift; they're wrong in every copy.
    carry.** Same for the decoration line, which arrived as a number with no
    items on any shopping list and no setup slot in a prep schedule whose Friday
    evening is already full.
-3. **The ice figure contradicts the skill's own table.** `quantities.md` says
+
+3. **The venue survey assumes the event happens in one place. Fix this before
+   anything else in `logistics.md`.**
+
+   Asking what the generator had to carry produced an answer nobody had thought
+   to volunteer: the music stage is **a ten-minute walk from the accommodation**.
+   The plan was written throughout as though the party, the kitchen, the fridges
+   and the beds were all the same location. They aren't, and almost every
+   logistics assumption in the document quietly depends on that.
+
+   What a second site actually changes, none of which was in the plan:
+
+   - **The generator's risk moves from watts to run time.** Sizing was never the
+     problem. Running dry mid-set with the fuel ten minutes away is — that's
+     25 minutes of silence. Fuel belongs at the site that consumes it.
+   - **Drinks and ice have to be where the people are.** Nobody walks twenty
+     minutes for a beer, so the drinks migrate to coolers at the stage — and a
+     cooler outdoors loses ice far faster than a fridge. A single ice figure
+     computed for one location is wrong for two.
+   - **Load-in becomes a scheduled task.** Speakers, a sub, stands, cables, a
+     generator and fuel do not travel 500–800 m spontaneously.
+   - **The curfew triggers a migration, not just silence.** `SKILL.md`'s curfew
+     cascade already knows the post-party gap is dangerous; with a second site
+     there's now a walk in front of it, and the late-night food has to be waiting
+     at the other end before anyone leaves.
+   - **Lighting the path between the two sites is a line item.** Thirty-three
+     people walking unlit ground at 11 PM after several hours of drinking. It
+     costs almost nothing in advance and cannot be bought on the night.
+   - **Two sites need two owners**, and they can't be the same person.
+
+   `logistics.md`'s venue survey asks about ovens, fridges, circuits, curfew and
+   parking — all single-site questions. **Add: is this event on more than one
+   site, how far apart, is there vehicle access between them, where is there
+   mains power and where isn't there, and is the route between them lit?**
+
+   This generalises further than the other findings. Two of the three event types
+   `docs/PRODUCT.md` names as next — **festival camps and camping** — are
+   multi-site by definition, with the stage, the tents, the water and the cooking
+   in four different places. A survey that can only describe one location will be
+   wrong about both of them in the same way it was wrong here.
+
+4. **The ice figure contradicts the skill's own table.** `quantities.md` says
    1–1.5 kg per person per day for a cocktail-heavy event. 33 guests over Friday
    and Saturday is **66–99 kg**. The plan buys 60 kg and says it "gets you
    through Friday and Saturday" — that's 0.9 kg/person/day, below the bottom of
