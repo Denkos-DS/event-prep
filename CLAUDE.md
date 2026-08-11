@@ -5,14 +5,15 @@ A Claude skill for planning group events. Read `README.md` for what it is and
 
 ## Current state — v0.1
 
-Two commits. Everything in `skill/` works and is installable as-is; it was used
-end-to-end to plan a real 33-person weekend, which is what's in `examples/`.
+Everything in `skill/` works and is installable as-is; it was used end-to-end to
+plan a real 33-person weekend, which is what's in `examples/`.
 
 ```
 skill/SKILL.md              process, plan-audit checklist, budget reconciliation
 skill/references/           quantities, logistics, documents
 examples/                   the source event, unedited
 docs/PRODUCT.md             nine functions, five phases — the brief
+docs/PHASE-0-FINDINGS.md    what the skill got wrong — open until the event
 ```
 
 Nothing is under test. There are no scripts yet. That's the next phase.
@@ -22,7 +23,8 @@ Nothing is under test. There are no scripts yet. That's the next phase.
 **Phase 0 — use it for real.** In progress. The source event runs mid-August 2026.
 Do not start Phase 1 before it happens; the point of Phase 0 is finding out what
 the skill gets wrong under real conditions, and building first risks hardening the
-wrong things.
+wrong things. Findings go in `docs/PHASE-0-FINDINGS.md` as they turn up — it's
+already seeded with a pre-event pass over the example documents.
 
 **Phase 1 — harden the skill.** The next work. Details below.
 

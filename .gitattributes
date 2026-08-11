@@ -1,0 +1,7 @@
+# Normalise line endings so the documents don't churn between Windows and macOS.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.pdf binary
+*.skill binary
