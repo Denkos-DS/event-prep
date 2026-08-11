@@ -193,6 +193,49 @@ These aren't drift; they're wrong in every copy.
    events** — the current reference is written for the one case that's least
    typical of where this is going.
 
+   **Three unit traps, one shape.** Once the real inventory arrived, a third
+   turned up: power banks are rated in **mAh at the internal cell voltage of
+   3.7 V**, not at the 5 V they hand you. 136,000 mAh reads like an enormous
+   number and is 503 Wh nominal — about 327 Wh after conversion losses, or
+   roughly 22 phone charges. Enough for a camping group; nowhere near 33 people.
+
+   | Trap | Looks like | Actually |
+   |---|---|---|
+   | Bone-in vs boneless | 5 kg of meat | 3.5 kg of meat |
+   | W vs Wh | how much power | output ceiling vs how long it lasts |
+   | mAh vs Wh | 136,000 of something | 327 Wh usable |
+
+   These are the same defect three times: **two quantities that look
+   interchangeable, aren't, and fail in different places depending on which was
+   meant.** `quantities.md` already teaches the first one well. The pattern
+   deserves naming as a category in the skill, because it's clearly how this
+   domain goes wrong, and a fourth instance will turn up.
+
+   **And the loads nobody counts are the sustained ones.** The organiser's two
+   electric coolers draw ~36 W average between them — trivial-sounding, and
+   **864 Wh a day, which is 87% of the entire battery bank**. Working the
+   camping case: 964 Wh/day of draw against 585 Wh/day of solar is a 379 Wh
+   daily deficit, so **two nights work and the third night is where the coolers
+   die** — the night the food in them matters most. Nothing in the skill would
+   have surfaced that, because it has no concept of a load that runs while
+   everyone is asleep.
+
+5. **The personal data layer needs a kit inventory, and it's an intake input.**
+
+   `PRODUCT.md`'s Phase 2 names store, group and venue profiles. It doesn't name
+   the one that turned out to matter here: **what equipment the organiser
+   already owns.** Power stations, panels, coolers, vehicles — a standing
+   register, read at the start of every event rather than re-established each
+   time, and the natural home for the open questions too (which Anker model,
+   whether the car does V2L).
+
+   The generalisation: **the answer to a logistics problem is often already in
+   someone's garage**, and a skill that only asks what to rent will never find
+   it. The intake question is *"what do you already have?"*, and the reason it
+   needs to be persistent rather than asked fresh each time is that nobody can
+   recite their own kit accurately from memory — this inventory arrived over
+   three messages and is still incomplete.
+
 5. **The ice figure contradicts the skill's own table.** `quantities.md` says
    1–1.5 kg per person per day for a cocktail-heavy event. 33 guests over Friday
    and Saturday is **66–99 kg**. The plan buys 60 kg and says it "gets you
