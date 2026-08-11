@@ -73,17 +73,42 @@ These aren't drift; they're wrong in every copy.
 
 ## C. Gaps — things the plan never covered
 
-1. **No rentals line, anywhere.** An 11 PM music curfew drives the entire
-   schedule, which means there is music, which means there is a rig. There is no
-   sound-system line, no generator sizing, and no rental cost in a budget that
-   otherwise reconciles to the dollar. `skill/references/logistics.md` has a full
-   section on exactly this and the plan never used it. **Open question for the
-   organiser: who owns sound, and is it already paid for outside the $2,850?**
-2. **Budget reconciliation never ran.** `SKILL.md` specifies
-   `committed + estimated − collected = gap`, reported per person. The plan has
-   estimated spend against a $2,850 ceiling and nothing else — no chalet cost, no
-   per-head collection, no gap. F4 is unexercised on the event it was written
-   for.
+1. **Intake never asked what was already committed. This is the big one.**
+
+   The plan presents its food-and-drinks budget as *the* budget. It isn't — the
+   organiser was also carrying venue, sound-system, generator and decoration
+   costs the whole time, and once they're added the food and drinks turn out to
+   be **under a quarter of the real event**, with the venue alone more than half.
+   The per-person figure the group actually owes was never computed anywhere.
+
+   Nothing about this was hidden. The numbers existed; the skill never asked for
+   them. `SKILL.md`'s order of operations says *"then budget, then menu"*, but
+   the four intake questions it actually specifies are headcount, arrival and
+   departure, curfew, and venue capacity. **None of them is "what's already
+   committed, and what have you collected?"** So the plan organised itself around
+   the one budget line that happened to be in the conversation.
+
+   This is an **F1 (intake) defect that presents as an F4 (reconciliation)
+   defect**, and it's the most generalisable thing Phase 0 has turned up — every
+   group event has committed costs that land before anyone thinks about food.
+   Fix intake and F4 has something to reconcile.
+
+   **Add to intake, before the menu:** what's already committed and paid
+   (venue, rentals, deposits, decoration), what's being collected per head, and
+   how many people are actually paying — which is not always the same as the
+   headcount you cook for.
+
+2. **A rental line is not a rental spec.** Once the rentals surfaced, the
+   generator turned out to be a price with no wattage attached. Sizing it by
+   `logistics.md` — sound plus lighting, +25% headroom — lands around 3,500 W,
+   but the same reference notes that adding cooking appliances pushes it past
+   5,000 W. This plan has two air fryers in it. Whether they're meant to run off
+   the generator changes the machine required, and nobody had asked.
+
+   **Whenever a rental appears as a cost, the skill should ask what it has to
+   carry.** Same for the decoration line, which arrived as a number with no
+   items on any shopping list and no setup slot in a prep schedule whose Friday
+   evening is already full.
 3. **The ice figure contradicts the skill's own table.** `quantities.md` says
    1–1.5 kg per person per day for a cocktail-heavy event. 33 guests over Friday
    and Saturday is **66–99 kg**. The plan buys 60 kg and says it "gets you
