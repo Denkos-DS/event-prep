@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shopping List — Chalet Weekend</title>
+<style>
+:root{
+  --ink:#1F2419; --olive:#5E6B32; --sumac:#7C2D2D;
+  --paper:#F1F1EA; --card:#FBFBF6; --rule:#D3D4C6; --muted:#6E7264;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.45;
+  padding-bottom:78px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+
+/* header */
+header{padding:26px 0 16px}
+.kicker{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--olive);margin:0 0 6px}
+h1{font-weight:800;letter-spacing:-.02em;font-size:clamp(26px,7vw,34px);
+  line-height:1.05;margin:0 0 6px}
+.sub{margin:0;font-size:14px;color:var(--muted)}
+
+/* trip nav */
+nav{position:sticky;top:0;z-index:30;background:var(--paper);
+  padding:10px 0 8px;border-bottom:2px solid var(--ink);
+  display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav button{font:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;
+  background:var(--card);color:var(--muted);border:1px solid var(--rule);
+  border-radius:999px;padding:7px 13px;white-space:nowrap;cursor:pointer}
+nav button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* store block */
+.store{margin:26px 0 0;border:1px solid var(--rule);background:var(--card)}
+.store.hide{display:none}
+.store > h2{margin:0;padding:14px 16px;border-bottom:1px solid var(--rule);
+  font-size:17px;font-weight:800;display:flex;justify-content:space-between;
+  align-items:baseline;gap:10px}
+.store > h2 .amt{font-size:14px;color:var(--olive);font-variant-numeric:tabular-nums}
+.meta{margin:0;padding:10px 16px;border-bottom:1px solid var(--rule);
+  font-size:13px;line-height:1.7;color:var(--muted)}
+.meta b{color:var(--ink)}
+.meta a{color:var(--sumac);text-decoration:none;font-weight:700}
+h3{margin:0;padding:14px 16px 4px;font-size:10px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--olive)}
+ul{list-style:none;margin:0;padding:0 16px 10px}
+li{display:flex;align-items:flex-start;gap:11px;padding:9px 0;
+  border-bottom:1px solid var(--rule)}
+li:last-child{border-bottom:none}
+input[type=checkbox]{flex:none;width:21px;height:21px;margin:1px 0 0;
+  accent-color:var(--olive);cursor:pointer}
+label{flex:1;cursor:pointer;font-size:15px;line-height:1.35}
+.c{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;padding-top:1px}
+li.done label{text-decoration:line-through;color:var(--muted)}
+li.done .c{opacity:.5}
+.flag{display:block;font-size:12.5px;color:var(--sumac);margin-top:2px;font-weight:600}
+.note{margin:0 16px 14px;padding:10px 13px;background:var(--paper);
+  border-left:3px solid var(--olive);font-size:13.5px;color:var(--muted)}
+.note b{color:var(--ink)}
+
+/* running total bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  background:var(--ink);color:var(--paper);
+  padding:11px 16px calc(11px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:14px}
+.bar .track{flex:1;height:6px;background:rgba(241,241,234,.22);border-radius:3px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:#A9BC5F;transition:width .18s ease}
+.bar .txt{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar button{font:inherit;font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;background:none;color:var(--paper);opacity:.6;
+  border:1px solid rgba(241,241,234,.4);border-radius:999px;
+  padding:5px 10px;cursor:pointer;white-space:nowrap}
+.bar button:hover{opacity:1}
+
+@media print{
+  nav,.bar{display:none}
+  body{background:#fff;padding-bottom:0;font-size:10.5pt}
+  .store,.store.hide{display:block;page-break-inside:avoid;background:#fff}
+  input[type=checkbox]{width:13px;height:13px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="kicker">Chalet Weekend · 33 guests</p>
+  <h1>Shopping List</h1>
+  <p class="sub">Food $1,134 · Drinks $1,273 · Tap a store to shop one trip at a time.</p>
+</header>
+
+<nav id="nav">
+  <button data-f="all" aria-pressed="true">All</button>
+  <button data-f="costco" aria-pressed="false">Costco</button>
+  <button data-f="saq" aria-pressed="false">SAQ Dépôt</button>
+  <button data-f="boucherie" aria-pressed="false">Boucherie</button>
+  <button data-f="manoushe" aria-pressed="false">Man'oushé</button>
+  <button data-f="adonis" aria-pressed="false">Adonis</button>
+</nav>
+
+<!-- ============ PHONE AHEAD ============ -->
+<section class="store" data-s="boucherie">
+  <h2>Boucherie d'Orient <span class="amt">$141</span></h2>
+  <p class="meta">
+    <b>Phone ahead — collect Thursday.</b><br>
+    1627 Bd Curé-Labelle, Laval · <a href="tel:4506877272">450-687-7272</a> · 9 AM–6 PM
+  </p>
+  <ul>
+    <li><input type="checkbox"><label>Taouk marinated, 2.5 kg</label><span class="c" data-p="42">$42</span></li>
+    <li><input type="checkbox"><label>Kafta marinated, 2.5 kg</label><span class="c" data-p="46">$46</span></li>
+    <li><input type="checkbox"><label>Toum, 2.5 kg</label><span class="c" data-p="27">$27</span></li>
+    <li><input type="checkbox"><label>Baba ghannouj, 2 kg</label><span class="c" data-p="26">$26</span></li>
+  </ul>
+  <p class="note">Butcher toum has no preservatives — keep it cold and covered.</p>
+</section>
+
+<section class="store" data-s="manoushe">
+  <h2>Man'oushé, Laval <span class="amt">$160</span></h2>
+  <p class="meta">
+    <b>Phone Thursday — 5 dozen needs notice.</b> Collect Friday AM, all open 7 AM.<br>
+    Saint-Martin · <a href="tel:5145890557">514-589-0557</a> · to 6 PM<br>
+    Sainte-Rose · <a href="tel:5143480224">514-348-0224</a> · to 6 PM<br>
+    Samson · <a href="tel:5146556555">514-655-6555</a> · to 4 PM
+  </p>
+  <ul>
+    <li><input type="checkbox"><label>Za'atar manakish, 5 × 12 = 60 pieces</label><span class="c" data-p="160">$160</span></li>
+  </ul>
+</section>
+
+<!-- ============ COSTCO ============ -->
+<section class="store" data-s="costco">
+  <h2>Costco Saint-Laurent <span class="amt">$1,129</span></h2>
+  <p class="meta">Food <b>$648</b> + drinks <b>$481</b>. Biggest stop — bring two flatbeds.</p>
+
+  <h3>Breakfast — $156</h3>
+  <ul>
+    <li><input type="checkbox"><label>Eggs, 2 flats of 30 (60)</label><span class="c" data-p="22">$22</span></li>
+    <li><input type="checkbox"><label>Croissants, 4 packs of 12</label><span class="c" data-p="36">$36</span></li>
+    <li><input type="checkbox"><label>Jam</label><span class="c" data-p="10">$10</span></li>
+    <li><input type="checkbox"><label>Butter</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Coffee, 2 kg</label><span class="c" data-p="30">$30</span></li>
+    <li><input type="checkbox"><label>Tea</label><span class="c" data-p="10">$10</span></li>
+    <li><input type="checkbox"><label>Oat milk, 4 L<span class="flag">Vegan guests — don't skip</span></label><span class="c" data-p="14">$14</span></li>
+    <li><input type="checkbox"><label>Pita, 3 bags (~90 pieces)<span class="flag">Mezze + fattoush, not breakfast</span></label><span class="c" data-p="26">$26</span></li>
+  </ul>
+
+  <h3>Meat — $154</h3>
+  <ul>
+    <li><input type="checkbox"><label>Boneless chicken thighs, 5.5 kg<span class="flag">Ask for skin-on</span></label><span class="c" data-p="94">$94</span></li>
+    <li><input type="checkbox"><label>Ground beef, 4 kg</label><span class="c" data-p="52">$52</span></li>
+    <li><input type="checkbox"><label>Firm tofu, 900 g</label><span class="c" data-p="8">$8</span></li>
+  </ul>
+
+  <h3>Produce — $126</h3>
+  <ul>
+    <li><input type="checkbox"><label>Potatoes, 7 kg</label><span class="c" data-p="18">$18</span></li>
+    <li><input type="checkbox"><label>Romaine, 4 heads</label><span class="c" data-p="12">$12</span></li>
+    <li><input type="checkbox"><label>Tomatoes, 2 kg</label><span class="c" data-p="10">$10</span></li>
+    <li><input type="checkbox"><label>Cucumbers, 1.5 kg</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Bell peppers, 3</label><span class="c" data-p="9">$9</span></li>
+    <li><input type="checkbox"><label>Carrots, 2 kg</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Broccoli, 2 crowns</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Snap peas, 300 g</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Shredded cabbage, 300 g</label><span class="c" data-p="4">$4</span></li>
+    <li><input type="checkbox"><label>Yellow onions, 3 kg</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Garlic, 6 heads</label><span class="c" data-p="9">$9</span></li>
+    <li><input type="checkbox"><label>Lemons, ~22</label><span class="c" data-p="17">$17</span></li>
+    <li><input type="checkbox"><label>Oranges, 10 — spritz garnish</label><span class="c" data-p="9">$9</span></li>
+  </ul>
+
+  <h3>Pantry — $172</h3>
+  <ul>
+    <li><input type="checkbox"><label>Olive oil, 3 L tin</label><span class="c" data-p="30">$30</span></li>
+    <li><input type="checkbox"><label>Neutral oil (canola)</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Corn tortillas, ~100</label><span class="c" data-p="20">$20</span></li>
+    <li><input type="checkbox"><label>Shredded cheese</label><span class="c" data-p="15">$15</span></li>
+    <li><input type="checkbox"><label>Hummus, 2.5 kg</label><span class="c" data-p="23">$23</span></li>
+    <li><input type="checkbox"><label>Quinoa salad, 2 tubs</label><span class="c" data-p="26">$26</span></li>
+    <li><input type="checkbox"><label>Frozen fries, 1 large bag (~2.25 kg)</label><span class="c" data-p="11">$11</span></li>
+    <li><input type="checkbox"><label>Cornstarch</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Soy sauce / tamari</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Sesame oil</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Rice vinegar</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Maple syrup</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Salt &amp; black pepper</label><span class="c" data-p="8">$8</span></li>
+  </ul>
+
+  <h3>Supplies — $40</h3>
+  <ul>
+    <li><input type="checkbox"><label>Foil roasting pans, 4 deep<span class="flag">Not optional — Sunday needs them</span></label><span class="c" data-p="25">$25</span></li>
+    <li><input type="checkbox"><label>Heavy-duty foil</label><span class="c" data-p="15">$15</span></li>
+  </ul>
+
+  <h3>Drinks — $481</h3>
+  <ul>
+    <li><input type="checkbox"><label>Beer, 3 cases of 24</label><span class="c" data-p="99">$99</span></li>
+    <li><input type="checkbox"><label>Hard seltzer, 4 cases of 24</label><span class="c" data-p="200">$200</span></li>
+    <li><input type="checkbox"><label>Kombucha, 3 × 16-pack<span class="flag">Ginger or citrus — not berry</span></label><span class="c" data-p="27">$27</span></li>
+    <li><input type="checkbox"><label>Soda, 4 boxes</label><span class="c" data-p="48">$48</span></li>
+    <li><input type="checkbox"><label>Limes, 8 bags<span class="flag">4 bags actually covers it</span></label><span class="c" data-p="48">$48</span></li>
+    <li><input type="checkbox"><label>Ice, ~60 kg<span class="flag">Restock Saturday — this runs out</span></label><span class="c" data-p="59">$59</span></li>
+  </ul>
+  <p class="note">Costco beer is ~$33 a case against $38–40 at a grocery. Hard seltzer
+  stock varies — any dep has it if they don't.</p>
+</section>
+
+<!-- ============ SAQ ============ -->
+<section class="store" data-s="saq">
+  <h2>SAQ Dépôt Saint-Laurent <span class="amt">$626</span></h2>
+  <p class="meta"><b>24 bottles = 10% off</b> (10% at 12+, 5% at 6–11, mixing allowed).
+  List price $696. <b>Sales are final</b> — no returns on discounted product.</p>
+  <ul>
+    <li><input type="checkbox"><label>Aperol, 1 L × 6<span class="flag">Confirm bottles vs pre-mixed cans first</span></label><span class="c" data-p="198">$198</span></li>
+    <li><input type="checkbox"><label>Prosecco, 750 ml × 12<span class="flag">Not padding — 6 L Aperol needs exactly 12</span></label><span class="c" data-p="228">$228</span></li>
+    <li><input type="checkbox"><label>Tequila 1800 Blanco, 750 ml × 4</label><span class="c" data-p="200">$200</span></li>
+    <li><input type="checkbox"><label>Arak, 750 ml × 2</label><span class="c" data-p="70">$70</span></li>
+  </ul>
+  <p class="note">If the Aperol turns out to be cans, the order drops under 12 bottles
+  and the discount goes with it. Settle that before the trip.</p>
+</section>
+
+<!-- ============ ADONIS ============ -->
+<section class="store" data-s="adonis">
+  <h2>Adonis <span class="amt">$185</span></h2>
+  <p class="meta">Lightest stop — easy to hand off to someone else.</p>
+
+  <h3>Mushrooms — $55</h3>
+  <ul>
+    <li><input type="checkbox"><label>Oyster mushrooms, 1.2 kg</label><span class="c" data-p="32">$32</span></li>
+    <li><input type="checkbox"><label>King oyster / hearts of palm, 700 g</label><span class="c" data-p="18">$18</span></li>
+    <li><input type="checkbox"><label>Mushrooms, 300 g — stir fry</label><span class="c" data-p="5">$5</span></li>
+  </ul>
+
+  <h3>Spices &amp; pantry — $59</h3>
+  <ul>
+    <li><input type="checkbox"><label>Za'atar, 250 g</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Sumac, 100 g</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Seven spice, 100 g<span class="flag">Essential — Sunday depends on it</span></label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Ground cumin</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Chili powder</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Smoked paprika</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Cajun / Old Bay seasoning</label><span class="c" data-p="4">$4</span></li>
+    <li><input type="checkbox"><label>Dried oregano</label><span class="c" data-p="3">$3</span></li>
+    <li><input type="checkbox"><label>Garlic powder + onion powder</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Sesame seeds</label><span class="c" data-p="4">$4</span></li>
+    <li><input type="checkbox"><label>Rice, 1 kg</label><span class="c" data-p="5">$5</span></li>
+  </ul>
+
+  <h3>Sauces — $35</h3>
+  <ul>
+    <li><input type="checkbox"><label>Pomegranate molasses</label><span class="c" data-p="7">$7</span></li>
+    <li><input type="checkbox"><label>Vegan BBQ sauce, 250 ml</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Salsa</label><span class="c" data-p="8">$8</span></li>
+    <li><input type="checkbox"><label>Hot sauce</label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Vegan crema, 200 ml</label><span class="c" data-p="8">$8</span></li>
+  </ul>
+
+  <h3>Fresh &amp; dairy — $36</h3>
+  <ul>
+    <li><input type="checkbox"><label>Labneh, 1 kg</label><span class="c" data-p="10">$10</span></li>
+    <li><input type="checkbox"><label>Parsley, 4 bunches<span class="flag">Buy Thursday, not earlier</span></label><span class="c" data-p="6">$6</span></li>
+    <li><input type="checkbox"><label>Mint, 2 bunches</label><span class="c" data-p="4">$4</span></li>
+    <li><input type="checkbox"><label>Cilantro, 2 bunches</label><span class="c" data-p="4">$4</span></li>
+    <li><input type="checkbox"><label>Radishes, 500 g</label><span class="c" data-p="5">$5</span></li>
+    <li><input type="checkbox"><label>Green onions, 2 bunches</label><span class="c" data-p="4">$4</span></li>
+    <li><input type="checkbox"><label>Ginger</label><span class="c" data-p="3">$3</span></li>
+    <li><input type="checkbox"><label>Small Lebanese pita, 6 — for the fattoush</label><span class="c" data-p="3">$3</span></li>
+  </ul>
+  <p class="note"><b>Check your own cabinet first.</b> Cumin, paprika, chili powder,
+  oregano, cornstarch, salt and rice are the usual suspects already at home — up to
+  $30 back.</p>
+</section>
+
+</div>
+
+<div class="bar">
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <span class="txt" id="txt">0 / 0 · $0</span>
+  <button id="reset">Reset</button>
+</div>
+
+<script>
+(function(){
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]'));
+  var fill = document.getElementById('fill');
+  var txt  = document.getElementById('txt');
+
+  function price(box){
+    var el = box.closest('li').querySelector('.c');
+    return el ? parseFloat(el.getAttribute('data-p')) || 0 : 0;
+  }
+  var grand = boxes.reduce(function(a,b){ return a + price(b); }, 0);
+
+  function refresh(){
+    var visible = boxes.filter(function(b){
+      return !b.closest('.store').classList.contains('hide');
+    });
+    var done = visible.filter(function(b){ return b.checked; });
+    var spent = done.reduce(function(a,b){ return a + price(b); }, 0);
+    var total = visible.reduce(function(a,b){ return a + price(b); }, 0);
+    fill.style.width = visible.length ? (done.length / visible.length * 100) + '%' : '0%';
+    txt.textContent = done.length + ' / ' + visible.length + ' · $' +
+      Math.round(spent) + ' of $' + Math.round(total);
+  }
+
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      b.closest('li').classList.toggle('done', b.checked);
+      refresh();
+    });
+  });
+
+  var navEl = document.getElementById('nav');
+  navEl.addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if(!btn) return;
+    var f = btn.getAttribute('data-f');
+    Array.prototype.forEach.call(navEl.querySelectorAll('button'), function(x){
+      x.setAttribute('aria-pressed', String(x === btn));
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.store'), function(s){
+      s.classList.toggle('hide', f !== 'all' && s.getAttribute('data-s') !== f);
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+    refresh();
+  });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    boxes.forEach(function(b){ b.checked = false; b.closest('li').classList.remove('done'); });
+    refresh();
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>

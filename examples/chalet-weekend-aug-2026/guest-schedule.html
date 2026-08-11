@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weekend Food Schedule</title>
+<style>
+:root{
+  --ink:#1F2419; --olive:#5E6B32; --sumac:#7C2D2D;
+  --paper:#F1F1EA; --rule:#D3D4C6; --muted:#6E7264;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:16px;line-height:1.5}
+.page{max-width:660px;margin:0 auto;padding:36px 24px 56px}
+
+header{text-align:center;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--olive);margin:0 0 8px}
+h1{font-family:var(--sans);font-weight:800;letter-spacing:-.02em;
+  font-size:clamp(26px,6vw,36px);line-height:1.05;margin:0 0 8px}
+header p{margin:0;color:var(--muted);font-size:15px}
+
+.day{padding:20px 0;border-bottom:1px solid var(--rule)}
+.day:last-of-type{border-bottom:none}
+.dayname{font-family:var(--sans);font-weight:800;font-size:19px;margin:0 0 12px;
+  display:flex;align-items:baseline;gap:10px}
+.dayname em{font-style:normal;font-family:var(--sans);font-size:10px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--sumac)}
+
+.meal{display:grid;grid-template-columns:96px 1fr;gap:14px;margin-bottom:12px}
+.meal:last-child{margin-bottom:0}
+.when{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);padding-top:3px}
+.what strong{display:block;font-family:var(--sans);font-size:15px;margin-bottom:1px}
+.what p{margin:0;font-size:15px}
+.veg{display:block;margin-top:3px;font-size:14px;color:var(--olive)}
+.veg b{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;
+  border:1px solid var(--olive);border-radius:2px;padding:0 4px;margin-right:5px}
+@media(max-width:460px){
+  .meal{grid-template-columns:1fr;gap:2px}
+  .when{padding-top:0}
+}
+
+.foot{margin-top:22px;padding-top:16px;border-top:2px solid var(--ink);
+  display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.foot h2{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--olive);margin:0 0 6px}
+.foot p{margin:0;font-size:14.5px}
+@media(max-width:460px){.foot{grid-template-columns:1fr}}
+
+@media print{
+  @page{margin:14mm}
+  body{background:#fff;font-size:10.5pt;line-height:1.38}
+  .page{max-width:none;padding:0}
+  h1{font-size:24pt}
+  .day{padding:11px 0}
+  .dayname{font-size:13pt;margin-bottom:7px}
+  .what strong,.what p{font-size:10pt}
+  .veg{font-size:9.5pt}
+  .foot p{font-size:9.5pt}
+  .day,.meal{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <p class="eyebrow">Chalet Weekend</p>
+  <h1>What We're Eating</h1>
+  <p>Big meal at 3, party after, food out all night. Nothing to bring — just show
+  up hungry.</p>
+</header>
+
+<div class="day">
+  <p class="dayname">Friday <em>Arrival</em></p>
+  <div class="meal">
+    <div class="when">On arrival</div>
+    <div class="what">
+      <strong>Mezze, immediately</strong>
+      <p>Hummus, baba ghannouj, toum and pita, out the moment you walk in.
+      Dinner's a while off — eat.</p>
+    </div>
+  </div>
+  <div class="meal">
+    <div class="when">~8:30 PM</div>
+    <div class="what">
+      <strong>BBQ night</strong>
+      <p>Shish taouk and kafta off the grill with toum for dipping, fattoush,
+      pita.</p>
+      <span class="veg"><b>V</b> BBQ oyster mushroom skewers with a maple-tamari glaze.</span>
+    </div>
+  </div>
+</div>
+
+<div class="day">
+  <p class="dayname">Saturday</p>
+  <div class="meal">
+    <div class="when">Whenever</div>
+    <div class="what">
+      <strong>Breakfast — self-serve, no set time</strong>
+      <p>Za'atar manakish from Man'oushé, warm from the oven. Croissants, eggs,
+      jam, coffee.</p>
+      <span class="veg"><b>V</b> The manakish are vegan, and there's oat milk for coffee.</span>
+    </div>
+  </div>
+  <div class="meal">
+    <div class="when">3:00 PM</div>
+    <div class="what">
+      <strong>Taco night, early</strong>
+      <p>Spiced beef, warm corn tortillas, quinoa salad on the side, and a full
+      toppings bar — onion, cilantro, salsa, lime, cheese, hot sauce.</p>
+      <span class="veg"><b>V</b> Crispy king-oyster "shrimp" tacos with cabbage, crema and lime.</span>
+    </div>
+  </div>
+  <div class="meal">
+    <div class="when">Late</div>
+    <div class="what">
+      <strong>Munchies</strong>
+      <p>Dips and pita stay out. Fries in the air fryers when someone wants them.
+      Leftovers are fair game.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day">
+  <p class="dayname">Sunday</p>
+  <div class="meal">
+    <div class="when">Whenever</div>
+    <div class="what">
+      <strong>Breakfast — self-serve</strong>
+      <p>Same spread. Manakish warmed through, croissants, eggs, coffee.</p>
+    </div>
+  </div>
+  <div class="meal">
+    <div class="when">3:00 PM</div>
+    <div class="what">
+      <strong>Sniyet djej w batata</strong>
+      <p>Chicken roasted over thin-sliced potatoes with whole garlic, onion,
+      seven spice and a lot of lemon — served wet, juices spooned over. Toum,
+      sumac, parsley and bread alongside.</p>
+      <span class="veg"><b>V</b> Crispy tofu and vegetable stir fry over rice.</span>
+    </div>
+  </div>
+  <div class="meal">
+    <div class="when">Late</div>
+    <div class="what">
+      <strong>Munchies</strong>
+      <p>Dips, bread, manakish, whatever's left of the chicken. Help yourself.</p>
+    </div>
+  </div>
+</div>
+
+<div class="day">
+  <p class="dayname">Monday</p>
+  <div class="meal">
+    <div class="when">Morning</div>
+    <div class="what">
+      <strong>Coffee and leftovers</strong>
+      <p>Manakish reheated, croissants, eggs. Nothing to cook.</p>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <div>
+    <h2>Drinks, all weekend</h2>
+    <p>Aperol spritz, arak, tequila with ginger kombucha, beer, hard seltzer.
+    Plenty of ice.</p>
+  </div>
+  <div>
+    <h2>Two small things</h2>
+    <p>Breakfast has no set time — help yourself whenever you surface.
+    The 3:00 meals are the ones worth being on time for.</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

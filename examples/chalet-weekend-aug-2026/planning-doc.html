@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weekend Menu — Chalet Weekend</title>
+<style>
+:root{
+  --ink:#1F2419;
+  --olive:#5E6B32;
+  --sumac:#7C2D2D;
+  --paper:#F1F1EA;
+  --card:#FBFBF6;
+  --rule:#D3D4C6;
+  --muted:#6E7264;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:17px;line-height:1.6;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+
+/* ---- masthead ---- */
+header.top{padding:44px 0 26px;border-bottom:3px solid var(--ink)}
+.kicker{
+  font-family:var(--sans);font-size:11px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--olive);margin:0 0 10px
+}
+h1{
+  font-family:var(--sans);font-weight:800;letter-spacing:-.025em;
+  font-size:clamp(30px,7vw,46px);line-height:1.02;margin:0 0 12px
+}
+.sub{font-size:16px;color:var(--muted);margin:0}
+
+/* ---- budget strip ---- */
+.budget{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin:26px 0 0
+}
+.budget div{background:var(--card);padding:12px 10px}
+.budget dt{
+  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 4px
+}
+.budget dd{font-family:var(--sans);font-size:19px;font-weight:700;margin:0;font-variant-numeric:tabular-nums}
+.budget .tot dd{color:var(--olive)}
+@media(max-width:560px){.budget{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- nav ---- */
+nav{
+  position:sticky;top:0;z-index:20;background:var(--paper);
+  border-bottom:1px solid var(--rule);padding:10px 0;margin-bottom:8px;
+  display:flex;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch
+}
+nav a{
+  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap
+}
+nav a:hover,nav a:focus{color:var(--sumac)}
+
+/* ---- sections ---- */
+section{padding-top:38px}
+h2{
+  font-family:var(--sans);font-weight:800;font-size:26px;letter-spacing:-.02em;
+  margin:0 0 4px;padding-bottom:8px;border-bottom:2px solid var(--ink)
+}
+h3{font-family:var(--sans);font-weight:700;font-size:19px;margin:30px 0 6px}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--olive);margin:24px 0 6px
+}
+.serves{font-family:var(--sans);font-size:13px;color:var(--muted);margin:0 0 12px}
+p{margin:0 0 14px}
+ol,ul{margin:0 0 14px;padding-left:20px}
+li{margin-bottom:5px}
+
+/* ---- tables ---- */
+table{width:100%;border-collapse:collapse;margin:0 0 18px;font-family:var(--sans);font-size:14.5px}
+th{
+  text-align:left;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;padding:0 0 6px;border-bottom:1px solid var(--ink)
+}
+td{padding:7px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td:last-child,th:last-child{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.key td{font-weight:700}
+
+/* ---- notes ---- */
+.note{
+  border-left:3px solid var(--olive);background:var(--card);
+  padding:12px 16px;margin:0 0 18px;font-size:15.5px
+}
+.note.warn{border-left-color:var(--sumac)}
+.note p:last-child{margin-bottom:0}
+
+/* ---- signature: sunday time rail ---- */
+.rail{list-style:none;margin:18px 0 20px;padding:0;position:relative}
+.rail::before{
+  content:"";position:absolute;left:66px;top:8px;bottom:8px;
+  width:2px;background:var(--rule)
+}
+.rail li{position:relative;padding:0 0 20px 92px;min-height:34px}
+.rail time{
+  position:absolute;left:0;top:0;width:58px;text-align:right;
+  font-family:var(--sans);font-weight:700;font-size:13px;
+  font-variant-numeric:tabular-nums;color:var(--ink)
+}
+.rail li::after{
+  content:"";position:absolute;left:61px;top:5px;width:12px;height:12px;
+  border-radius:50%;background:var(--paper);border:2px solid var(--olive)
+}
+.rail li.crit::after{background:var(--sumac);border-color:var(--sumac);transform:scale(1.35)}
+.rail li.crit strong{color:var(--sumac)}
+.rail p{margin:0;font-size:15.5px}
+.rail .what{font-family:var(--sans);font-weight:700;font-size:14.5px;display:block;margin-bottom:2px}
+@media(max-width:520px){
+  .rail::before{left:0}
+  .rail li{padding-left:22px}
+  .rail time{position:static;display:block;width:auto;text-align:left;margin-bottom:2px}
+  .rail li::after{left:-5px;top:6px}
+}
+
+/* ---- shopping list ---- */
+.store{border:1px solid var(--rule);background:var(--card);padding:18px 18px 6px;margin:0 0 20px}
+.store h3{margin-top:0;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.store h3 span{font-size:15px;color:var(--olive);font-variant-numeric:tabular-nums}
+.shop{list-style:none;margin:0 0 18px;padding:0;font-family:var(--sans);font-size:14.5px}
+.shop li{display:flex;align-items:flex-start;gap:9px;padding:6px 0;border-bottom:1px solid var(--rule)}
+.shop input{margin:4px 0 0;accent-color:var(--olive);flex:none;width:15px;height:15px}
+.shop label{flex:1;cursor:pointer}
+.shop .c{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.shop input:checked + label{text-decoration:line-through;color:var(--muted)}
+.phones{font-family:var(--sans);font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 16px}
+.phones b{color:var(--ink)}
+
+footer{margin-top:50px;padding-top:16px;border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:12px;color:var(--muted)}
+
+@media print{
+  nav{display:none}
+  body{background:#fff;font-size:11pt}
+  .wrap{max-width:none;padding:0}
+  section{page-break-inside:auto;padding-top:20px}
+  h2{page-break-after:avoid}
+  .store,.note,.rail li{page-break-inside:avoid}
+  .budget div,.store{background:#fff}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="kicker">Friday PM → Monday AM · Multi-chalet</p>
+  <h1>Weekend Menu, Shopping &amp; Budget</h1>
+  <p class="sub">33 guests — 26 regular, 7 vegan. Three cooked meals, three breakfasts.</p>
+  <dl class="budget">
+    <div><dt>Costco (food + drinks)</dt><dd>$1,129</dd></div>
+    <div><dt>SAQ Dépôt</dt><dd>$626</dd></div>
+    <div><dt>Adonis</dt><dd>$185</dd></div>
+    <div><dt>Boucherie d'Orient</dt><dd>$141</dd></div>
+    <div><dt>Man'oushé</dt><dd>$160</dd></div>
+    <div><dt>Tax (alcohol)</dt><dd>$166</dd></div>
+    <div class="tot"><dt>Food</dt><dd>$1,134</dd></div>
+    <div class="tot"><dt>Drinks</dt><dd>$1,273</dd></div>
+    <div class="tot" style="grid-column:1/-1"><dt>Combined — budget $2,850</dt><dd>$2,407</dd></div>
+  </dl>
+  <div class="note" style="margin-top:18px">
+    <p><strong>$116 under on food, $327 under on drinks.</strong> Breakfast runs Saturday,
+    Sunday and Monday only — people arrive around 7 PM Friday, so the first meal at
+    the chalet is dinner.</p>
+    <p>Five stops, four trips — Costco carries both budgets in one run. SAQ Dépôt
+    Saint-Laurent is in the same area. The SAQ figure is after the Dépôt volume
+    discount; at list price it's $696.</p>
+  </div>
+</header>
+
+<nav>
+  <a href="#prep">Prep</a>
+  <a href="#friday">Friday</a>
+  <a href="#saturday">Saturday</a>
+  <a href="#sunday">Sunday</a>
+  <a href="#breakfast">Breakfast</a>
+  <a href="#drinks">Drinks</a>
+  <a href="#shopping">Shopping</a>
+  <a href="#logistics">Logistics</a>
+</nav>
+
+<section id="prep">
+<h2>Prep schedule</h2>
+
+<h4>Thursday</h4>
+<p>Costco, then Adonis, then <strong>Boucherie d'Orient</strong> for the taouk and
+kafta. The butcher opens at 9 AM and gets busy — phone that order ahead.
+Marinated meat holds overnight and the marinade keeps working. Buy the Sunday
+chicken fresh today too, and the herbs — parsley bought earlier will not survive
+to Sunday. <strong>Phone the Man'oushé order in today as well</strong>; 6 dozen
+needs real notice.</p>
+
+<h4>Friday morning</h4>
+<p>Collect the manakish on the way out — all three Laval locations open at 7 AM.
+Then, at home: marinate the Sunday chicken in olive oil, garlic, seven spice,
+salt, pepper and <strong>lemon zest only</strong>. No juice. Divide into four flat
+freezer bags and freeze solid — they double as cooler ice on the drive.</p>
+
+<h4>Friday ~7 PM — arrive &amp; grill</h4>
+<p>Arrival is late, so dinner lands around 8:30–9. <strong>Put the dips, toum and
+pita out the moment you walk in</strong> — nobody should be waiting on the grill
+on an empty stomach. Taouk and kafta onto the BBQ, fattoush assembled while they
+cook. Manakish just go on a counter, bagged.</p>
+
+<h4>Saturday</h4>
+<p>Move the chicken bags into the fridge to thaw. Tacos at 3:00 PM.</p>
+
+<h4>Sunday</h4>
+<p>Sniyet djej w batata, served at 3:00 PM. <strong>Cooking starts at 1:00 PM</strong> — name your two oven people before the weekend, not on the morning.</p>
+
+<h4>Monday</h4>
+<p>Coffee, manakish, bread, eggs, leftovers. Nothing to cook.</p>
+</section>
+
+<section id="friday">
+<h2>Friday</h2>
+
+<h3>BBQ shish taouk</h3>
+<p class="serves">Serves 26 · store-bought marinated</p>
+<table><tr><td>Marinated chicken taouk, cubed on skewers</td><td>2.5 kg</td></tr>
+<tr><td>Toum, for dipping</td><td>from the 2.5 kg</td></tr></table>
+<ol>
+<li>If not pre-skewered, thread onto ~32 skewers.</li>
+<li>Grill over medium-high 10–12 min, turning, until charred and cooked through (74 °C / 165 °F).</li>
+<li>Rest 5 min. Serve with toum for dipping — not lemon.</li>
+</ol>
+
+<h3>Kafta</h3>
+<p class="serves">Serves 26 · store-bought marinated</p>
+<table><tr><td>Marinated kafta, formed on skewers</td><td>2.5 kg</td></tr></table>
+<ol>
+<li>If not pre-formed, mould onto flat skewers into logs of ~80 g.</li>
+<li>Grill 4–5 min per side over medium-high until browned through.</li>
+<li>Rest before serving.</li>
+</ol>
+
+<h3>Dips</h3>
+<p class="serves">Serves 26 · all store-bought</p>
+<table>
+<tr><td>Hummus</td><td>2.5 kg</td></tr>
+<tr><td>Baba ghannouj</td><td>2 kg</td></tr>
+<tr><td>Toum</td><td>2.5 kg</td></tr>
+<tr><td>Olive oil, parsley, paprika (garnish)</td><td>as needed</td></tr>
+</table>
+<div class="note"><p><strong>Toum is 2.5 kg, not 1.</strong> It's the dip for the taouk on Friday as well as the mezze, and it goes back on the table Sunday. Put it out in several small bowls rather than one big one — people won't cross the table for it.</p></div>
+
+<h3>Vegan BBQ oyster mushroom "chicken"</h3>
+<p class="serves">Serves 7</p>
+<table>
+<tr><td>Oyster mushrooms, torn into strips</td><td>1.2 kg</td></tr>
+<tr><td>Olive oil</td><td>4 tbsp</td></tr>
+<tr><td>Smoked paprika</td><td>1 tbsp</td></tr>
+<tr><td>Garlic powder</td><td>1 tbsp</td></tr>
+<tr><td>Onion powder</td><td>2 tsp</td></tr>
+<tr><td>Vegan BBQ sauce</td><td>250 ml</td></tr>
+<tr><td>Soy sauce or tamari</td><td>2 tbsp</td></tr>
+<tr><td>Maple syrup</td><td>1 tbsp</td></tr>
+</table>
+<ol>
+<li>Toss mushrooms with oil, smoked paprika, garlic and onion powder, salt, pepper.</li>
+<li>Roast at 220 °C for 15 min, or grill in a basket until edges crisp.</li>
+<li>Whisk BBQ sauce, tamari and maple. Toss the mushrooms in it.</li>
+<li>Back on the heat 3–5 min to caramelise. Extra glaze on the side.</li>
+</ol>
+
+<h3>Fries</h3>
+<p class="serves">Serves 26 · shared, vegan-friendly</p>
+<table><tr><td>Frozen fries</td><td>1 large bag (~2.25 kg)</td></tr></table>
+<p><strong>Run the two air fryers and the oven in parallel, not in sequence.</strong></p>
+<ol>
+<li><strong>Air fryers</strong> take ~600 g each — half-full basket, shaken at halfway.
+200 °C, 15–18 min. That's ~1.2 kg, out first and crispest.</li>
+<li><strong>Oven</strong> takes the remaining ~1 kg on one sheet pan at 220 °C, ~25 min.</li>
+<li>Salt everything the second it comes out.</li>
+</ol>
+<div class="note warn">
+<p><strong>Don't do two air-fryer rounds back to back.</strong> Batch one goes cold while
+batch two cooks and half the table eats warm fries. All three at once lands
+everything within about five minutes.</p>
+<p><strong>Watch the breaker.</strong> Two air fryers are roughly 3000 W between them. On
+one chalet circuit with a kettle going, that trips. Separate outlets, ideally
+separate rooms.</p>
+<p>No oil needed — frozen fries are already par-fried.</p></div>
+
+<h3>Fattoush</h3>
+<p class="serves">Serves 26 · shared, vegan-friendly</p>
+<table>
+<tr><td>Romaine, chopped</td><td>4 heads</td></tr>
+<tr><td>Tomatoes, diced</td><td>2 kg</td></tr>
+<tr><td>Cucumbers, diced</td><td>1.5 kg</td></tr>
+<tr><td>Radishes, sliced</td><td>500 g</td></tr>
+<tr><td>Green onions, sliced</td><td>2 bunches</td></tr>
+<tr><td>Parsley, chopped</td><td>2 cups</td></tr>
+<tr><td>Mint, chopped</td><td>1 cup</td></tr>
+<tr><td>Pita, toasted or fried crisp</td><td>6 pieces</td></tr>
+<tr><td>Pomegranate molasses</td><td>150 ml</td></tr>
+<tr><td>Lemon juice</td><td>150 ml (~4 lemons)</td></tr>
+<tr><td>Olive oil</td><td>250 ml</td></tr>
+<tr><td>Sumac</td><td>3 tbsp + extra</td></tr>
+</table>
+<ol>
+<li>Toast or fry the pita until crisp; break into pieces.</li>
+<li>Combine all vegetables and herbs in a large bowl.</li>
+<li>Whisk molasses, lemon juice, olive oil, sumac, salt and pepper.</li>
+<li>Dress <strong>just before serving</strong>. Top with pita and extra sumac.</li>
+</ol>
+<div class="note"><p>Costco's pita is large-format and tears when you fry it crisp.
+Buy six small Lebanese pita at Adonis for the fattoush specifically.</p></div>
+</section>
+
+<section id="saturday">
+<h2>Saturday</h2>
+
+<h3>Beef tacos</h3>
+<p class="serves">Serves 26</p>
+<table>
+<tr><td>Ground beef</td><td>4 kg</td></tr>
+<tr><td>Yellow onion, diced</td><td>3 large</td></tr>
+<tr><td>Garlic, minced</td><td>10 cloves</td></tr>
+<tr><td>Chili powder</td><td>4 tbsp</td></tr>
+<tr><td>Ground cumin</td><td>3 tbsp</td></tr>
+<tr><td>Smoked paprika</td><td>2 tbsp</td></tr>
+<tr><td>Dried oregano</td><td>1 tbsp</td></tr>
+<tr><td>Salt</td><td>2 tbsp</td></tr>
+<tr><td>Limes</td><td>4</td></tr>
+<tr><td>Corn tortillas</td><td>80</td></tr>
+<tr><td>Toppings — onion, cilantro, salsa, lime, cheese, hot sauce</td><td>as needed</td></tr>
+</table>
+<ol>
+<li>Sauté onion and garlic until soft.</li>
+<li>Add beef, brown thoroughly.</li>
+<li>Season with the spices and salt.</li>
+<li>Simmer 10 min, splash of water if needed. Finish with lime juice.</li>
+<li>Warm tortillas, set up a toppings bar.</li>
+</ol>
+
+<h3>Quinoa salad</h3>
+<p class="serves">Serves 26 · store-bought, vegan-friendly</p>
+<table>
+<tr><td>Costco quinoa salad</td><td>2 tubs</td></tr>
+<tr><td>Lemon, parsley, olive oil (to freshen)</td><td>optional</td></tr>
+</table>
+<p>Straight from the tub. If it's sat in the fridge a few days, a squeeze of lemon
+and torn parsley wakes it back up.</p>
+<div class="note"><p>Saturday's the right night for it — tacos are rich and hot, and a
+cold grain salad is the only thing on the table cutting against that.</p></div>
+
+<h3>Vegan "shrimp" tacos</h3>
+<p class="serves">Serves 7</p>
+<table>
+<tr><td>King oyster mushrooms or hearts of palm, shredded</td><td>700 g</td></tr>
+<tr><td>Cajun or Old Bay seasoning</td><td>2 tbsp</td></tr>
+<tr><td>Cornstarch</td><td>3 tbsp</td></tr>
+<tr><td>Olive oil</td><td>3 tbsp</td></tr>
+<tr><td>Limes</td><td>2</td></tr>
+<tr><td>Corn tortillas</td><td>21</td></tr>
+<tr><td>Shredded cabbage</td><td>300 g</td></tr>
+<tr><td>Vegan crema</td><td>200 ml</td></tr>
+<tr><td>Cilantro, chopped</td><td>½ cup</td></tr>
+</table>
+<ol>
+<li>Toss the shredded mushrooms with seasoning and cornstarch.</li>
+<li>Pan-fry in olive oil until crisp and golden, 6–8 min.</li>
+<li>Finish with lime.</li>
+<li>Assemble with cabbage, crema, cilantro and salsa.</li>
+</ol>
+</section>
+
+<section id="sunday">
+<h2>Sunday</h2>
+
+<h3>Sniyet djej w batata — Teta's version</h3>
+<p class="serves">Lebanese roast chicken &amp; sliced potatoes · Serves 26 · boneless</p>
+<p>Thin overlapping potato slices, whole garlic cloves, sliced onion, seven spice,
+olive oil, and enough lemon juice that it pools in the pan. Golden, not red.
+No grain underneath.</p>
+
+<div class="note warn">
+<p><strong>The four things that make it taste like hers:</strong></p>
+<p><strong>1. Slice, don't wedge.</strong> ~5 mm rounds laid overlapping. The buried
+slices go soft and soaked; the exposed edges catch and darken. Wedges only ever do
+one or the other.</p>
+<p><strong>2. Serve it wet.</strong> ~2 cm of lemon, oil and water in the base, and it
+comes out with juices still pooling — spooned over the potatoes, mopped with bread.
+Not reduced to a glaze.</p>
+<p><strong>3. Whole garlic cloves, not just minced.</strong> Scattered between the
+slices they go sweet and soft, almost confit.</p>
+<p><strong>4. Covered most of the way, uncovered only at the end.</strong> Long enough
+to brown the chicken, not long enough to cook the pan dry.</p>
+</div>
+
+<h4>Chicken &amp; marinade</h4>
+<table>
+<tr class="key"><td>Boneless chicken thighs — skin-on if available</td><td>5.5 kg</td></tr>
+<tr><td>Olive oil</td><td>250 ml</td></tr>
+<tr><td>Garlic, minced</td><td>18 cloves</td></tr>
+<tr><td>Lemons</td><td>7 for the marinade (plus 6 for the tray, 4 for serving)</td></tr>
+<tr><td>Seven spice (sabaa baharat)</td><td>4 tbsp</td></tr>
+<tr><td>Fine salt</td><td>3½ tbsp</td></tr>
+<tr><td>Black pepper</td><td>1 tbsp</td></tr>
+</table>
+
+<h4>The tray</h4>
+<table>
+<tr><td>Potatoes, sliced ~5 mm, skin on</td><td>7 kg</td></tr>
+<tr><td>Yellow onions, sliced thin</td><td>6 large</td></tr>
+<tr><td>Garlic cloves, whole or roughly crushed</td><td>~30</td></tr>
+<tr><td>Olive oil</td><td>250 ml</td></tr>
+<tr><td>Lemon juice</td><td>~300 ml (6 lemons)</td></tr>
+<tr><td>Water</td><td>900 ml — about 2 cm in the base</td></tr>
+<tr><td>Fine salt</td><td>2½ tbsp</td></tr>
+<tr><td>Seven spice</td><td>2 tbsp</td></tr>
+</table>
+
+<h4>To finish</h4>
+<p>Sumac (4 tbsp) · parsley, torn (2 bunches) · lemon wedges · toum · pita<br>
+<strong>Bread on the table</strong> — the juices are the point.</p>
+
+<h4>Cook-day timeline — for a 3:00 PM meal</h4>
+<ol class="rail">
+<li><time>1:00 PM</time>
+  <p><span class="what">Preheat, slice</span>
+  Every oven to 200 °C / 400 °F. Potatoes ~5 mm rounds, onions thin.</p></li>
+<li><time>1:15 PM</time>
+  <p><span class="what">Lemon on the chicken</span>
+  Squeeze 7 lemons over, massage through the bags, leave at room temperature.</p></li>
+<li><time>1:25 PM</time>
+  <p><span class="what">Layer the pans</span>
+  Potato slices <strong>overlapping</strong>, onion scattered through, whole garlic
+  cloves tucked between. Oil, salt and seven spice over. Pour in lemon juice and
+  water — <strong>about 2 cm of liquid in the base.</strong></p></li>
+<li><time>1:35 PM</time>
+  <p><span class="what">Into the ovens, covered</span>
+  Foil on tight.</p></li>
+<li class="crit"><time>1:55 PM</time>
+  <p><span class="what">The handoff — <strong>set an alarm in every chalet</strong></span>
+  Lift the foil, chicken on top in a single layer, skin-side up, all the marinade
+  poured over. <strong>Do not stir the potatoes</strong> — the layering is the whole
+  point. <strong>Foil back on.</strong></p></li>
+<li><time>2:20 PM</time>
+  <p><span class="what">Uncover — for colour only</span>
+  The single uncovered stretch. It's to brown the chicken, not to reduce the pan.</p></li>
+<li><time>2:40 PM</time>
+  <p><span class="what">Temperature check</span>
+  74 °C / 165 °F internal, potatoes tender, chicken browned. There should still be a
+  proper layer of juices in the base. If the chicken colours too fast, foil back on.</p></li>
+<li><time>2:45 PM</time>
+  <p><span class="what">Out and rest</span>
+  10 minutes, loosely tented.</p></li>
+<li><time>2:55 PM</time>
+  <p><span class="what">Finish</span>
+  Sumac, torn parsley, lemon wedges around the edges.</p></li>
+<li><time>3:00 PM</time>
+  <p><span class="what">Serve</span>
+  Spoon the pan juices over. Toum in two bowls, bread on the table.</p></li>
+</ol>
+
+<div class="note">
+<p><strong>Don't reduce it at the end.</strong> The instinct on seeing liquid in the
+tray is to leave it in longer. Resist that — pull it while there's still a proper
+layer of juices. That's the dish.</p>
+<p><strong>This also solves the oven problem.</strong> About 70 minutes total, and a wet
+tray is far more forgiving: it doesn't punish you if the ovens run cold, the timing
+slips, or it sits fifteen minutes before everyone sits down. You no longer need to
+par-cook anything at home.</p>
+<p>It also travels and reheats far better if you do cook ahead — the pan liquid
+protects the potatoes where dry roasted wedges go grainy. Hold back the sumac,
+parsley, lemon and toum until serving either way.</p>
+</div>
+
+<h3>Vegan stir fry &amp; crispy tofu</h3>
+<p class="serves">Serves 7</p>
+<table>
+<tr><td>Firm tofu, pressed and cubed</td><td>900 g</td></tr>
+<tr><td>Cornstarch</td><td>4 tbsp</td></tr>
+<tr><td>Neutral oil</td><td>7 tbsp (4 tofu, 3 veg)</td></tr>
+<tr><td>Broccoli florets</td><td>400 g</td></tr>
+<tr><td>Bell peppers, sliced</td><td>3</td></tr>
+<tr><td>Carrots, sliced</td><td>3</td></tr>
+<tr><td>Snap peas</td><td>300 g</td></tr>
+<tr><td>Mushrooms, sliced</td><td>300 g</td></tr>
+<tr><td>Garlic, minced</td><td>6 cloves</td></tr>
+<tr><td>Ginger, minced</td><td>2 tbsp</td></tr>
+<tr><td>Soy sauce</td><td>100 ml</td></tr>
+<tr><td>Sesame oil / rice vinegar / maple</td><td>2 tbsp each</td></tr>
+<tr><td>Rice, uncooked</td><td>500 g (1 kg bag is plenty)</td></tr>
+</table>
+<ol>
+<li>Toss tofu in cornstarch; pan- or air-fry until golden and crisp. Set aside.</li>
+<li>Stir-fry garlic and ginger 30 seconds in a hot wok.</li>
+<li>Add vegetables by density — carrots, broccoli, peppers, mushrooms, snap peas. 5–7 min until crisp-tender.</li>
+<li>Whisk soy, sesame oil, vinegar and maple; pour over and toss.</li>
+<li>Fold in the tofu, garnish, serve over rice.</li>
+</ol>
+<div class="note"><p>Uses the stovetop while the chicken has the ovens — no conflict.</p></div>
+</section>
+
+<section id="breakfast">
+<h2>Breakfast — Sat, Sun, Mon</h2>
+<p>Stripped back to four things: <strong>manakish, croissants, eggs, jam.</strong>
+Self-serve, no set time, three mornings only — Friday's arrival is around 7 PM, so
+the first meal at the chalet is dinner. Totals for the whole stay, not per day.</p>
+<table>
+<tr class="key"><td>Za'atar manakish (Man'oushé)</td><td>60 pieces (5 × 12)</td></tr>
+<tr><td>Croissants</td><td>48 (4 packs of 12)</td></tr>
+<tr><td>Eggs</td><td>60 (2 flats of 30)</td></tr>
+<tr><td>Jam</td><td>assorted</td></tr>
+<tr><td>Butter</td><td>1 pack — for cooking the eggs</td></tr>
+<tr><td>Coffee, tea</td><td>assorted</td></tr>
+<tr><td>Oat milk</td><td>4 L — see below</td></tr>
+</table>
+<p>About 20 manakish, 16 croissants and 20 eggs a morning for 33 people. With a
+3:00 PM main meal, nobody needs more than that.</p>
+<div class="note"><p><strong>Coffee stays.</strong> "Everything else" clearly wasn't
+meant to include it.</p></div>
+
+<h3>Vegan breakfast — one line item, don't cut it</h3>
+<p><strong>Croissants contain butter and eggs are eggs.</strong> That leaves your 7
+vegan guests with manakish and jam — genuinely fine as a breakfast, since the manakish
+are the main event anyway.</p>
+<div class="note warn"><p>The one thing worth keeping is <strong>oat milk (4 L, $14)</strong>.
+Without it they drink black coffee for three mornings, and that's a poor trade for
+fourteen dollars.</p></div>
+
+<h3>The manakish plan</h3>
+<p><strong>5 dozen za'atar — 60 pieces.</strong> Across Saturday, Sunday and Monday
+that's about 20 a morning for 33 people, which works alongside eggs, fruit and
+labneh. Confirm the by-the-dozen price when you phone it in.</p>
+<p><strong>All-za'atar has a quiet advantage: it's vegan.</strong> Your 7 vegan guests
+eat the same breakfast as everyone else, which the original spread didn't allow.</p>
+<div class="note warn">
+<p><strong>Manakish is a same-day product.</strong> Bought Friday morning they're
+perfect Saturday and tired by Sunday.</p>
+<p><strong>No fridge, no freezer.</strong> There's nothing perishable in a za'atar
+manoushe — dough, olive oil, za'atar. Sealed at room temperature they hold three
+days comfortably, which covers Saturday through Monday.</p>
+<p><strong>Staling is the only enemy, and it's about air, not warmth.</strong> Keep the
+stacks tightly bagged from the moment you leave the bakery. An open bag on a counter
+goes dry and brittle by Sunday.</p>
+<p><strong>Oven, and it beats the air fryers here.</strong> You're warming about 20 a
+morning for 33 people, and an oven takes 10–12 at a time against 4 in a fryer basket.
+At 180 °C: <strong>wrapped in foil in a stack, 8–10 min</strong> for soft and pliable, the
+way they're eaten in Lebanon — or <strong>spread flat on sheet pans, 5 min</strong> for a
+crisper base.</p>
+<p>Never microwave — the dough goes leathery. Save the air fryers for the Friday
+fries.</p>
+</div>
+<div class="note">
+<p>Buy two-thirds of the avocados firm and one-third ripe, or they all go at once.
+Apples and whole pineapple keep the entire stay without fridge space — the main
+reason they beat berries on a four-day trip.</p>
+<p><strong>60 eggs across three mornings is about 0.6 per person.</strong> Treat eggs
+as a Saturday and Sunday thing rather than a daily default.</p>
+</div>
+</section>
+
+<section id="drinks">
+<h2>Drinks — separate $1,600 budget</h2>
+<p><strong>~$1,273 · $327 left</strong>, after the SAQ Dépôt volume discount. Two stops:
+SAQ Dépôt Saint-Laurent for spirits, Costco for everything else.</p>
+
+<h3>SAQ — $696 list, ~$626 after the Dépôt discount</h3>
+<table>
+<tr><th>Item</th><th>Qty</th><th>Cost</th></tr>
+<tr><td>Aperol, 1 L</td><td>6</td><td>$198</td></tr>
+<tr><td>Prosecco, 750 ml</td><td>12</td><td>$228</td></tr>
+<tr><td>Tequila 1800 Blanco, 750 ml</td><td>4</td><td>$200</td></tr>
+<tr><td>Arak, 750 ml</td><td>2</td><td>$70</td></tr>
+</table>
+<div class="note">
+<p><strong>Confirm the Aperol format before buying.</strong> "3 cases" could mean
+bottles or pre-mixed Aperol Spritz cans, and the difference matters. <strong>Bottles</strong>
+— an SAQ case is 6 or 12, so 3 cases is 18+ bottles, about 18 L, or ~300 spritz. Far
+too much. <strong>Ready-to-drink cans</strong> — already mixed, so the 12 Prosecco
+bottles become unnecessary. That's $228 not to spend.</p>
+<p>The 6 × 1 L above is the bottle version, and 1 L beats 750 ml on value.
+<strong>12 Prosecco is not padding</strong> — at 3 parts Prosecco to 2 parts Aperol,
+six litres of Aperol needs exactly twelve bottles.</p>
+<p><strong>SAQ Dépôt volume discount:</strong> 24 bottles qualifies for 10% off — Dépôt
+gives 10% at 12+ bottles, 5% at 6–11, and mixing is allowed. That's about $70 off,
+taking the SAQ subtotal to roughly $626, plus 1,000 bonus points in the 24–35 bracket.</p>
+</div>
+<div class="note warn">
+<p><strong>Dépôt sales are final</strong> — no returns or exchanges on discounted
+product. The "buy high, return what's unopened" safety net does not apply here.</p>
+<p><strong>If the Aperol turns out to be cans, the order drops below 12 bottles</strong>
+and the discount goes with it. Settle that before the trip.</p>
+</div>
+
+<h3>Costco — $481</h3>
+<table>
+<tr><th>Item</th><th>Qty</th><th>Cost</th></tr>
+<tr><td>Beer, case of 24</td><td>3</td><td>$99</td></tr>
+<tr><td>Hard seltzer, case of 24</td><td>4</td><td>$200</td></tr>
+<tr><td>Kombucha, 16-pack @ $9</td><td>3</td><td>$27</td></tr>
+<tr><td>Soda, boxes</td><td>4</td><td>$48</td></tr>
+<tr><td>Limes</td><td>8 bags</td><td>$48</td></tr>
+<tr><td>Ice</td><td>~60 kg to start</td><td>$59</td></tr>
+</table>
+<div class="note">
+<p>Costco beer runs about $33 a case against $38–40 at a grocery — it can price at
+the legal floor on volume. Hard seltzer is a different category and stock varies;
+any dep carries it if Costco doesn't.</p>
+<p>Kombucha at $9 for 16 is well under the usual $20–25 a dozen. Confirm it's actual
+kombucha rather than a sparkling soda, and that the flavour is <strong>ginger or
+citrus</strong> — a berry-heavy pack won't work against tequila.</p>
+<p><strong>8 bags of limes is roughly four times what the weekend uses.</strong> Fifty
+tequila cocktails take ~7 limes; the tacos take another 6. Even with limes in beers
+you're at 20–25, which is 3 bags. Listed as requested, but 4 covers it.</p>
+</div>
+
+<h3>What that pours</h3>
+<table>
+<tr><td>Aperol spritz</td><td>100</td></tr>
+<tr><td>Hard seltzer</td><td>96</td></tr>
+<tr><td>Beer</td><td>72</td></tr>
+<tr><td>Tequila-kombucha</td><td>50</td></tr>
+<tr><td>Arak</td><td>30</td></tr>
+<tr class="key"><td>Total</td><td>348</td></tr>
+</table>
+<p>About 10.5 per person across three nights, or 3.5 a night. Generous, not absurd.</p>
+<div class="note">
+<p><strong>Over-buying alcohol is low-risk in a way over-buying food isn't.</strong>
+Unopened bottles keep indefinitely, and the SAQ takes back unopened stock with a
+receipt. Buy high on the bottles and don't lose sleep.</p>
+</div>
+
+<h3>The recipes</h3>
+<p><strong>Aperol spritz</strong> — 3 parts Prosecco, 2 parts Aperol, splash of soda,
+over ice with an orange slice.<br>
+<strong>Tequila-kombucha</strong> — 2 oz blanco, 4 oz ginger or citrus kombucha,
+squeeze of lime, over ice.<br>
+<strong>Arak</strong> — 1 part arak, 2 parts cold water, <strong>then</strong> ice.
+In that order.</p>
+<div class="note warn">
+<p><strong>The arak order matters and people get it wrong.</strong> Pour the arak, add
+the water — it turns milky white, which is the point — and add ice <strong>last</strong>.
+Drop ice into neat arak and the anise oils crystallise on the surface of the cubes
+and the drink is ruined. Water first, always.</p>
+<p>Arak belongs on the Friday table more than anywhere else: mezze, grilled meat,
+arak is the classic combination. Small glasses topped up often, not a tumbler.</p>
+</div>
+
+<h3>Ice is the thing that actually runs out</h3>
+<p>Sixty kilos gets you through Friday and Saturday. <strong>Plan a restock
+Saturday</strong> at the store near the chalets — 100 spritz served over full glasses
+of ice eats through it faster than anyone expects, and there's no fixing it at 10 PM.</p>
+<p>Check whether the chalets have icemakers before you buy; if two do, you need much
+less.</p>
+</section>
+
+<section id="shopping">
+<h2>Consolidated shopping list</h2>
+<p>Fully itemized, ~$1,134. Tick boxes as you go.</p>
+
+<div class="store">
+<h3>Boucherie d'Orient, Laval <span>$141</span></h3>
+<ul class="shop">
+<li><input type="checkbox" id="b1"><label for="b1">Taouk marinated, 2.5 kg</label><span class="c">$42</span></li>
+<li><input type="checkbox" id="b2"><label for="b2">Kafta marinated, 2.5 kg</label><span class="c">$46</span></li>
+<li><input type="checkbox" id="b3"><label for="b3">Toum, 2.5 kg</label><span class="c">$27</span></li>
+<li><input type="checkbox" id="b4"><label for="b4">Baba ghannouj, 2 kg</label><span class="c">$26</span></li>
+</ul>
+<div class="note"><p>House-made toum from a Lebanese butcher is a real step up on tub
+toum — sharper and fresher. No preservatives though, so keep it cold and covered;
+Thursday to Sunday is fine.</p></div>
+<p class="phones">
+<b>Phone this order ahead — collect Thursday.</b><br>
+1627 Bd Curé-Labelle, Laval · 450-687-7272 · 9 AM–6 PM daily
+</p>
+</div>
+
+<div class="store">
+<h3>Man'oushé, Laval <span>$160</span></h3>
+<ul class="shop">
+<li><input type="checkbox" id="m1"><label for="m1">Za'atar manakish, 5 × 12 = 60 pieces</label><span class="c">$160</span></li>
+</ul>
+<p class="phones">
+<b>Phone the order in Thursday.</b> All open 7 AM.<br>
+Saint-Martin · 514-589-0557 · until 6 PM<br>
+Sainte-Rose · 514-348-0224 · until 6 PM<br>
+Samson · 514-655-6555 · until 4 PM
+</p>
+</div>
+
+<div class="store">
+<h3>Costco <span>$648</span></h3>
+<h4>Breakfast — $156</h4>
+<ul class="shop">
+<li><input type="checkbox" id="c1"><label for="c1">Eggs, 2 flats of 30 (60)</label><span class="c">$22</span></li>
+<li><input type="checkbox" id="c2"><label for="c2">Croissants, 4 packs of 12</label><span class="c">$36</span></li>
+<li><input type="checkbox" id="c3"><label for="c3">Jam</label><span class="c">$10</span></li>
+<li><input type="checkbox" id="c4"><label for="c4">Butter</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="c5"><label for="c5">Coffee, 2 kg</label><span class="c">$30</span></li>
+<li><input type="checkbox" id="c6"><label for="c6">Tea</label><span class="c">$10</span></li>
+<li><input type="checkbox" id="c7"><label for="c7">Oat milk, 4 L</label><span class="c">$14</span></li>
+<li><input type="checkbox" id="c9"><label for="c9">Pita, 3 bags (~90 pieces)</label><span class="c">$26</span></li>
+</ul>
+<div class="note"><p><strong>The pita is not a breakfast item</strong> — it's the Friday
+mezze bread and the fattoush. It sits here only because it's a Costco line. Don't cut
+it.</p></div>
+
+<h4>Meat — $154</h4>
+<ul class="shop">
+<li><input type="checkbox" id="c17"><label for="c17">Boneless chicken thighs, 5.5 kg</label><span class="c">$94</span></li>
+<li><input type="checkbox" id="c18"><label for="c18">Ground beef, 4 kg</label><span class="c">$52</span></li>
+<li><input type="checkbox" id="c19"><label for="c19">Firm tofu, 900 g</label><span class="c">$8</span></li>
+</ul>
+<h4>Produce — $126</h4>
+<ul class="shop">
+<li><input type="checkbox" id="c20"><label for="c20">Potatoes, 7 kg</label><span class="c">$18</span></li>
+<li><input type="checkbox" id="c21"><label for="c21">Romaine, 4 heads</label><span class="c">$12</span></li>
+<li><input type="checkbox" id="c22"><label for="c22">Tomatoes, 2 kg</label><span class="c">$10</span></li>
+<li><input type="checkbox" id="c23"><label for="c23">Cucumbers, 1.5 kg</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="c24"><label for="c24">Bell peppers, 3</label><span class="c">$9</span></li>
+<li><input type="checkbox" id="c25"><label for="c25">Carrots, 2 kg</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="c26"><label for="c26">Broccoli, 2 crowns</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="c27"><label for="c27">Snap peas, 300 g</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="c28"><label for="c28">Shredded cabbage, 300 g</label><span class="c">$4</span></li>
+<li><input type="checkbox" id="c29"><label for="c29">Yellow onions, 3 kg</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="c30"><label for="c30">Garlic, 6 heads</label><span class="c">$9</span></li>
+<li><input type="checkbox" id="c31"><label for="c31">Lemons, ~22</label><span class="c">$17</span></li>
+<li><input type="checkbox" id="c32"><label for="c32">Limes, 6</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="c33"><label for="c33">Oranges, 10 (spritz garnish)</label><span class="c">$9</span></li>
+</ul>
+<h4>Pantry — $172</h4>
+<ul class="shop">
+<li><input type="checkbox" id="c34"><label for="c34">Olive oil, 3 L tin</label><span class="c">$30</span></li>
+<li><input type="checkbox" id="c35"><label for="c35">Neutral oil (canola)</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="c36"><label for="c36">Corn tortillas, ~100</label><span class="c">$20</span></li>
+<li><input type="checkbox" id="c37"><label for="c37">Shredded cheese</label><span class="c">$15</span></li>
+<li><input type="checkbox" id="c38"><label for="c38">Hummus, 2.5 kg</label><span class="c">$23</span></li>
+<li><input type="checkbox" id="c48"><label for="c48">Quinoa salad, 2 tubs (Saturday)</label><span class="c">$26</span></li>
+<li><input type="checkbox" id="c39"><label for="c39">Frozen fries, 1 large bag (~2.25 kg)</label><span class="c">$11</span></li>
+<li><input type="checkbox" id="c40"><label for="c40">Cornstarch</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="c41"><label for="c41">Soy sauce / tamari</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="c42"><label for="c42">Sesame oil</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="c43"><label for="c43">Rice vinegar</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="c44"><label for="c44">Maple syrup</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="c45"><label for="c45">Salt &amp; black pepper</label><span class="c">$8</span></li>
+</ul>
+<h4>Supplies — $40</h4>
+<ul class="shop">
+<li><input type="checkbox" id="c46"><label for="c46">Foil roasting pans (4 deep)</label><span class="c">$25</span></li>
+<li><input type="checkbox" id="c47"><label for="c47">Heavy-duty foil</label><span class="c">$15</span></li>
+</ul>
+</div>
+
+<div class="store">
+<h3>Adonis <span>$185</span></h3>
+<h4>Mushrooms — $55</h4>
+<ul class="shop">
+<li><input type="checkbox" id="a3"><label for="a3">Oyster mushrooms, 1.2 kg</label><span class="c">$32</span></li>
+<li><input type="checkbox" id="a4"><label for="a4">King oyster / hearts of palm, 700 g</label><span class="c">$18</span></li>
+<li><input type="checkbox" id="a5"><label for="a5">Mushrooms, 300 g (stir fry)</label><span class="c">$5</span></li>
+</ul>
+<h4>Spices &amp; pantry — $59</h4>
+<ul class="shop">
+<li><input type="checkbox" id="a9"><label for="a9">Za'atar, 250 g</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="a10"><label for="a10">Sumac, 100 g</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="a11"><label for="a11">Seven spice, 100 g</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a12"><label for="a12">Ground cumin</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a13"><label for="a13">Chili powder</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a14"><label for="a14">Smoked paprika</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a15"><label for="a15">Cajun / Old Bay seasoning</label><span class="c">$4</span></li>
+<li><input type="checkbox" id="a16"><label for="a16">Dried oregano</label><span class="c">$3</span></li>
+<li><input type="checkbox" id="a17"><label for="a17">Garlic powder + onion powder</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a18"><label for="a18">Sesame seeds</label><span class="c">$4</span></li>
+<li><input type="checkbox" id="a19"><label for="a19">Rice, 1 kg (vegan stir fry only)</label><span class="c">$5</span></li>
+</ul>
+<h4>Sauces — $35</h4>
+<ul class="shop">
+<li><input type="checkbox" id="a20"><label for="a20">Pomegranate molasses</label><span class="c">$7</span></li>
+<li><input type="checkbox" id="a21"><label for="a21">Vegan BBQ sauce, 250 ml</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a22"><label for="a22">Salsa</label><span class="c">$8</span></li>
+<li><input type="checkbox" id="a23"><label for="a23">Hot sauce</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a24"><label for="a24">Vegan crema, 200 ml</label><span class="c">$8</span></li>
+</ul>
+<h4>Fresh &amp; dairy — $36</h4>
+<ul class="shop">
+<li><input type="checkbox" id="a8"><label for="a8">Labneh, 1 kg</label><span class="c">$10</span></li>
+<li><input type="checkbox" id="a25"><label for="a25">Parsley, 4 bunches</label><span class="c">$6</span></li>
+<li><input type="checkbox" id="a26"><label for="a26">Mint, 2 bunches</label><span class="c">$4</span></li>
+<li><input type="checkbox" id="a27"><label for="a27">Cilantro, 2 bunches</label><span class="c">$4</span></li>
+<li><input type="checkbox" id="a28"><label for="a28">Radishes, 500 g</label><span class="c">$5</span></li>
+<li><input type="checkbox" id="a29"><label for="a29">Green onions, 2 bunches</label><span class="c">$4</span></li>
+<li><input type="checkbox" id="a30"><label for="a30">Ginger</label><span class="c">$3</span></li>
+</ul>
+<div class="note"><p>Check your own cabinet first. Cumin, paprika, chili powder,
+oregano, cornstarch, salt and rice are the usual suspects already at home — up to
+$30 back.</p></div>
+</div>
+</section>
+
+<section id="logistics">
+<h2>Top up on site</h2>
+<p>There's a full grocery near the chalets, so nothing here needs a worst-case
+cushion.</p>
+<h4>Safe to run short on</h4>
+<p>Eggs · croissants · jam · butter · coffee · milk · fries · hummus · cheese</p>
+<h4>Never run short on — no substitute nearby</h4>
+<p>Manakish · taouk · kafta · toum · baba ghannouj (Boucherie d'Orient) · labneh · za'atar · sumac ·
+seven spice · pomegranate molasses · the 5.5 kg of boneless thighs · foil
+roasting pans · fresh parsley and mint</p>
+<div class="note"><p>A grocery near a chalet runs 20–40% above Costco. Buying lean
+only pays on things you might not need — never on things you're certain to use.</p></div>
+
+<h2 style="margin-top:40px">Equipment</h2>
+<ul>
+<li>4 deep disposable foil roasting pans + 4 rimmed baking sheets to support them</li>
+<li>Heavy-duty foil</li>
+<li>Instant-read thermometer</li>
+<li>~32 skewers, if the taouk and kafta aren't pre-skewered</li>
+<li>4 heavy-duty freezer bags (2 L+)</li>
+<li>2 coolers</li>
+<li>Grill basket for the vegan mushrooms</li>
+<li>2 air fryers — for the Friday fries</li>
+</ul>
+
+<h2 style="margin-top:40px">Chalet logistics</h2>
+<ul>
+<li><strong>Four pans will not fit in one oven.</strong> Split across 2–3 chalets, one person per oven.</li>
+<li>Preheat everything at the same time. Chalet ovens run cold and slow.</li>
+<li><strong>Don't crowd the chicken.</strong> Overlapping pieces steam instead of roasting.</li>
+<li><strong>Both quinoa salads go out Saturday</strong>, alongside the tacos. Sealed and cold until then. Leftovers work for late-night grazing and again Sunday — a cold grain salad holds fine once opened, and it's vegan as bought.</li>
+<li><strong>Name the Sunday cooks on Friday.</strong> A 1:00 PM start means someone is committed by lunchtime the morning after a party. Pick two, one per oven cluster.</li>
+<li>Fridge space is the hidden constraint: 13.5 kg of meat, 4 kg of yogurt and
+7 kg of dips. Map out which chalet fridge holds what before you unload.</li>
+<li><strong>Two air fryers on one circuit will trip a breaker.</strong> Separate outlets, ideally separate rooms.</li>
+<li>The manakish need counter space, not fridge or freezer — keep the stacks bagged and out of the way.</li>
+</ul>
+</section>
+
+<footer>
+Costco $648 · Adonis $185 · Boucherie d'Orient $141 · Man'oushé $160 · Total $1,134 against a $1,250 budget.
+Drinks on a separate $1,600 line.
+</footer>
+
+</div>
+</body>
+</html>
