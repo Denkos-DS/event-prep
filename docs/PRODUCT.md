@@ -1,0 +1,258 @@
+# event-prep — Product Definition & Build Plan
+
+Version 0.1 · August 2026
+
+---
+
+## Problem
+
+Every group event repeats the same work from scratch, and the same errors. In
+building a single 33-person chalet weekend, six substantive errors were caught in
+a plan that already looked finished: breakfast quantities never multiplied for a
+four-morning stay, 5 kg of bone-in chicken treated as 5 kg of meat, seven pantry
+items that appeared in recipes and no shopping list, seven vegan guests with
+nothing to eat at breakfast, a dish paired with the wrong condiment, and a $1,600
+budget line that was really $800.
+
+None of these are hard problems. All of them are invisible until someone checks,
+and nobody checks, because the plan looks complete.
+
+The cost is not usually money. It's the 8 PM realisation that there isn't enough
+chicken, with 30 people already there.
+
+## Who this is for
+
+**Primary — the organiser.** One person who ends up owning food, budget and
+logistics for a group of 20–40. Does this a few times a year. Isn't a caterer and
+shouldn't have to become one.
+
+**Secondary — the co-organisers.** Two or three people running specific lanes:
+someone doing the alcohol run, someone on rentals, someone cooking. They need
+their slice, not the whole plan.
+
+**Tertiary — the guests.** Need one page. Will not read more.
+
+## Goals
+
+1. **No arithmetic errors reach the shop.** Every quantity traceable to a
+   per-person figure and a meal count, and every costed list verified to sum.
+2. **Constraints surface before the menu, not on the day.** Oven count, circuit
+   load, fridge capacity, curfew, arrival time — all established during intake.
+3. **Under an hour from "we're doing a thing" to three usable documents.**
+4. **Each event makes the next one cheaper.** Stores, venues and group profiles
+   accumulate rather than being re-established.
+
+## Non-goals
+
+- **Not a recipe app.** Recipes are an input. The value is scaling, sourcing and
+  sequencing them.
+- **Not a group-payments tool.** Splitwise exists. This computes the gap; it
+  doesn't move money.
+- **Not a booking platform.** It tells you what generator to rent, not where.
+- **Not real-time collaboration.** Multiplayer editing is a v3 question at
+  earliest, and probably never.
+- **Not a general meal planner.** Weekday dinners for four are a different
+  problem with different economics.
+
+---
+
+## Key functions
+
+Nine functions. Two of them are the product; the rest are supporting.
+
+| # | Function | Input → Output | Today | Next |
+|---|---|---|---|---|
+| **F1** | **Event intake** | vague description → structured spec | prose process in SKILL.md | works — formalise the spec schema |
+| **F2** | **Quantity engine** | headcount + dietary split + menu + meal count → amounts | reference tables Claude applies | **→ script** |
+| **F3** | **Plan audit** | existing plan → ranked error list | checklist in SKILL.md | works — needs a test corpus |
+| **F4** | **Budget reconciliation** | committed + estimated + collected → per-person gap | prose | → script (shares F2's spec) |
+| **F5** | **Sourcing router** | item list → store assignments, phone-ahead flags | routing principles | needs a store profile store |
+| **F6** | **Timeline builder** | serve time + dish timings → backwards schedule | prose method | works |
+| **F7** | **Logistics sizing** | appliance list → circuit load, generator size, sound rig | load tables | works |
+| **F8** | **Document generation** | spec → guest sheet, planning doc, shopping list | prose specification | → HTML templates |
+| **F9** | **Sync & verify** | edit → all documents consistent, totals reconciled | manual, ad-hoc scripts | **→ script** |
+
+### The two that matter
+
+**F2 and F3 are the product.** Everything else is competent formatting that a
+capable person could do themselves.
+
+**F2 (quantity engine)** is where the domain knowledge lives — the bone-in
+correction, the ratio-matching on cocktails, ice consumption, appetite decay,
+which meals actually exist given arrival and departure times. This is what
+someone can't look up in five minutes.
+
+**F3 (plan audit)** is the differentiated one. Nobody offers this. Most people
+arrive with a plan already drafted — from a spreadsheet, a previous year, or
+another AI — and want it checked rather than replaced. It's also the cheapest
+entry point: no intake required, immediate visible value.
+
+### Why F2 and F9 need to be code, not prose
+
+Over a long planning conversation, costed lists drift. In building the source
+event, section headers and store subtotals fell out of sync with their line items
+at least three times, each caught only by summing programmatically. Prose tables
+are fine for teaching a model the rules; they are not reliable for arithmetic
+executed dozens of times across a session.
+
+A script converts a class of error from "usually caught" to "structurally
+impossible." That's the single highest-value change available.
+
+---
+
+## Build plan
+
+Five phases. **Phases 0–2 are the real work.** Phase 3 is optional and Phase 4 is
+a decision, not a commitment.
+
+### Phase 0 — Use it (now, zero build)
+
+Run the skill on the chalet weekend, end to end. Note every place it needed
+correcting or produced something unusable.
+
+This costs nothing and is the only source of honest signal. Building Phase 1
+before doing this risks hardening the wrong things.
+
+**Done when:** the weekend has happened and there's a list of what the skill got
+wrong or missed.
+
+### Phase 1 — Harden the skill (a weekend of work)
+
+Add `scripts/` and `assets/`:
+
+```
+skill/
+├── SKILL.md
+├── references/          (existing)
+├── scripts/
+│   ├── quantities.py    spec JSON → amounts, with the corrections applied
+│   └── reconcile.py     costed list → sum check, drift report
+└── assets/
+    ├── guest-sheet.html      the three shells, content-free
+    ├── planning-doc.html
+    └── shopping-list.html    filter + progress + running total
+```
+
+**`quantities.py`** takes an event spec and emits amounts. It owns the bone-in
+correction, the meal-count logic, dietary sub-counts, appetite decay, and cocktail
+ratio-matching. Claude passes it a spec and reports what comes back rather than
+doing the arithmetic in prose.
+
+**`reconcile.py`** parses a costed list and verifies that line items sum to
+section, store and header totals. Run after every edit. This is the fix for the
+drift problem.
+
+**`assets/`** are the three HTML shells. Regenerating them from scratch each event
+burns tokens and produces inconsistent results.
+
+**Done when:** a second event can be planned without hand-writing verification
+scripts.
+
+### Phase 2 — Personal data layer (project knowledge, ongoing)
+
+Lives in the Claude project, not the public repo — it's personal and local.
+
+- **Store profiles** — what each carries, hours, phone, lead time, price posture,
+  which items are non-substitutable there. Montreal: Costco Saint-Laurent, SAQ
+  Dépôt, Adonis, Boucherie d'Orient, Man'oushé.
+- **Group profiles** — recurring headcount, dietary split, who cooks, who handles
+  sound and rentals, drinking rate.
+- **Venue profiles** — chalets and sites used before: oven count, fridge capacity,
+  circuit layout, distance to a shop, curfew.
+
+This is what makes F5 (sourcing) work properly, and it's what makes the third
+event dramatically faster than the first.
+
+**Done when:** an intake for a known venue and group needs three questions
+instead of twelve.
+
+### Phase 3 — Event type templates (optional)
+
+Different event shapes have different constraint profiles:
+
+| Type | What changes |
+|---|---|
+| Chalet weekend | the baseline — ovens, fridges, multiple buildings |
+| Camping | no ovens, no fridge, generator mandatory, water is a line item |
+| Day picnic | no cooking, everything transported cold and ready |
+| House party | kitchen unlimited, headcount uncertain, no accommodation |
+| Festival camp | multi-day, no power, extreme transport constraint |
+
+Each is a variant reference file under the same skill, in the pattern the
+skill-creator guide recommends for multi-domain skills.
+
+**Only build the ones actually used.** A camping template written speculatively
+will be wrong in ways only a real trip reveals.
+
+### Phase 4 — Decide whether an app is warranted
+
+**Do not start this before three real events.**
+
+The question to answer is narrow: *what does an app do that a skill plus a shared
+folder cannot?* Honest candidate answers:
+
+- **Assignment tracking.** Co-organisers tick off their own lanes and everyone
+  sees status. A static HTML file can't do this.
+- **Persistence without Claude.** Guests and helpers who don't have accounts.
+- **Return visits.** Opening last year's plan and forking it.
+
+If those aren't compelling after three events, the app isn't warranted and the
+skill is the finished product. That's an acceptable outcome, not a failure.
+
+If it is warranted, the shape is a small web app with a shared event record, and
+Claude behind it via the API for intake and document generation — not a rebuild
+of the intelligence in application code.
+
+---
+
+## Success measures
+
+Not analytics — this has one user for now. Direct observations:
+
+**After the source event**
+- How many things ran out? How many were thrown away?
+- What did the plan miss that mattered on the day?
+- Did anyone need to ask a question the guest sheet should have answered?
+
+**After the second event (Phase 1 complete)**
+- Time from start to three finished documents. Target: under an hour.
+- Arithmetic errors surviving to the shop. Target: zero.
+- Questions needed at intake. Fewer than the first time.
+
+**After the third event (Phase 2 complete)**
+- Intake questions for a known venue and group. Target: three or fewer.
+- Was any of the store routing wrong?
+
+---
+
+## Open questions
+
+**Blocking Phase 1**
+- What's the spec schema? What exactly does `quantities.py` take as input, and
+  is it hand-written, or does Claude produce it from intake?
+
+**Blocking Phase 2**
+- Where does personal data live — project knowledge, a private repo, or a file in
+  the project? Project knowledge is easiest but least portable.
+
+**Non-blocking**
+- Are the HTML documents the right format, or should the guest sheet be a PDF or
+  an image? Cloud storage handles HTML poorly on phones, which is real friction
+  at 33 recipients.
+- Does the plan-audit function work on other people's plans, or is it tuned to
+  the one plan it was built against? Needs a corpus of three or four real ones.
+- Metric vs imperial, and multi-currency, if this ever goes beyond one user.
+
+---
+
+## What not to build
+
+Recorded so they don't creep back in:
+
+- A recipe database. Recipes are inputs.
+- Payment splitting. Use Splitwise.
+- Vendor booking or price APIs. Prices go stale; estimates are enough for
+  planning, and the shopper sees the real price anyway.
+- Nutrition tracking.
+- Guest RSVP management.
+- Anything that requires guests to have an account.

@@ -81,6 +81,19 @@ you can't serve.
 
 ---
 
+## Where this is going
+
+See [`docs/PRODUCT.md`](docs/PRODUCT.md) for the function breakdown and build
+plan. Short version: nine functions, of which two carry the value — the
+**quantity engine** (the domain maths) and the **plan audit** (checking a plan
+someone already wrote). Both currently live as prose the model applies; both
+should become scripts, because arithmetic executed dozens of times across a long
+session drifts, and a script makes that class of error structurally impossible.
+
+Everything after that is optional.
+
+---
+
 ## Origin
 
 Built from an actual chalet weekend — 33 guests, four days, three cooked meals,
