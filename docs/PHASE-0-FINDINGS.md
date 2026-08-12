@@ -236,7 +236,7 @@ These aren't drift; they're wrong in every copy.
    recite their own kit accurately from memory — this inventory arrived over
    three messages and is still incomplete.
 
-5. **The ice figure contradicts the skill's own table.** `quantities.md` says
+6. **The ice figure contradicts the skill's own table.** `quantities.md` says
    1–1.5 kg per person per day for a cocktail-heavy event. 33 guests over Friday
    and Saturday is **66–99 kg**. The plan buys 60 kg and says it "gets you
    through Friday and Saturday" — that's 0.9 kg/person/day, below the bottom of
@@ -244,6 +244,105 @@ These aren't drift; they're wrong in every copy.
    **This is the one on the list most likely to bite on the night**, and it's
    cheap to settle: check whether the chalets have icemakers, and make the
    restock Saturday *morning* rather than "Saturday".
+
+7. **Three documents wasn't enough. The set should be sized by how many people
+   have jobs, not fixed at three.**
+
+   `documents.md` fixes the set: guest sheet, planning doc, shopping list. This
+   event ended up with seven live documents and genuinely needed at least five.
+   The three that weren't in the set were a **cook's menu** (every dish scaled,
+   with method and the warnings that matter mid-cook), an **operational
+   schedule** (clock times, Wednesday calls through to Monday strike) and
+   **prep-assignment cards** (one per dish, one name on each).
+
+   The reason isn't that this event was unusually complex. It's that the three
+   documents in the set are split by *topic*, and the split that actually
+   matters is **when a document is read and by whom**. The planning doc is the
+   organiser's reasoning, read once, before anything happens. The menu is read
+   in a kitchen, with wet hands, three days later, by someone who was not in
+   the planning conversation. The prep card is read by one person doing one
+   thing. Collapsing those into "the planning doc" means a cook scrolls through
+   budget reconciliation to find out how much salt goes in the marinade.
+
+   The documents also **grew during planning rather than at the start** — the
+   prep cards appeared once it became clear that "who is cooking Sunday" had no
+   home. So the skill needs to be able to add a document mid-planning without
+   re-deriving the others, which the current fixed set actively discourages.
+
+   **Change `documents.md` from a fixed set of three to a rule:** one document
+   per (audience × moment-of-reading). Guests before and during; the organiser
+   before; the shopper in the store; the cook at the stove; each person with a
+   job, the one job they have. For a small event several of those collapse into
+   one sheet, and that's fine — but the collapse should be a decision, not the
+   default.
+
+8. **`quantities.md` has no concept of where a thing physically goes or what
+   keeps it cold.**
+
+   Ice, the power stations and 336 cans of drink all failed in the same shape:
+   a number arrives, **the budget barely moves, and the real consequence lands
+   somewhere the plan wasn't looking.** 336 cans is $354 — under 4% of the
+   weekend — and roughly 143 kg competing for fridge shelves with 14.5 kg of
+   meat, 7 kg of dips, 1 kg of labneh and 3 kg of salad. The binding constraint
+   on this event turned out to be **cold, not money**, and there is no column
+   anywhere in the skill for mass, volume, or what has to be refrigerated.
+
+   The Thursday shop needs two vehicles. Nobody computed that; someone noticed
+   it. 240 beers, 96 seltzer and 90 kg of ice do not fit in one car alongside
+   luggage for the weekend — and that is a pure quantities-to-logistics
+   consequence the reference cannot currently draw.
+
+   `quantities.md` answers *how much to buy*. It never answers **where does it
+   go, what keeps it cold, and who carries it** — and on this event those were
+   the questions that actually bit.
+
+   **Every quantity should carry a physical footprint alongside its cost:**
+   approximate mass or volume, whether it needs refrigeration or freezing, and
+   — once finding 3 above is in — which site it needs to be at. Then fridge
+   capacity, cooler capacity and vehicle count become derivable instead of
+   noticed.
+
+9. **Open questions carry no deadline, so the time-critical ones hide among the
+   rest.**
+
+   Found on the last working day before the event, and the clearest single
+   process defect Phase 0 has produced.
+
+   The open-questions list was sorted into *blocking the Thursday shop*,
+   *blocking Friday*, *unresolved from the party schedule*, and *not blocking*.
+   The Saturday-brunch question — the 10 AM community brunch is a fixed
+   sit-down, but breakfast is costed as a self-serve drift of ~20 manakish for
+   33 people — sat in the third bucket, which reads as the least urgent.
+
+   It was in fact **the most time-critical item on the list.** The only fix is
+   more manakish; manakish are a five-dozen order that the documents themselves
+   say "is not a walk-in order"; the shop closes at 6 PM on the one day the
+   call can still be made. A question filed as *unresolved, not blocking* was
+   silently gating an order with a lead time, and would have expired unanswered.
+
+   **The mechanism:** questions get sorted by *what they are about* rather than
+   by *when the answer stops being actionable*. A question about Saturday feels
+   like a Saturday problem. It was a Wednesday problem, because the thing that
+   answers it has two days of supplier notice in front of it.
+
+   **Every open question needs a decide-by stamp derived from the lead time of
+   whatever action it gates** — supplier notice, store hours, a collection slot,
+   a rental return. The skill already holds the raw material to compute this:
+   the shopping list knows which orders need notice, and the schedule knows when
+   each supplier is open. Sort the open list by deadline, not by topic.
+
+   **A second instance of the same shape, found the same night:**
+   `shopping-list.html` told the shopper to phone Man'oushé **Thursday** while
+   `food-schedule.html` put that call on **Wednesday**. Both documents were
+   internally consistent and reconciled on every figure. `verify-docs.py`
+   compares numbers across documents and cannot see a prose scheduling claim —
+   yet a shopper following the wrong document gives one day's notice instead of
+   two on the order the same document calls "not a walk-in order."
+
+   **So `reconcile.py` should treat "when does this happen" as a checkable
+   quantity, not prose.** Dates, days-of-week and clock times are exactly as
+   cross-document-checkable as dollars, and this class of defect is invisible to
+   both reading and summing.
 
 ## D. Repo hygiene
 
@@ -267,3 +366,15 @@ they're fresh, not a week later.
 - What question did a guest ask that the guest sheet should have answered?
 - Did the two air fryers trip a breaker?
 - Was anything bought that never got opened?
+
+From findings 7–9, added 12 August:
+
+- **Which of the seven documents did anyone actually open?** Which was printed,
+  which was read on a phone, and which never got used at all? That answer sizes
+  the document set for every future event.
+- **Did the fridges hold?** What ended up warm that should have been cold, and
+  was the Saturday morning ice run enough?
+- **Which open question expired unanswered** — and what did that cost on the
+  day? Every one that did is evidence for the decide-by stamp.
+- **Did the 10 AM Saturday brunch turn out to be a sit-down**, and was there
+  enough food on the table at 10?
