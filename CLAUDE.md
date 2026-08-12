@@ -16,7 +16,8 @@ docs/PRODUCT.md             nine functions, five phases — the brief
 docs/PHASE-0-FINDINGS.md    what the skill got wrong — open until the event
 ```
 
-Nothing is under test. There are no scripts yet. That's the next phase.
+`skill/scripts/quantities.py` exists and has 42 passing tests. `reconcile.py`
+and `assets/` don't yet.
 
 ## Where this sits in the plan
 
@@ -49,13 +50,54 @@ This is `PRODUCT.md` Phase 3 arriving early because it was asked for; it is pros
 in `references/`, so it doesn't touch the gate either. **It is unvalidated** —
 see "Testing the skill" below.
 
-`scripts/` and `assets/` remain gated on the event happening.
+**Phase 1 started 12 August 2026, two days before the event — the gate was
+lifted by decision, not because it expired.** The gate said scripts shouldn't be
+written against guesses. That risk is real and was accepted knowingly. What
+reduces it: `quantities.py` ports rates that are stable domain knowledge, the
+test suite asserts the constants against `references/quantities.md` so the port
+can't drift from its source, and the source event's real figures are pinned as
+regression cases. **What the weekend can still change is the numbers, not the
+shape** — so recalibration after the event is an edit to the constants and their
+guard tests, not a rewrite.
 
-**Phase 1 — harden the skill.** The next work. Details below.
+`assets/` remains gated. It has no equivalent argument.
 
-## First task when Phase 1 starts
+**Phase 1 — harden the skill.** In progress. Details below.
 
-Add `skill/scripts/quantities.py`.
+## Phase 1 progress
+
+**Done — `skill/scripts/quantities.py`** (12 August 2026), with
+`test_quantities.py` alongside it: 42 tests, standard library only, run with
+`python test_quantities.py` from `skill/scripts/`.
+
+Two design decisions in it worth not reversing:
+
+- **Everything returns a `Range`, not a number.** The reference gives bands
+  because the reality is a band. A midpoint invents precision the domain doesn't
+  have, and an invented midpoint is exactly the figure that later gets defended
+  as though it were measured.
+- **The traps raise rather than guess.** `meat_kg(26, "chicken")` is a
+  `ValueError`, not an assumption — bone-in and boneless are not the same
+  quantity, so an ambiguous cut is a question, not a value.
+
+The test suite has a third section worth understanding before editing it: it
+pins the places where the **source event disagreed with the reference** — toum
+was marginally under the two-occasion floor, breakfast was bought for three
+mornings where the reference wanted 2.5, and the drinks poured well above the
+party rate. Those assertions exist so a future edit can't quietly "fix" the
+script to agree with the event. If the weekend proves the reference wrong,
+change the reference and the guard test together, deliberately.
+
+**Next — `skill/scripts/reconcile.py`.** Parse a costed list, verify line items
+sum to section, store and header totals, report drift. The real spec already
+exists: the private folder's `verify-docs.py` has been doing this against seven
+live documents and has caught real errors repeatedly. Port it rather than
+designing it. Per finding 9, it should treat dates and clock times as checkable
+quantities alongside money.
+
+## The original Phase 1 brief
+
+Add `skill/scripts/quantities.py`. **Done — see above.**
 
 **Why it exists:** the per-person maths currently lives as prose tables in
 `skill/references/quantities.md` that the model applies by hand. That works, but

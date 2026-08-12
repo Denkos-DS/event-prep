@@ -133,10 +133,22 @@ skill/
     └── shopping-list.html    filter + progress + running total
 ```
 
-**`quantities.py`** takes an event spec and emits amounts. It owns the bone-in
-correction, the meal-count logic, dietary sub-counts, appetite decay, and cocktail
-ratio-matching. Claude passes it a spec and reports what comes back rather than
-doing the arithmetic in prose.
+**`quantities.py`** — **built 12 August 2026**, with `test_quantities.py`
+alongside it: 42 tests, standard library only. It owns the bone-in correction,
+the meal-count logic, appetite decay, cocktail ratio-matching, ice and water.
+
+It did **not** get the event-spec JSON schema sketched above, and that was
+deliberate — the open question at the end of this document flagged the schema as
+unresolved, so the module is a set of pure functions taking plain arguments
+instead. A schema can wrap functions later; functions cannot easily be extracted
+back out of a schema. Dietary sub-counts are still done by the caller passing the
+relevant headcount, which is the part most likely to want revisiting.
+
+Two decisions in it that shaped the rest: **every function returns a range rather
+than a number**, because the reference gives bands and a midpoint invents
+precision the domain doesn't have; and **ambiguous input raises rather than
+guesses**, so an unspecified cut of meat is a `ValueError` rather than a silent
+assumption about bone.
 
 **`reconcile.py`** parses a costed list and verifies that line items sum to
 section, store and header totals. Run after every edit. This is the fix for the

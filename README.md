@@ -47,6 +47,9 @@ Once installed it triggers on its own — "we're renting a chalet for the weeken
 ```
 skill/
 ├── SKILL.md              intake order, audit checklist, budget reconciliation
+├── scripts/
+│   ├── quantities.py     the per-person maths, as code — ranges, not numbers
+│   └── test_quantities.py  42 tests, stdlib only
 └── references/
     ├── quantities.md     per-person maths for food, drink, ice and water
     ├── logistics.md      sites, venue survey, power, rentals, timelines, cold chain
