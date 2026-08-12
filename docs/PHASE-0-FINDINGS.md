@@ -351,6 +351,43 @@ These aren't drift; they're wrong in every copy.
 - No `.gitattributes`. Added — the HTML documents are CRLF on Windows and would
   churn the diff for anyone cloning on macOS or Linux.
 
+## E. From the second event — camping, 11–14 September 2026
+
+The first real plan run against `camping-and-festivals.md`, which is what
+`CLAUDE.md`'s "Testing the skill" asks for. Logged during planning; field
+results to follow after the trip.
+
+10. **The reference has no concept of season, and season is a first-order
+    variable.** Found in the first hour of planning, by arithmetic.
+
+    `camping-and-festivals.md` was written in August against August figures,
+    and several of them are silently seasonal: the 6 L water rate assumes
+    summer heat, the solar yield assumes 4.5 peak sun hours, the cooler duty
+    cycle assumes 28 °C ambient, and the food-safety arc assumes a cooler
+    fighting summer. A September trip moves all of them at once — **and not
+    in the same direction:**
+
+    ```
+    same kit, same 3-night trip        draw     solar    bank lasts
+    August (as the file assumes)      964 Wh   585 Wh    2.6 days
+    mid-September                     768 Wh   481 Wh    3.5 days
+    ```
+
+    Solar falls ~18%, but the coolers' duty cycle falls faster — so the
+    September budget is *better*, and the kit inventory's own headline
+    warning ("the third night is where the coolers die") stops being true
+    the month after it was written. Meanwhile two new items appear that the
+    file never mentions: **single-digit nights change the sleeping kit and
+    push the menu toward hot food**, and the food-safety margin *relaxes*
+    because an 18 °C day is kinder to a cooler than a 28 °C one.
+
+    **The fix is not a table of months.** It's naming the seasonal inputs as
+    inputs: ambient day temperature drives the cooler duty cycle and the
+    ice rate; peak sun hours drive solar; night temperature drives kit and
+    menu; and the water rate should say it assumes summer. A reference that
+    states its assumed conditions can be corrected on site; one that hides
+    them inside its constants gets trusted in the wrong month.
+
 ---
 
 ## To fill in after the weekend
