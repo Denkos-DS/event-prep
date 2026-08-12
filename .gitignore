@@ -10,3 +10,9 @@ __pycache__/
 private/
 *-sourcing.md
 
+# Session transcripts. They contain whatever was discussed — real prices, what
+# people paid, phone numbers — so they live in ../event-prep-private/transcripts/.
+# Write up the lessons in docs/PHASE-0-FINDINGS.md instead.
+*.jsonl
+transcripts/
+
