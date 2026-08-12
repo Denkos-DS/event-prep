@@ -2,16 +2,19 @@
 name: event-prep
 description: >-
   Plan and cost any multi-person gathering — chalet weekends, camping trips, festivals,
-  birthdays, house parties, picnics, family outings, BBQs, retreats. Produces three
-  documents: a guest-facing schedule, a full planning doc, and a store-by-store shopping
-  list with running costs. Use this whenever the user is organising an event for a group,
+  birthdays, house parties, picnics, family outings, BBQs, retreats. Produces a
+  guest-facing schedule, a full planning doc, and a store-by-store shopping list with
+  running costs, plus cook and prep sheets once more than one person has a job.
+  Use this whenever the user is organising an event for a group,
   splitting costs among friends, scaling a recipe for a crowd, building a shopping list
   for a trip, working out how much meat or alcohol to buy, or arranging rentals like sound
-  systems and generators, or working out power for an off-grid site. Trigger it even on
+  systems and generators, working out power for an off-grid site, or feeding a group
+  somewhere with no kitchen, no fridge and no running water. Trigger it even on
   partial asks such as 'how much chicken for 30 people', 'we're renting a chalet for the
-  weekend', 'help me plan the shopping', 'what generator do we need', or 'will my power
-  station run this' — the per-person maths, the multiplication traps, the unit confusions
-  and the venue constraints are where these plans reliably go wrong.
+  weekend', 'help me plan the shopping', 'what generator do we need', 'will my power
+  station run this', 'how much water do we need for a camping trip', or 'what should we
+  bring to a festival camp' — the per-person maths, the multiplication traps, the unit
+  confusions and the venue constraints are where these plans reliably go wrong.
 ---
 
 # Event Prep
@@ -37,8 +40,11 @@ to establish and expensive to get wrong:
    departure morning means coffee and leftovers, not a cooked breakfast.
 3. **Any curfew or hard time constraint.** This cascades further than people
    expect — see "The curfew cascade" below.
-4. **Venue capacity.** Ovens, fridges, freezers, electrical circuits, and whether
-   there is a shop nearby. Ask before planning, not after.
+4. **Venue capacity — starting with whether there is a building at all.** A
+   building silently supplies water, cold, cooking, power, shelter, toilets and
+   waste disposal; remove it and every one of those becomes a line item with a
+   weight, a cost and an owner. Then ovens, fridges, freezers, circuits, and
+   whether there's a shop nearby. Ask before planning, not after.
 5. **How many sites, and how far apart.** Never assume one. See "Ask how many
    places this happens in" below.
 6. **What's already committed, and what's being collected.** See "Get the whole
@@ -114,6 +120,41 @@ Two things make this worth asking properly:
   intake there is, and re-establishing it every time is the reason people don't
   bother.
 
+## The repeat event
+
+**Ask whether this group has done this before.** Most haven't planned their first
+event — they have a menu they return to, stores they always use, and a headcount
+that barely moves. When that's true, most of intake is already answered and
+re-asking it is the main reason people stop using a process.
+
+Three things are worth keeping between events. They are personal and local, so
+they belong in project knowledge or a private working folder, **not in the skill
+itself**:
+
+- **A store roster.** What each store is genuinely good for, hours, phone number,
+  lead time on large orders, volume-discount thresholds, and which items are
+  non-substitutable there. Record the *routing* too — two stores on the same road
+  are one trip, and that's worth more than any individual price.
+- **A standing menu.** The dishes the group actually returns to, held as
+  **per-person rates rather than batch totals**, each with the store it comes
+  from and the equipment it needs. A rate scales to any headcount; a total from
+  last year's event is wrong for this one and looks right.
+- **A group profile.** Recurring headcount and dietary split, drinking rate, who
+  cooks, who handles sound and rentals, what's collected per head.
+
+The payoff compounds: intake for a known group at a known venue should be three
+questions, not twelve, and the quantities stop being re-derived — which is where
+they drift.
+
+**But a standing menu does not survive a change of event shape, and this is the
+trap.** The dishes are the most reusable thing the group has, so they get carried
+to the next event unexamined. Port a chalet menu to a campsite and every oven
+dish silently has no way to be cooked; port it to a festival and the glass ban
+alone reroutes the drinks. **Re-check a standing menu against the new
+constraints, dish by dish, before costing any of it** — see
+`references/camping-and-festivals.md` for which dishes travel and which have no
+equivalent without a building.
+
 ## Quantities that look interchangeable and aren't
 
 This domain goes wrong in one characteristic way: **two quantities share a name
@@ -145,20 +186,57 @@ documents, or people will assume dinner was the end of it.
 Always ask about noise curfews, venue quiet hours, and any fixed timings.
 Everything else bends around them.
 
+## Open questions need a deadline, not just an answer
+
+Every plan accumulates unresolved questions. **Sort them by when the answer stops
+being actionable, not by what they are about** — otherwise the urgent ones hide
+among the merely unresolved.
+
+The mechanism is that questions get filed under their topic. A question about
+Saturday feels like a Saturday problem. But if the only thing that answers it is
+an order with two days' notice placed during business hours, it is a Wednesday
+problem, and it will expire unanswered.
+
+That is exactly what happened in the source event. *"Is the Saturday brunch a
+sit-down meal?"* sat in a list headed **unresolved, not blocking**. The only fix
+was more bread; the bread was a five-dozen order the plan itself called "not a
+walk-in order"; the shop shut at 6 PM on the last day the call could be made. The
+most time-critical item on the list was filed as the least.
+
+**Give every open question a decide-by date, derived from the lead time of
+whatever it gates:**
+
+- supplier notice periods and minimum-order lead times
+- store and supplier opening hours, on the specific days that remain
+- collection and delivery slots
+- rental pickup and return windows
+- anything that must be bought in advance because it cannot be bought on the day
+
+Then present the list **sorted by deadline, with the date on each line.** A
+question with no deadline is genuinely not blocking. A question whose deadline is
+today belongs at the top regardless of what it is about.
+
 ## Reference files
 
 Read these as needed rather than all at once:
 
 - **`references/quantities.md`** — per-person maths for food and drink, the
-  bone-in correction, multiplication rules, and the appetite-decay curve. Read
-  this whenever converting a headcount into amounts to buy.
+  bone-in correction, multiplication rules, the appetite-decay curve, and the
+  physical footprint every quantity carries (mass, what needs cold, which site).
+  Read this whenever converting a headcount into amounts to buy.
 - **`references/logistics.md`** — venue constraints, multi-site planning, power
   in all its forms (circuits, generators, battery stations, solar, vehicle-to-
   load), sound system sizing, cooking-timeline construction, transport and cold
   chain. Read this for anything involving the venue, rentals, electricity, or
   cook-day scheduling.
-- **`references/documents.md`** — the three-document set, who each is for, and
-  what goes in and stays out of each. Read this before producing deliverables.
+- **`references/camping-and-festivals.md`** — events with no building. Water as a
+  line item, cooking without an oven, cold without a fridge, the food-safety arc
+  across days, fuel, shade, sanitation, waste, and the festival gate rules that
+  reroute a whole plan. Read this whenever there is no kitchen, alongside
+  `logistics.md` rather than instead of it.
+- **`references/documents.md`** — the core document set, how many documents an
+  event actually needs, who each is for, and what goes in and stays out of each.
+  Read this before producing deliverables.
 
 ## Auditing an existing plan
 
@@ -194,6 +272,21 @@ elsewhere. Audit it before building on it. These errors show up constantly:
 - **Documents that disagree with each other.** Where a plan has more than one
   document, sum each independently and compare. They drift in both directions,
   and the drift is invisible to reading.
+- **Documents that disagree on a day or a time.** Money gets reconciled; days,
+  dates and clock times almost never do. A supplier phoned a day late is as
+  broken as a total that doesn't add up.
+- **Open questions with no deadline attached.** Anything unresolved that gates an
+  order, a booking or a purchase with a lead time is due *before that lead time*,
+  not "before the event." Re-sort the list by deadline and see what moves.
+- **Quantities with no physical footprint.** A line that has a price but no mass,
+  no cold requirement and no location is unfinished. Cheap, bulky, cold-chain
+  items — drinks and ice above all — are where this bites.
+- **A menu carried over from a different event shape.** Groups reuse their
+  dishes, and the reuse is silent. Check every dish against the equipment that
+  actually exists: an oven bake at a campsite and a glass bottle at a festival
+  are both plans with no way to happen.
+- **No water line on an event without a tap.** The heaviest item on the list, and
+  the one most often missing altogether. See `quantities.md`.
 
 Say what's wrong plainly and give the corrected number. Don't soften it.
 
