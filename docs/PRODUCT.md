@@ -142,8 +142,10 @@ doing the arithmetic in prose.
 section, store and header totals. Run after every edit. This is the fix for the
 drift problem.
 
-**`assets/`** are the three HTML shells. Regenerating them from scratch each event
-burns tokens and produces inconsistent results.
+**`assets/`** are the HTML shells. Regenerating them from scratch each event
+burns tokens and produces inconsistent results. Phase 0 finding 7 raised the
+count: alongside the guest sheet, planning doc and shopping list, the source
+event needed a cook's menu, an operational schedule and prep-assignment cards.
 
 **Done when:** a second event can be planned without hand-writing verification
 scripts.
@@ -170,16 +172,25 @@ instead of twelve.
 
 Different event shapes have different constraint profiles:
 
-| Type | What changes |
-|---|---|
-| Chalet weekend | the baseline — ovens, fridges, multiple buildings |
-| Camping | no ovens, no fridge, generator mandatory, water is a line item |
-| Day picnic | no cooking, everything transported cold and ready |
-| House party | kitchen unlimited, headcount uncertain, no accommodation |
-| Festival camp | multi-day, no power, extreme transport constraint |
+| Type | What changes | Status |
+|---|---|---|
+| Chalet weekend | the baseline — ovens, fridges, multiple buildings | **done** — the source event |
+| Camping | no ovens, no fridge, water is a line item | **written**, unvalidated |
+| Festival camp | multi-day, no power, extreme transport constraint | **written**, unvalidated |
+| Day picnic | no cooking, everything transported cold and ready | not built |
+| House party | kitchen unlimited, headcount uncertain, no accommodation | not built |
 
 Each is a variant reference file under the same skill, in the pattern the
 skill-creator guide recommends for multi-domain skills.
+
+**Camping and festival camps were written together as
+`skill/references/camping-and-festivals.md` (12 August 2026)**, on the reasoning
+that they share one root cause — there is no building — and differ mainly in that
+a festival adds a rules layer enforced at a gate. Splitting them would have
+duplicated water, cold chain, fuel and cooking-without-an-oven twice over.
+
+**They remain unvalidated.** The caution below still stands and the file says so
+in its own header: correct it after the first real trip rather than trusting it.
 
 **Only build the ones actually used.** A camping template written speculatively
 will be wrong in ways only a real trip reveals.

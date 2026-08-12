@@ -15,13 +15,18 @@ rediscovered every time.
 
 ## What it produces
 
-Three documents, three audiences:
+Three core documents, one per audience:
 
 | Document | For | Contains |
 |---|---|---|
 | **Guest schedule** | everyone attending | one page — meals, times, dietary options |
 | **Planning doc** | organiser and cooks | recipes, quantities, timelines, budget, logistics |
 | **Shopping list** | whoever's in the store | itemised by store, tick-off, running total |
+
+Those three are the floor. Once more than one person has a job, the skill splits
+further — a cook's menu, an operational schedule and one prep card per dish — on
+the rule that a document serves one audience at one moment of reading. The source
+event needed five.
 
 ---
 
@@ -43,9 +48,10 @@ Once installed it triggers on its own — "we're renting a chalet for the weeken
 skill/
 ├── SKILL.md              intake order, audit checklist, budget reconciliation
 └── references/
-    ├── quantities.md     per-person maths for food, drink and ice
+    ├── quantities.md     per-person maths for food, drink, ice and water
     ├── logistics.md      sites, venue survey, power, rentals, timelines, cold chain
-    └── documents.md      the three-document set
+    ├── camping-and-festivals.md   events with no building
+    └── documents.md      the core set, and how many an event actually needs
 
 examples/
 └── chalet-weekend-aug-2026/    a real worked example, 33 guests, 4 days
@@ -97,6 +103,21 @@ while everyone is asleep and eat most of a camping battery bank every day.
 from the kitchen, the drinks have to move, the fuel has to be at the stage, the
 curfew starts a migration rather than a silence, and somebody has to light the
 path people walk back along at midnight.
+
+**Water is the heaviest thing on a camping list, and it's usually missing.** Six
+litres per person per day covers drinking, cooking and washing up — for 33 people
+over three days that's 594 litres and 594 kilograms, which is more than most
+vehicles carry. Ask whether there's a tap on site before planning the menu, not
+after.
+
+**A camp menu arcs from perishable to shelf-stable.** Fresh fish and ground meat
+on day one, whole cuts on day two, cured and vegetarian from day three — because
+a cooler on day three is not a fridge. It lines up neatly with appetite decay:
+the day people want to eat least is the day the cooking gets simplest.
+
+**At a festival you get one trip from the car.** No second run, often no
+re-entry, and glass banned at the gate. That single fact deletes the whole "safe
+to run short on" category — every quantity has to be right on the day you pack.
 
 ---
 

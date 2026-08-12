@@ -10,7 +10,7 @@ plan a real 33-person weekend, which is what's in `examples/`.
 
 ```
 skill/SKILL.md              process, plan-audit checklist, budget reconciliation
-skill/references/           quantities, logistics, documents
+skill/references/           quantities, logistics, camping-and-festivals, documents
 examples/                   the source event, unedited
 docs/PRODUCT.md             nine functions, five phases — the brief
 docs/PHASE-0-FINDINGS.md    what the skill got wrong — open until the event
@@ -34,6 +34,20 @@ asked (committed costs, how many sites, what the organiser already owns), the
 multi-site section in `logistics.md`, the rewritten power section covering
 batteries, solar and V2L alongside generators, the unit-trap category in
 `SKILL.md`, and six additions to the audit checklist.
+
+**Second fold-in, 12 August 2026** — findings 7–9. `documents.md` gained "Sizing
+the set" and a dates-and-times sync rule; `quantities.md` gained "Every quantity
+has a physical footprint"; `SKILL.md` gained "Open questions need a deadline" and
+three more audit items. This one **amends a standing decision** — see the
+document-set entry below.
+
+**Camping and festival support, 12 August 2026.** New reference
+`skill/references/camping-and-festivals.md` for events with no building, plus a
+building/no-building branch on the venue survey, water in `quantities.md`, and a
+"repeat event" section in `SKILL.md` covering standing menus and store rosters.
+This is `PRODUCT.md` Phase 3 arriving early because it was asked for; it is prose
+in `references/`, so it doesn't touch the gate either. **It is unvalidated** —
+see "Testing the skill" below.
 
 `scripts/` and `assets/` remain gated on the event happening.
 
@@ -68,20 +82,33 @@ Then `skill/scripts/reconcile.py` — parse a costed list, verify line items sum
 section, store and header totals, report drift. Second priority but the same
 motivation.
 
-Then `skill/assets/` — the three HTML shells, content-free, lifted from
-`examples/`. Regenerating them per event burns tokens and produces inconsistent
-results.
+Then `skill/assets/` — the HTML shells, content-free. Regenerating them per event
+burns tokens and produces inconsistent results.
+
+Note after finding 7: `examples/` holds only three of them. The cook's menu,
+operational schedule and prep-assignment shells exist only in the private working
+folder, so lifting shells from `examples/` alone reproduces the document set the
+finding says was too small. Take the shapes from the live set, strip the content.
 
 ## Decisions already made — don't reopen these
 
 - **Knowledge stays as prose in `references/`; arithmetic moves to `scripts/`.**
   Not everything should become code. The judgement calls — what to ask at intake,
   how to phrase a warning, when to push back on a request — belong in prose.
-- **Personal data does not live in this repo.** Store profiles, venue details and
-  group composition go in Claude project knowledge. The repo stays portable and
-  shareable; the local specifics don't.
-- **The three-document set is fixed.** Guest sheet, planning doc, shopping list.
-  See `skill/references/documents.md`.
+- **Personal data does not live in this repo.** Store profiles, venue details,
+  group composition, the standing menu and the kit inventory live in the private
+  working folder (and/or Claude project knowledge), never here. The repo stays
+  portable and shareable; the local specifics don't. The skill carries the
+  *mechanism* — see "The repeat event" in `SKILL.md` — and the private layer
+  carries the contents.
+- **~~The three-document set is fixed.~~ Amended 12 August 2026 by Phase 0
+  finding 7.** Guest sheet, planning doc and shopping list are now the *floor*,
+  not the set. The source event needed five documents and ran seven — a cook's
+  menu, an operational schedule and prep cards are not optional once more than
+  one person has a job. The rule is one document per (audience × moment of
+  reading). This was reopened on evidence from real use, which is what Phase 0
+  is for; the decision it replaces was made before the event existed. See
+  "Sizing the set" in `skill/references/documents.md`.
 - **Not building:** recipe database, payment splitting, vendor booking, price
   APIs, nutrition, RSVP. See the end of `docs/PRODUCT.md`.
 
@@ -98,6 +125,18 @@ results.
 ## Testing the skill
 
 Install `skill/` locally and run a fresh planning task against it — a different
-event shape than the source one, ideally. Camping is a good stress test: no ovens,
-no fridge, generator mandatory, water becomes a line item. Where the skill assumes
-a kitchen, that's a gap worth writing down.
+event shape than the source one, ideally.
+
+**Camping is the stress test, and `references/camping-and-festivals.md` is now
+the answer to it — written 12 August 2026, but from reasoning rather than from a
+trip.** The venue survey branches on whether there's a building; water, cooking
+without an oven, cold without a fridge, the food-safety arc, fuel, shade,
+sanitation and festival gate rules are all covered.
+
+So the test is no longer "where does the skill assume a kitchen" — that sweep has
+been done. It's now: **run a real camping or festival plan against the file and
+find where the file is wrong.** Unvalidated figures to check first are the 6 L
+per person per day water rate, the 8–10 people per burner figure, the 1 kg per
+person per day of food ice, and the fuel table. `docs/PRODUCT.md` is right that a
+speculative template is wrong in ways only a real trip reveals; the file says so
+in its own header.
