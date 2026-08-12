@@ -1,12 +1,16 @@
 # Documents
 
-Three documents, three audiences. Keeping them separate is what makes them
-usable — a guest scrolling past shopping costs to find dinner time will stop
-reading, and a shopper filtering through recipes in a warehouse aisle will give
-up on the list.
+**Split documents by who reads them and when.** Keeping them separate is what
+makes them usable — a guest scrolling past shopping costs to find dinner time
+will stop reading, and a shopper filtering through recipes in a warehouse aisle
+will give up on the list.
 
-**Contents:** Guest one-pager · Planning document · Shopping list · Formats ·
-Keeping them in sync
+Three documents cover most events: a guest one-pager, a planning document and a
+shopping list. **Treat that as the floor, not the whole set.** Once more than one
+person has a job, the right number is larger — see "Sizing the set" below.
+
+**Contents:** Guest one-pager · Planning document · Shopping list ·
+Sizing the set · Formats · Keeping them in sync
 
 ---
 
@@ -79,6 +83,39 @@ signal, a trolley, background noise. Design for that:
 
 State whether tick state survives a page refresh. If it doesn't, say so.
 
+## Sizing the set
+
+The three above are split by audience. The split that actually matters is **when
+a document is read, and by whom** — and those come apart as soon as more than one
+person has a job.
+
+The source event ran to seven live documents and genuinely needed five. The three
+that weren't in the set:
+
+| Document | For | Read |
+|---|---|---|
+| **Cook's menu** | whoever is cooking | in a kitchen, mid-cook, days later |
+| **Operational schedule** | organiser and cooks | clock times, first phone call through to strike |
+| **Prep assignments** | one card per dish, one name on each | by one person doing one thing |
+
+Why these can't just live inside the planning document: the planning document is
+the organiser's **reasoning**, read once, before anything happens. A cook reading
+it scrolls past budget reconciliation to find out how much salt goes in the
+marinade. Same information, wrong moment, wrong lifespan.
+
+Two rules follow:
+
+- **A person with a job gets the one job they have**, not the document that
+  contains it. A card with one dish and one name is read. A schedule containing
+  everyone's tasks is skimmed.
+- **The set grows during planning, not at the start.** In the source event the
+  prep cards appeared only once "who is cooking Sunday" turned out to have no
+  home. Adding a document mid-plan should be routine — derive it from what
+  already exists rather than restating it by hand.
+
+For a small event several of these collapse into one sheet, and that's fine.
+**Make the collapse a decision, not a default.**
+
 ## Formats
 
 - **HTML** for anything that gets read on a phone or printed. Use system fonts
@@ -95,11 +132,21 @@ the person downloads and files them.
 
 ## Keeping them in sync
 
-A single quantity change usually touches three documents: the recipe or menu
-section, the shopping list, and the guest schedule. Update all three in the same
-pass.
+A single quantity change usually touches at least three documents: the recipe or
+menu section, the shopping list, and the guest schedule — more once the set has
+grown. Update all of them in the same pass. **Every document added is another
+copy of every shared figure**, which is the real cost of splitting the set and
+the reason the check below has to be programmatic.
 
 **After any edit to a costed list, re-verify that line items sum to the stated
 totals.** Section headers, store subtotals and the header table all drift as
 changes accumulate. Sum them programmatically and state the reconciled figure.
 Silent drift is worse than a visible overspend, because nobody catches it.
+
+**Dates and times drift exactly like figures, and are easier to miss.** In the
+source event the shopping list said to phone a supplier on Thursday while the
+operational schedule put that call on Wednesday — on an order the documents
+themselves described as needing notice. Both were internally consistent and every
+dollar reconciled. Check days, dates and clock times across documents with the
+same rigour as money; a supplier phoned a day late is as broken as a total that
+doesn't add up.
