@@ -6,13 +6,24 @@ Venue constraints, rentals, power, cooking timelines, and transport.
 timelines · Power · Generators · Batteries, solar and vehicles · Sound systems ·
 Sourcing and store routing · Cold chain and transport · Make-ahead
 
+For events with no building — camping, festival camps — read
+`camping-and-festivals.md` alongside this.
+
 ---
 
 ## Venue survey
 
 Ask these before planning the menu. Each one has bitten a plan that skipped it.
 
-**Sites** — ask this first, because the rest of the survey assumes an answer
+**Is there a building?** — ask this before the rest, because everything below
+assumes one. A building silently supplies water, cold, cooking, power, shelter,
+toilets and waste disposal. Remove it and each becomes a line item with a weight,
+a cost and an owner. **For camping, festival camps or anything else without a
+building, use the camp survey in `camping-and-festivals.md` instead of the
+kitchen and power sections below** — the sites, cooking-capacity, power, and
+cold-chain material here still applies, and applies harder.
+
+**Sites** — ask this next, because the rest of the survey assumes an answer
 - How many separate places does this happen in? Never assume one.
 - How far apart, in walking minutes rather than metres?
 - Is there vehicle access between them?
@@ -88,6 +99,12 @@ skin never crisps. An extra pan is cheaper than a ruined main.
 
 Disposable foil pans buckle when loaded — slide a rimmed baking sheet underneath
 each one.
+
+**Count burners the same way when there is no oven.** A two-burner camp stove
+realistically feeds 8–10 people per sitting, so 33 people is three or four stoves
+running at once, one large pot over a fire, or a menu that doesn't need everyone
+fed simultaneously. See `camping-and-festivals.md`, which also covers which
+dishes survive the loss of an oven and which have no equivalent at all.
 
 ## Cook-day timelines
 
@@ -270,6 +287,11 @@ items, pre-marinated meat, and anything ordered ahead cannot. Expect a shop near
 holiday venue to run 20–40% above warehouse prices — buying lean pays on things
 you might not need and costs you on things you're certain to use.
 
+**Where you cannot top up at all, the whole split collapses into one list.** A
+festival site you can't leave and re-enter has no shop at any price, so "safe to
+run short on" becomes an empty category and every quantity has to be right on the
+day you pack. Establish re-entry rules before deciding how lean to buy.
+
 ## Cold chain and transport
 
 - **Frozen items double as cooler ice.** Marinated meat frozen flat in bags keeps
@@ -281,6 +303,11 @@ you might not need and costs you on things you're certain to use.
   supermarket equivalents. Fine over a weekend, but keep them cold and covered.
 - Bulk shopping for 30 people does not fit in one car alongside luggage. Plan two
   vehicles or a dedicated run.
+
+**With no fridge at the other end, all of this becomes the cold chain rather than
+just the journey** — block ice over cubed, food and drinks in separate coolers,
+everything pre-chilled at home, and a menu that arcs from most perishable to
+least across the days. See `camping-and-festivals.md`.
 
 ## Make-ahead
 

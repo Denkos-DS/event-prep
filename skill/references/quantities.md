@@ -3,7 +3,8 @@
 Per-person maths for converting a headcount into amounts to buy.
 
 **Contents:** Meat · Sides and starches · Mezze, dips and bread · Salads ·
-Breakfast · Drinks · Ice · Multiplication rules · Appetite decay · Pack sizes
+Breakfast · Drinks · Ice · Water · Multiplication rules · Appetite decay ·
+Pack sizes · Physical footprint
 
 ---
 
@@ -127,6 +128,39 @@ Buy enough for the first two days and **plan a mid-event restock**. Check whethe
 the venue has icemakers before buying — two working icemakers changes the number
 substantially.
 
+With no fridge, ice stops being a drinks item and becomes the cold chain itself —
+budget roughly **1 kg per person per day for food cold on top of the drinks
+figure**, use block rather than cubed, and see `camping-and-festivals.md`.
+
+## Water
+
+At a building this is free and invisible. Without one it is **the heaviest line
+on the list**, and the most commonly forgotten entirely.
+
+| Use | Litres per person per day |
+|---|---|
+| Drinking, moderate summer | 2–3 |
+| Drinking, hot weather or exertion | 4–5 |
+| Cooking, coffee, rinsing | 1–2 |
+| Washing up | 2–4 |
+| Hands, teeth, basic hygiene | 1–2 |
+| **Planning figure, summer camp** | **6** |
+| Floor, if there's a tap on site for washing | 3 |
+
+**Do the weight, always.** 33 people over 3 days at 6 L is 594 L — and 594 kg,
+about thirty 20 L jerry cans. That is more than most vehicle payloads, which is
+why water is asked about before the menu rather than after: no water on site
+means a drier menu, a smaller group, or a vehicle that carries nothing else.
+
+**Ask whether there is water on site, whether it is potable, and how far away it
+is.** Non-potable still covers washing up and hands, which is over half the
+total. A standpipe with a twenty-minute queue is a cost that lands on whoever is
+cooking.
+
+Water is unusually easy to design down: one-pot meals cut washing-up more than
+any other choice, food chopped at home carries no rinse water into the field, and
+a three-basin wash-up uses a fraction of what running water does.
+
 ## Multiplication rules
 
 - **Dinners = nights.** Not days.
@@ -156,3 +190,42 @@ count, or the shopper has to work it out in the aisle.
 
 **Buy herbs no more than a day or two ahead.** Parsley bought Monday will not
 survive to Sunday.
+
+## Every quantity has a physical footprint
+
+A quantity is not finished when it has a price. **Ask where it goes, what keeps
+it cold, and who carries it.** Those three questions are where plans actually
+break, and a costed list cannot answer any of them.
+
+The characteristic failure: a number arrives, **the budget barely moves, and the
+real consequence lands somewhere nobody was looking.** In the source event, 336
+cans of drink came to $354 — under 4% of the weekend — and about 143 kg,
+competing for fridge shelves with 14.5 kg of meat, 7 kg of dips, 1 kg of labneh
+and 3 kg of salad. Cold, not money, turned out to be the binding constraint on
+the whole event, and nothing in this file had a column for it.
+
+Carry three attributes alongside every significant line:
+
+| Attribute | Decides |
+|---|---|
+| **Mass or volume** | Vehicles, and whether one trip is one trip |
+| **Needs cold** | Fridge, freezer, cooler or nothing — all competing for the same shelves |
+| **Which site** | A quantity is always *somewhere*. See multi-site in `logistics.md` |
+
+What that surfaces, none of it visible from a priced list:
+
+- **Vehicle count.** 240 beers, 96 hard seltzers and 90 kg of ice do not fit in
+  one car alongside luggage for a weekend. In the source event two vehicles was
+  noticed by a person, not derived from the plan.
+- **Fridge contention.** Everything needing cold competes for a volume nobody
+  measured. Total it before arrival and decide what stays out — most cans do.
+- **What cold means at each site.** A cooler outdoors is not a fridge. An
+  electric cooler is a fridge, and also a sustained electrical load that runs
+  while everyone is asleep — see `logistics.md`.
+- **Who carries it.** For a second site, load-in is a scheduled task with a name
+  on it, not something that happens spontaneously.
+
+**Drinks are the usual offender**: cheap per unit, bought in bulk, heavy, and
+mostly needing to be cold — every attribute that makes footprint bite at once.
+Ice is the second, and worse: it is the one line that is *purely* footprint, has
+no substitute, and melts.
