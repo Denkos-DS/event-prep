@@ -156,18 +156,23 @@ class TestMixerRatios(unittest.TestCase):
         self.assertEqual(r["surplus_litres"], 0.0)
 
     def test_source_event_bottle_order(self):
-        # 10 L of Aperol against 20 x 750 ml of Prosecco = 15 L. Exactly 3:2.
-        r = q.mixer_bottles(10, mixer_parts=3, spirit_parts=2, bottle_ml=750)
-        self.assertEqual(r["bottles"], 20)
+        # The LIVE order: 6 x 1 L Aperol against 12 x 750 ml Prosecco = 9 L.
+        # Exactly 3:2. (The order was halved from 10/20 late in planning; these
+        # tests pinned the superseded figures for a day, which is precisely the
+        # drift they exist to prevent — hence the live figures now.)
+        r = q.mixer_bottles(6, mixer_parts=3, spirit_parts=2, bottle_ml=750)
+        self.assertEqual(r["bottles"], 12)
         self.assertTrue(r["exact"], "the real order matched the ratio deliberately")
 
     def test_the_750ml_aperol_trap(self):
-        # The handoff's open question: at 750 ml rather than 1 L the aperitif
-        # volume drops and the Prosecco no longer matches.
-        litre_format = q.mixer_bottles(10, 3, 2)["bottles"]
-        small_format = q.mixer_bottles(10 * 0.75, 3, 2)["bottles"]
-        self.assertEqual(litre_format, 20)
-        self.assertEqual(small_format, 15)
+        # The open question on the live order: at 750 ml rather than 1 L the
+        # aperitif volume drops and the Prosecco no longer matches.
+        litre_format = q.mixer_bottles(6, 3, 2)["bottles"]
+        small_format = q.mixer_bottles(6 * 0.75, 3, 2)["bottles"]
+        self.assertEqual(litre_format, 12)
+        self.assertEqual(small_format, 9)
+        self.assertEqual(litre_format - small_format, 3,
+                         "3 spare Prosecco if the Aperol turns out to be 750 ml")
 
     def test_rounding_surplus_is_reported(self):
         r = q.mixer_bottles(5, mixer_parts=3, spirit_parts=2, bottle_ml=750)
@@ -271,12 +276,20 @@ class TestSourceEventRegression(unittest.TestCase):
         self.assertInBand(60, pastry)   # 5 dozen still lands inside the band
 
     def test_drinks_poured_above_the_party_rate(self):
-        """336 cans plus 166 spritz is 502 drinks across 3 nights. The
-        reference's party rate tops out well below that - the event chose to
-        over-pour, and the script should say so rather than agree."""
+        """The live pour is 336 cans + 100 spritz + 50 margaritas + 12
+        tequila-kombucha = 498 drinks across 3 nights. The reference's party
+        rate tops out well below that - the event chose to over-pour, and the
+        script should say so rather than agree."""
         band = q.drinks_count(GUESTS, 3, "party")
         self.assertAlmostEqual(band.high, 336.6, places=1)
-        self.assertGreater(502, band.high)
+        self.assertGreater(498, band.high)
+
+    def test_the_live_spritz_pour_matches_the_bottle_order(self):
+        """6 L of Aperol at 60 ml an aperitif is 100 spritz - the figure the
+        live documents carry, and the one that replaced 166."""
+        spritz = 6000 // 60
+        self.assertEqual(spritz, 100)
+        self.assertEqual(q.mixer_bottles(6, 3, 2)["exact_litres"], 9.0)
 
 
 class TestUncoveredBranches(unittest.TestCase):

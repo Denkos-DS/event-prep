@@ -2,19 +2,17 @@
 name: event-prep
 description: >-
   Plan and cost any multi-person gathering — chalet weekends, camping trips, festivals,
-  birthdays, house parties, picnics, family outings, BBQs, retreats. Produces a
-  guest-facing schedule, a full planning doc, and a store-by-store shopping list with
-  running costs, plus cook and prep sheets once more than one person has a job.
-  Use this whenever the user is organising an event for a group,
-  splitting costs among friends, scaling a recipe for a crowd, building a shopping list
-  for a trip, working out how much meat or alcohol to buy, or arranging rentals like sound
-  systems and generators, working out power for an off-grid site, or feeding a group
-  somewhere with no kitchen, no fridge and no running water. Trigger it even on
-  partial asks such as 'how much chicken for 30 people', 'we're renting a chalet for the
-  weekend', 'help me plan the shopping', 'what generator do we need', 'will my power
-  station run this', 'how much water do we need for a camping trip', or 'what should we
-  bring to a festival camp' — the per-person maths, the multiplication traps, the unit
-  confusions and the venue constraints are where these plans reliably go wrong.
+  birthdays, house parties, picnics, BBQs, retreats. Produces a guest schedule, a
+  planning doc, and a store-by-store shopping list with running costs, plus cook and
+  prep sheets once more than one person has a job. Use whenever someone is organising
+  an event for a group, splitting costs among friends, scaling a recipe for a crowd,
+  building a shopping list for a trip, working out how much meat or alcohol to buy,
+  sizing rentals like sound systems and generators, working out power for an off-grid
+  site, or feeding people somewhere with no kitchen, fridge or running water. Trigger
+  on partial asks too: 'how much chicken for 30 people', 'we're renting a chalet',
+  'what generator do we need', 'will my power station run this', 'how much water for a
+  camping trip', 'what do we bring to a festival'. The per-person maths, multiplication
+  traps, unit confusions and venue constraints are where these plans go wrong.
 ---
 
 # Event Prep
@@ -207,6 +205,45 @@ whatever it gates:**
 Then present the list **sorted by deadline, with the date on each line.** A
 question with no deadline is genuinely not blocking. A question whose deadline is
 today belongs at the top regardless of what it is about.
+
+## Use the script for the arithmetic
+
+**`scripts/quantities.py` does the per-person maths. Run it rather than working
+the tables by hand** — that is the whole reason it exists. Across a long
+planning session hand-applied arithmetic drifts, and on the source event costed
+totals fell out of sync with their line items three times.
+
+```bash
+cd scripts && python -c "
+import quantities as q
+from datetime import datetime
+print(q.meal_plan(datetime(2026,8,14,19,0), datetime(2026,8,17,10,0)))
+print(q.meat_kg(26, 'grilled'))          # Range(4.68, 5.2) kg
+print(q.mixer_bottles(6, 3, 2))          # 12 bottles, exact
+print(q.water_litres(33, 3))             # 594 L — and 594 kg
+"
+```
+
+What it covers: `meal_plan` (which meals exist, from arrival and departure
+times), `meat_kg` with the bone-in correction, `edible_from_bone_in`,
+`starch_kg`, `dips_kg`, `breakfast_items`, `drinks_count`, `mixer_bottles`
+(ratio-locked cocktails), `ice_kg`, `water_litres`, `appetite_factor`.
+
+Three things to know before using it:
+
+- **Everything returns a `Range`, not a number**, because the reference gives
+  bands. Report the band, or say explicitly where in it you have chosen to sit
+  and why. Don't invent a midpoint.
+- **Ambiguous input raises.** `meat_kg(26, "chicken")` is a `ValueError`, not a
+  guess — bone-in and boneless are different quantities, so an unspecified cut
+  is a question to ask, not a value to assume.
+- **It has no event-spec schema.** Pass plain arguments. Dietary sub-counts are
+  the caller's job: call it once per sub-group with that group's headcount.
+
+`python test_quantities.py` from `scripts/` runs 53 tests if you have changed
+anything. The rates come from `references/quantities.md`, which stays the source
+of truth — if the script and the reference disagree, the reference wins and the
+script is wrong.
 
 ## Reference files
 

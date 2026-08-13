@@ -2,6 +2,12 @@
 
 Per-person maths for converting a headcount into amounts to buy.
 
+**These tables are ported to `scripts/quantities.py` — run it rather than
+applying them by hand.** This file stays the source of truth: if the two ever
+disagree, this file is right and the script has drifted. Its test suite asserts
+every constant below, so that disagreement should fail loudly rather than
+silently. See "Use the script for the arithmetic" in `SKILL.md`.
+
 **Contents:** Meat · Sides and starches · Mezze, dips and bread · Salads ·
 Breakfast · Drinks · Ice · Water · Multiplication rules · Appetite decay ·
 Pack sizes · Physical footprint
