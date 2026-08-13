@@ -1,8 +1,8 @@
 # Phase 0 — findings log
 
 Phase 0 is "use it for real and write down what it got wrong." That's this file.
-It stays open until the source event has happened; what's in it becomes the
-Phase 1 work list.
+It stayed open through the source event and now carries findings from later
+events too — see section E. What's in it becomes the Phase 1 work list.
 
 Seeded 11 August 2026, three days before the event, from a pass over the
 documents in `examples/chalet-weekend-aug-2026/`.
@@ -58,17 +58,17 @@ once — not one document in isolation.
 
 These aren't drift; they're wrong in every copy.
 
-1. **Phantom yogurt.** The chalet-logistics section reads *"13.5 kg of meat, 4 kg
+**B1.** **Phantom yogurt.** The chalet-logistics section reads *"13.5 kg of meat, 4 kg
    of yogurt and 7 kg of dips."* There is no yogurt anywhere on the shopping
    list — the nearest thing is 1 kg of labneh. Dips do total 7 kg (hummus 2.5 +
    baba ghannouj 2 + toum 2.5). Meat actually totals **14.5 kg**
    (5.5 chicken + 4 beef + 2.5 taouk + 2.5 kafta), not 13.5. Fridge planning is
    being done against numbers that don't match the list.
-2. **Stale fruit note.** Breakfast was stripped back to manakish, croissants,
+**B2.** **Stale fruit note.** Breakfast was stripped back to manakish, croissants,
    eggs and jam — but the note about buying two-thirds of the avocados firm, and
    apples and pineapple keeping without fridge space, survived the cut. None of
    those three items are on any shopping list.
-3. **Changelog contradicts the list.** "What Changed" says *"Toum 1 kg → 2 kg"*.
+**B3.** **Changelog contradicts the list.** "What Changed" says *"Toum 1 kg → 2 kg"*.
    The recipe, the shopping list and both HTML documents all say **2.5 kg**.
 
 ## C. Gaps — things the plan never covered
@@ -226,8 +226,9 @@ These aren't drift; they're wrong in every copy.
    the one that turned out to matter here: **what equipment the organiser
    already owns.** Power stations, panels, coolers, vehicles — a standing
    register, read at the start of every event rather than re-established each
-   time, and the natural home for the open questions too (which Anker model,
-   whether the car does V2L).
+   time, and the natural home for the open questions too (which exact model a
+   given battery is, whether the car does V2L). The register itself is personal
+   data and lives in the private layer; only the shape of it belongs here.
 
    The generalisation: **the answer to a logistics problem is often already in
    someone's garage**, and a skill that only asks what to rent will never find
@@ -351,11 +352,12 @@ These aren't drift; they're wrong in every copy.
 - No `.gitattributes`. Added — the HTML documents are CRLF on Windows and would
   churn the diff for anyone cloning on macOS or Linux.
 
-## E. From the second event — camping, 11–14 September 2026
+## E. From the second event — a three-night September camping trip
 
 The first real plan run against `camping-and-festivals.md`, which is what
 `CLAUDE.md`'s "Testing the skill" asks for. Logged during planning; field
-results to follow after the trip.
+results to follow after the trip. Dates and location stay in the private
+folder — the finding does not need them.
 
 10. **The reference has no concept of season, and season is a first-order
     variable.** Found in the first hour of planning, by arithmetic.
@@ -368,9 +370,9 @@ results to follow after the trip.
     in the same direction:**
 
     ```
-    same kit, same 3-night trip        draw     solar    bank lasts
-    August (as the file assumes)      964 Wh   585 Wh    2.6 days
-    mid-September                     768 Wh   481 Wh    3.5 days
+    same kit, same 3-night trip     draw     solar    bank lasts
+    high summer (as assumed)       964 Wh   585 Wh    2.6 days
+    early autumn                   768 Wh   481 Wh    3.5 days
     ```
 
     Solar falls ~18%, but the coolers' duty cycle falls faster — so the
@@ -389,6 +391,56 @@ results to follow after the trip.
     them inside its constants gets trusted in the wrong month.
 
 ---
+
+## F. From the audit — 13 August 2026
+
+A full adversarial audit of both repos, a day before the source event. Twelve
+agents across six dimensions; every finding independently verified before it was
+accepted. It found one crashed gate, four published documents carrying stale
+money, a float bug in `quantities.py`, and about thirty smaller drifts. All are
+fixed. One finding generalises past its own fixes and is the reason the audit
+was worth running.
+
+11. **Enumerated coverage rots. Derive it instead.**
+
+    Every tool in this project decides what to check by holding a hand-written
+    list of things to check. Each list was correct when written. By the audit,
+    all three had rotted, silently, in the same way:
+
+    | List | What it enumerated | Rot found |
+    |---|---|---|
+    | `ALL_DOCS` | documents to sweep for stale strings | **omitted `budget.html`** — which was published to 33 people for weeks while carrying three figures from the verifier's own superseded list |
+    | `STALE` (in the publisher) | strings that must not reach the shared folder | **all 22 entries dead**; not one appeared in any published document, while every genuinely stale string was absent from it |
+    | `QTY` | quantities that must agree across documents | no entry for bottle counts, so a **halved drinks order** left one document pouring 166 spritz from 10 Aperol and 20 Prosecco against a live 6 and 12 |
+
+    The pattern: **a hand-maintained list of what to check is itself an artefact
+    that drifts, and nothing checks it.** It fails in the most dangerous
+    direction available — silently, and toward *passing*. A rotted list reports
+    "all clear" in exactly the voice a working one uses, so the tool keeps
+    signalling safety while covering less and less. Worse, a second copy of a
+    list (the publisher kept its own) cannot be kept in step with the first by
+    discipline alone.
+
+    **What actually fixed it, and the rule to carry forward:** derive coverage
+    from the artefacts themselves rather than restating it.
+
+    - The publisher's stale list is now *parsed out of* the verifier. One source,
+      no second copy to fall behind.
+    - The verifier now reads the publisher's file list and **fails if anything is
+      published that it does not sweep** — a list that checks the list.
+    - What can't be derived gets a guard: the deliberate coverage decisions are
+      now assertions that fail when they stop being true.
+
+    **This is `reconcile.py`'s most important design constraint, and it arrived
+    before the script did.** The obvious port of `verify-docs.py` would inherit
+    exactly this defect — a QTY dict, a SUPERSEDED list, a document roster, all
+    hand-kept. Instead it should **walk the document set it is given**, extract
+    every costed line and every repeated figure, and check them against each
+    other. Enumerate only genuine exceptions, and make each one assert that it
+    is still needed. The generalisation past this repo: **any checker whose
+    coverage is a literal list will, given enough edits, quietly stop checking —
+    so coverage belongs in code that reads the artefacts, not in a list beside
+    them.**
 
 ## To fill in after the weekend
 

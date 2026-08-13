@@ -5,8 +5,10 @@ Three kinds of test here, and the third is the point:
 1. **Constants match the reference.** If ``references/quantities.md`` and this
    module ever disagree, the module is wrong. These tests fail loudly rather
    than letting the port drift from its source.
-2. **The reference's own worked examples.** Every number quoted in prose in
-   the reference is reproduced here, so the prose stays true.
+2. **The reference's own worked examples.** The numbers the reference quotes in
+   prose — the bone-in 5 kg, the 3:2 spritz, the 594 L — are reproduced here so
+   that prose stays true. This is not exhaustive over the whole document; it
+   covers the worked examples, not every figure mentioned in passing.
 3. **The source event, as regression.** Real quantities from the August 2026
    chalet weekend, checked against what the script says they should have been.
    Where the event sat outside the band, the test asserts *that* - the
@@ -55,19 +57,41 @@ class TestConstantsMatchReference(unittest.TestCase):
     def test_starch_dip_and_breakfast_rates(self):
         self.assertEqual(q.STARCH["potatoes"], (250, 280))
         self.assertEqual(q.STARCH["rice_dry"], (75, 90))
+        self.assertEqual(q.STARCH["pasta_dry"], (100, 100))
         self.assertEqual(q.STARCH["fries"], (70, 80))
         self.assertEqual(q.DIPS["dip"], (60, 80))
         self.assertEqual(q.DIPS["toum"], (40, 50))
-        self.assertEqual(q.BREAKFAST["pastry"], (0.7, 1))
+        self.assertEqual(q.PITA_PIECES, (2, 3))
+        self.assertEqual(q.SALAD_VEG, (150, 200))
+        self.assertEqual(q.COOKED_YIELD, (0.70, 0.75))
+        self.assertEqual(q.BREAKFAST["items_total"], (1.5, 2))
+        self.assertEqual(q.BREAKFAST["eggs_centrepiece"], (1, 1.5))
         self.assertEqual(q.BREAKFAST["eggs_with_bread"], (0.5, 0.7))
+        self.assertEqual(q.BREAKFAST["pastry"], (0.7, 1))
 
     def test_drink_ice_and_water_rates(self):
         self.assertEqual(q.DRINKS_PER_NIGHT["party"], (3, 4))
+        self.assertEqual(q.DRINKS_PER_NIGHT["dinner"], (2, 3))
         self.assertEqual(q.DRINKING_FRACTION, 0.85)
         self.assertEqual(q.ICE_KG["cocktails"], (1.0, 1.5))
         self.assertEqual(q.ICE_KG["cans"], (0.5, 0.5))
+        self.assertEqual(q.ICE_FOOD_COLD, (1.0, 1.0))
         self.assertEqual(q.WATER_PLANNING, (6, 6))
         self.assertEqual(q.WATER_FLOOR, (3, 3))
+
+    def test_every_water_component_individually(self):
+        """Summed assertions let two rows swap without failing. The audit
+        demonstrated exactly that, so each row is pinned to the table."""
+        self.assertEqual(q.WATER_LITRES["drinking"], (2, 3))
+        self.assertEqual(q.WATER_LITRES["drinking_hot"], (4, 5))
+        self.assertEqual(q.WATER_LITRES["cooking"], (1, 2))
+        self.assertEqual(q.WATER_LITRES["washing_up"], (2, 4))
+        self.assertEqual(q.WATER_LITRES["hygiene"], (1, 2))
+
+    def test_meal_plan_thresholds(self):
+        self.assertEqual(q.DEPARTURE_MORNING_WEIGHT, 0.5)
+        self.assertEqual(q.BREAKFAST_HOUR, 9)
+        self.assertEqual(q.EVENING_ARRIVAL_HOUR, 18)
 
 
 class TestBoneInCorrection(unittest.TestCase):
@@ -158,6 +182,20 @@ class TestMixerRatios(unittest.TestCase):
         for bad in [(0, 3, 2), (6, 0, 2), (6, 3, 0)]:
             with self.assertRaises(ValueError):
                 q.mixer_bottles(*bad)
+        with self.assertRaises(ValueError):
+            q.mixer_bottles(6, 3, 2, bottle_ml=0)
+
+    def test_non_750ml_formats_do_not_round_up_on_float_noise(self):
+        """Regression. Computing the quotient in litres made exactly-divisible
+        orders look like rounding cases: 3.2 L at 3:2 into 600 ml gave a
+        quotient of 8.000000000000002, so 9 bottles and a fabricated 0.6 L
+        surplus. Only 750 ml, being exactly representable, escaped it."""
+        for spirit, ml, expected in [(3.2, 600, 8), (2.1, 350, 9), (4.2, 900, 7)]:
+            r = q.mixer_bottles(spirit, 3, 2, bottle_ml=ml)
+            self.assertEqual(r["bottles"], expected,
+                             f"{spirit} L into {ml} ml should be {expected} bottles")
+            self.assertTrue(r["exact"], f"{spirit} L into {ml} ml divides exactly")
+            self.assertEqual(r["surplus_litres"], 0.0)
 
 
 class TestWater(unittest.TestCase):
@@ -241,9 +279,56 @@ class TestSourceEventRegression(unittest.TestCase):
         self.assertGreater(502, band.high)
 
 
+class TestUncoveredBranches(unittest.TestCase):
+    """Branches the audit found had no test at all."""
+
+    def test_ice_with_no_fridge_adds_the_food_cold_figure(self):
+        self.assertEqual(q.ice_kg(33, 3, "cans"), q.Range(49.5, 49.5))
+        self.assertEqual(q.ice_kg(33, 3, "cans", no_fridge=True), q.Range(148.5, 148.5))
+
+    def test_itemised_water_with_a_tap(self):
+        # drinking (2,3) + cooking (1,2) only; washing and hygiene come from the tap
+        self.assertEqual(q.water_litres(33, 3, tap_on_site=True, itemised=True),
+                         q.Range(297, 495))
+
+    def test_zero_and_negative_inputs_raise_consistently(self):
+        for call in (lambda: q.meat_kg(0, "grilled"),
+                     lambda: q.starch_kg(0, "potatoes"),
+                     lambda: q.dips_kg(0),
+                     lambda: q.breakfast_items(0, 2),
+                     lambda: q.drinks_count(0, 3),
+                     lambda: q.ice_kg(0, 3),
+                     lambda: q.water_litres(0, 3),
+                     lambda: q.pita_pieces(0),
+                     lambda: q.salad_veg_kg(0)):
+            with self.assertRaises(ValueError):
+                call()
+
+    def test_the_formerly_dead_constants_now_have_functions(self):
+        self.assertEqual(q.pita_pieces(26), q.Range(52, 78))
+        self.assertEqual(q.salad_veg_kg(26), q.Range(3.9, 5.2))
+        self.assertEqual(q.cooked_from_raw(5).rounded(2), q.Range(3.5, 3.75))
+
+    def test_late_first_dinner_flag(self):
+        late = q.meal_plan(ARRIVE, DEPART)
+        early = q.meal_plan(datetime(2026, 8, 14, 7, 0), DEPART)
+        self.assertTrue(late.late_first_dinner, "7 PM arrival: dinner is the first meal")
+        self.assertFalse(early.late_first_dinner)
+
+    def test_breakfast_hour_boundary(self):
+        before = q.meal_plan(datetime(2026, 8, 14, 8, 59), DEPART)
+        at = q.meal_plan(datetime(2026, 8, 14, 9, 0), DEPART)
+        self.assertEqual(before.breakfasts, 3.5)
+        self.assertEqual(at.breakfasts, 2.5)
+
+
 class TestAppetiteDecay(unittest.TestCase):
     def test_first_day_is_unscaled(self):
         self.assertEqual(q.appetite_factor(1), q.Range(1.0, 1.0))
+
+    def test_day_two_is_the_documented_interpolation(self):
+        # quantities.md now carries this row explicitly, flagged as interpolated
+        self.assertEqual(q.appetite_factor(2), q.Range(0.9, 0.925))
 
     def test_day_three_is_fifteen_to_twenty_percent_down(self):
         band = q.appetite_factor(3)

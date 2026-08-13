@@ -33,8 +33,11 @@ __all__ = [
     "meat_kg",
     "edible_from_bone_in",
     "bone_in_equivalent",
+    "cooked_from_raw",
     "starch_kg",
     "dips_kg",
+    "pita_pieces",
+    "salad_veg_kg",
     "breakfast_items",
     "drinks_count",
     "mixer_bottles",
@@ -167,6 +170,8 @@ def starch_kg(headcount: int, kind: str, meals: int = 1) -> Range:
     """Dry or raw starch in kilograms. ``kind`` must be one of ``STARCH``."""
     if kind not in STARCH:
         raise ValueError(f"unknown starch {kind!r}. Use one of: {', '.join(sorted(STARCH))}")
+    if headcount < 1 or meals < 1:
+        raise ValueError("headcount and meals must both be at least 1")
     low, high = STARCH[kind]
     return _band(headcount * meals / 1000, low, high)
 
@@ -180,6 +185,8 @@ def dips_kg(headcount: int, kind: str = "dip", occasions: int = 1) -> Range:
     """
     if kind not in DIPS:
         raise ValueError(f"unknown dip {kind!r}. Use one of: {', '.join(sorted(DIPS))}")
+    if headcount < 1 or occasions < 1:
+        raise ValueError("headcount and occasions must both be at least 1")
     low, high = DIPS[kind]
     return _band(headcount * occasions / 1000, low, high)
 
@@ -189,8 +196,39 @@ def breakfast_items(headcount: int, mornings: float, kind: str = "items_total") 
     a departure morning is a half. See ``meal_plan``."""
     if kind not in BREAKFAST:
         raise ValueError(f"unknown breakfast item {kind!r}. Use one of: {', '.join(sorted(BREAKFAST))}")
+    if headcount < 1 or mornings <= 0:
+        raise ValueError("headcount must be at least 1 and mornings positive")
     low, high = BREAKFAST[kind]
     return _band(headcount * mornings, low, high)
+
+
+def pita_pieces(headcount: int, occasions: int = 1) -> Range:
+    """Flatbread or pita pieces, per occasion."""
+    if headcount < 1 or occasions < 1:
+        raise ValueError("headcount and occasions must both be at least 1")
+    return _band(headcount * occasions, *PITA_PIECES)
+
+
+def salad_veg_kg(headcount: int) -> Range:
+    """Total vegetable for a shared salad alongside other food, in kilograms."""
+    if headcount < 1:
+        raise ValueError("headcount must be at least 1")
+    return _band(headcount / 1000, *SALAD_VEG)
+
+
+def cooked_from_raw(raw_kg: float) -> Range:
+    """Cooked weight from raw, for roasted or grilled meat.
+
+    Separate from the bone-in correction and often confused with it: yield is
+    water loss during cooking, bone is never edible at all. A bone-in weight
+    pays both.
+
+    >>> str(cooked_from_raw(5).rounded(2))
+    '3.5-3.75'
+    """
+    if raw_kg < 0:
+        raise ValueError("raw_kg must not be negative")
+    return _band(raw_kg, *COOKED_YIELD)
 
 
 # ------------------------------------------------------------- drinks
@@ -214,6 +252,8 @@ def drinks_count(headcount: int, nights: int, style: str = "party",
         raise ValueError(f"unknown style {style!r}. Use one of: {', '.join(sorted(DRINKS_PER_NIGHT))}")
     if not 0 < drinking_fraction <= 1:
         raise ValueError("drinking_fraction must be in (0, 1]")
+    if headcount < 1 or nights < 1:
+        raise ValueError("headcount and nights must both be at least 1")
     low, high = DRINKS_PER_NIGHT[style]
     return _band(headcount * nights * drinking_fraction, low, high)
 
@@ -243,15 +283,21 @@ def mixer_bottles(spirit_litres: float, mixer_parts: float, spirit_parts: float,
     if bottle_ml <= 0:
         raise ValueError("bottle_ml must be positive")
 
-    exact_litres = spirit_litres * mixer_parts / spirit_parts
-    bottles = math.ceil(exact_litres / (bottle_ml / 1000))
-    supplied = bottles * bottle_ml / 1000
+    # Work in millilitres and quench float noise before rounding up. Computing
+    # the quotient directly in litres makes an exactly-divisible order look
+    # like a rounding case: 3.2 L at 3:2 into 600 ml bottles gives a quotient
+    # of 8.000000000000002, which ceil() turns into 9 bottles and a fabricated
+    # 0.6 L surplus. Only 750 ml, being exactly representable, escaped it.
+    exact_ml = spirit_litres * 1000 * mixer_parts / spirit_parts
+    quotient = round(exact_ml / bottle_ml, 6)
+    bottles = math.ceil(quotient)
+    supplied_ml = bottles * bottle_ml
     return {
-        "exact_litres": round(exact_litres, 4),
+        "exact_litres": round(exact_ml / 1000, 4),
         "bottles": bottles,
-        "supplied_litres": round(supplied, 4),
-        "surplus_litres": round(supplied - exact_litres, 4),
-        "exact": math.isclose(supplied, exact_litres, rel_tol=1e-9),
+        "supplied_litres": round(supplied_ml / 1000, 4),
+        "surplus_litres": round((supplied_ml - exact_ml) / 1000, 4),
+        "exact": bottles == quotient,
     }
 
 
@@ -284,6 +330,8 @@ def ice_kg(headcount: int, days: float, profile: str = "cocktails",
     """
     if profile not in ICE_KG:
         raise ValueError(f"unknown profile {profile!r}. Use one of: {', '.join(sorted(ICE_KG))}")
+    if headcount < 1 or days <= 0:
+        raise ValueError("headcount must be at least 1 and days positive")
     low, high = ICE_KG[profile]
     total = _band(headcount * days, low, high)
     if no_fridge:
@@ -336,7 +384,7 @@ def water_litres(headcount: int, days: float, tap_on_site: bool = False,
 
 
 # ------------------------------------------------------- multiplication
-Meals = namedtuple("Meals", "nights dinners breakfasts")
+Meals = namedtuple("Meals", "nights dinners breakfasts late_first_dinner")
 
 EVENING_ARRIVAL_HOUR = 18        # an arrival after 6 PM means dinner is first
 BREAKFAST_HOUR = 9               # arrive before this and that morning counts
@@ -351,11 +399,15 @@ def meal_plan(arrive: datetime, depart: datetime) -> Meals:
     stayed, plus the arrival morning if they got there before breakfast, and
     the departure morning counts as a half.
 
+    ``late_first_dinner`` flags an arrival after 6 PM: the first meal is dinner
+    and it lands late, so budget about 90 minutes from arrival to eating once
+    unloading and setup are counted, and put no-preparation food out at once.
+
     >>> from datetime import datetime
     >>> meal_plan(datetime(2026, 8, 14, 19, 0), datetime(2026, 8, 17, 10, 0))
-    Meals(nights=3, dinners=3, breakfasts=2.5)
+    Meals(nights=3, dinners=3, breakfasts=2.5, late_first_dinner=True)
     >>> meal_plan(datetime(2026, 8, 14, 7, 0), datetime(2026, 8, 17, 10, 0))
-    Meals(nights=3, dinners=3, breakfasts=3.5)
+    Meals(nights=3, dinners=3, breakfasts=3.5, late_first_dinner=False)
     """
     if depart <= arrive:
         raise ValueError("depart must be after arrive")
@@ -373,7 +425,8 @@ def meal_plan(arrive: datetime, depart: datetime) -> Meals:
     if arrive.hour < BREAKFAST_HOUR:
         breakfasts += 1
 
-    return Meals(nights=nights, dinners=dinners, breakfasts=breakfasts)
+    return Meals(nights=nights, dinners=dinners, breakfasts=breakfasts,
+                 late_first_dinner=arrive.hour >= EVENING_ARRIVAL_HOUR)
 
 
 def appetite_factor(day: int) -> Range:

@@ -238,7 +238,7 @@ every axis except that you should still keep the generator as backup.
 daily draw  = sum of (average W × hours per day) for everything
 daily solar = nominal panel W × peak sun hours × 0.65
 net         = daily solar − daily draw
-days        = bank Wh ÷ net, when net is negative
+days        = bank Wh ÷ (daily draw − daily solar), when draw exceeds solar
 ```
 
 State the day it runs out, not just the deficit. "Two nights work, the third
@@ -297,8 +297,11 @@ day you pack. Establish re-entry rules before deciding how lean to buy.
 - **Frozen items double as cooler ice.** Marinated meat frozen flat in bags keeps
   the cooler cold and thaws over the journey.
 - **Not everything needs the fridge.** Dry-dough breads like za'atar flatbread
-  hold three days sealed at room temperature. Staling is caused by air, not
-  warmth — keep them tightly bagged. Knowing this frees fridge space.
+  hold three days sealed at room temperature. **The fridge is the worst place
+  for them** — staling is starch retrogradation and it runs fastest at fridge
+  temperatures, while the drying-out is what the bag prevents. So: tightly
+  bagged, at room temperature, and the fridge space stays free for something
+  that needs it.
 - **House-made sauces have no preservatives** and won't keep like sealed
   supermarket equivalents. Fine over a weekend, but keep them cold and covered.
 - Bulk shopping for 30 people does not fit in one car alongside luggage. Plan two

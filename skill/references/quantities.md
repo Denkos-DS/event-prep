@@ -165,7 +165,9 @@ a three-basin wash-up uses a fraction of what running water does.
 
 - **Dinners = nights.** Not days.
 - **Breakfasts = mornings people are actually awake and present.** An evening
-  arrival removes one. A departure morning is a half.
+  arrival removes one. A departure morning is a half. **Operationally: an
+  arrival before 9 AM catches that morning's breakfast; later doesn't** — the
+  cutoff is what makes this countable rather than a judgement call each time.
 - **An arrival after 6 PM means the first meal is dinner, and it lands late** —
   budget 90 minutes from arrival to eating, once unloading and setup are counted.
   Put no-preparation food out immediately.
@@ -177,6 +179,17 @@ a three-basin wash-up uses a fraction of what running water does.
 Consumption drops noticeably after the first day — roughly 15–20% by day three.
 People snack, sleep late, and drink instead of eating. Scale the last day's meals
 down, not up.
+
+| Day | Multiplier |
+|---|---|
+| 1 | 1.0 |
+| 2 | 0.90–0.925 |
+| 3 and after | 0.80–0.85 |
+
+**Day 2 is interpolated, not observed.** The 15–20% figure is a day-three
+observation; the middle day is the straight line between them and should be the
+first thing corrected once a real event is measured. Day 4 doesn't keep falling —
+the curve flattens once people have settled into eating less.
 
 The exception is a mid-afternoon main meal, which carries more weight than an
 evening one because it's often the only substantial meal of the day.

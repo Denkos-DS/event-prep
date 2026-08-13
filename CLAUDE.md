@@ -10,13 +10,14 @@ plan a real 33-person weekend, which is what's in `examples/`.
 
 ```
 skill/SKILL.md              process, plan-audit checklist, budget reconciliation
+skill/scripts/              quantities.py + tests — the per-person maths as code
 skill/references/           quantities, logistics, camping-and-festivals, documents
 examples/                   the source event, unedited
 docs/PRODUCT.md             nine functions, five phases — the brief
-docs/PHASE-0-FINDINGS.md    what the skill got wrong — open until the event
+docs/PHASE-0-FINDINGS.md    what the skill got wrong — open across events
 ```
 
-`skill/scripts/quantities.py` exists and has 42 passing tests. `reconcile.py`
+`skill/scripts/quantities.py` exists and has 53 passing tests. `reconcile.py`
 and `assets/` don't yet.
 
 ## Where this sits in the plan
@@ -34,7 +35,7 @@ standing decision below. What went in: the intake questions the skill never
 asked (committed costs, how many sites, what the organiser already owns), the
 multi-site section in `logistics.md`, the rewritten power section covering
 batteries, solar and V2L alongside generators, the unit-trap category in
-`SKILL.md`, and six additions to the audit checklist.
+`SKILL.md`, and five additions to the audit checklist.
 
 **Second fold-in, 12 August 2026** — findings 7–9. `documents.md` gained "Sizing
 the set" and a dates-and-times sync rule; `quantities.md` gained "Every quantity
@@ -67,7 +68,7 @@ guard tests, not a rewrite.
 ## Phase 1 progress
 
 **Done — `skill/scripts/quantities.py`** (12 August 2026), with
-`test_quantities.py` alongside it: 42 tests, standard library only, run with
+`test_quantities.py` alongside it: 53 tests, standard library only, run with
 `python test_quantities.py` from `skill/scripts/`.
 
 Two design decisions in it worth not reversing:
@@ -94,6 +95,19 @@ exists: the private folder's `verify-docs.py` has been doing this against seven
 live documents and has caught real errors repeatedly. Port it rather than
 designing it. Per finding 9, it should treat dates and clock times as checkable
 quantities alongside money.
+
+**But do not port its shape.** Finding 11, from the 13 August audit, is the
+binding design constraint and it arrived before the script did. `verify-docs.py`
+decides what to check by holding hand-written lists — which documents to sweep,
+which strings are stale, which quantities must agree — and **all three had
+rotted silently, in the direction of passing.** A naive port inherits exactly
+that defect.
+
+So `reconcile.py` must **derive its coverage from the documents it is given**:
+walk the set, extract every costed line and every repeated figure, check them
+against each other. Enumerate only genuine exceptions, and make each exception
+assert that it is still needed. A checker whose coverage is a literal list will,
+given enough edits, quietly stop checking.
 
 ## The original Phase 1 brief
 
@@ -145,8 +159,8 @@ finding says was too small. Take the shapes from the live set, strip the content
   carries the contents.
 - **~~The three-document set is fixed.~~ Amended 12 August 2026 by Phase 0
   finding 7.** Guest sheet, planning doc and shopping list are now the *floor*,
-  not the set. The source event needed five documents and ran seven — a cook's
-  menu, an operational schedule and prep cards are not optional once more than
+  not the set. The source event ran seven — the three above plus a cook's menu,
+  an operational schedule and prep cards, none of them optional once more than
   one person has a job. The rule is one document per (audience × moment of
   reading). This was reopened on evidence from real use, which is what Phase 0
   is for; the decision it replaces was made before the event existed. See
@@ -177,8 +191,15 @@ sanitation and festival gate rules are all covered.
 
 So the test is no longer "where does the skill assume a kitchen" — that sweep has
 been done. It's now: **run a real camping or festival plan against the file and
-find where the file is wrong.** Unvalidated figures to check first are the 6 L
-per person per day water rate, the 8–10 people per burner figure, the 1 kg per
-person per day of food ice, and the fuel table. `docs/PRODUCT.md` is right that a
+find where the file is wrong.**
+
+**That run has started**, and it produced finding 10 before anything was packed:
+the file's figures are *summer* figures, and season moves water, solar, cooler
+duty cycle and the food-safety margin at once, in different directions. Still
+unvalidated and waiting on the field: the 6 L per person per day water rate, the
+8–10 people per two-burner stove figure, the 1 kg per person per day of food ice,
+and the fuel table. A second candidate correction is already logged in the trip
+plan — the food-safety arc assumes a *passive* cooler and should branch on
+whether the cold is powered or melting. `docs/PRODUCT.md` is right that a
 speculative template is wrong in ways only a real trip reveals; the file says so
 in its own header.

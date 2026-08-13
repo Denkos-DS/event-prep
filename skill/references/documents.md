@@ -89,8 +89,8 @@ The three above are split by audience. The split that actually matters is **when
 a document is read, and by whom** — and those come apart as soon as more than one
 person has a job.
 
-The source event ran to seven live documents and genuinely needed five. The three
-that weren't in the set:
+The source event ran to seven live documents. Three of them were the set above;
+the three below were not, and all three earned their place:
 
 | Document | For | Read |
 |---|---|---|

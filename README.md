@@ -26,7 +26,7 @@ Three core documents, one per audience:
 Those three are the floor. Once more than one person has a job, the skill splits
 further — a cook's menu, an operational schedule and one prep card per dish — on
 the rule that a document serves one audience at one moment of reading. The source
-event needed five.
+event ran seven.
 
 ---
 
@@ -49,7 +49,7 @@ skill/
 ├── SKILL.md              intake order, audit checklist, budget reconciliation
 ├── scripts/
 │   ├── quantities.py     the per-person maths, as code — ranges, not numbers
-│   └── test_quantities.py  42 tests, stdlib only
+│   └── test_quantities.py  53 tests, stdlib only
 └── references/
     ├── quantities.md     per-person maths for food, drink, ice and water
     ├── logistics.md      sites, venue survey, power, rentals, timelines, cold chain

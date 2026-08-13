@@ -27,7 +27,7 @@ a weight, a cost and an owner.
 |---|---|---|
 | Water | free, unlimited, at a tap | ~6 L per person per day, carried |
 | Cold | fridges, sized in advance | ice, consumed continuously, runs out |
-| Cooking | ovens and hobs | burners and fire, ~8–10 people per burner |
+| Cooking | ovens and hobs | burners and fire, ~8–10 people per two-burner stove |
 | Power | wall sockets | battery and solar, output-ceiling bound |
 | Waste | bins someone else empties | bags you carry out |
 | Shelter | assumed | pitched, and the weather decides the day |
@@ -262,9 +262,10 @@ because these vary and change year to year.
 
 ## The camp survey
 
-Ask these before planning a menu, in place of the venue survey in
-`logistics.md`. Every one of them replaces something a building would have
-supplied silently.
+Ask these before planning a menu, in place of the **Kitchen** and **Power**
+sections of the venue survey in `logistics.md` — its **Sites** and **Site**
+questions still apply and matter more here, not less. Every question below
+replaces something a building would have supplied silently.
 
 **Water**
 - Is there water on site, is it potable, how far, and is there a queue?

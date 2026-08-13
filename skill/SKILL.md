@@ -83,22 +83,14 @@ and where isn't there, and is the route between them lit.
 
 A second site changes more than it looks like it should. In the source event the
 music stage was a ten-minute walk from the accommodation, and every logistics
-assumption in the plan had quietly depended on that not being true:
+assumption in the plan had quietly depended on that not being true — consumables
+have to be where the people are, fuel belongs at the site that burns it, load-in
+becomes a scheduled task with names on it, a curfew triggers a migration rather
+than a silence, and **the unlit route people walk back along at midnight is the
+highest-consequence risk in most weekends.** Each site also needs its own owner.
 
-- **Anything consumable has to be where the people are.** Nobody walks twenty
-  minutes for a drink, so drinks and ice migrate — and a cooler outdoors is not
-  a fridge. A quantity computed for one location is wrong for two.
-- **Fuel, spares and tools belong at the site that uses them.** Running dry
-  mid-set with the fuel ten minutes away is twenty-five minutes of silence.
-- **Load-in becomes a scheduled task with names on it**, not something that
-  happens spontaneously.
-- **A curfew triggers a migration, not just silence.** Put the late-night food
-  at the destination *before* people leave for the other site.
-- **The route between sites is a line item.** Thirty-three people walking unlit
-  ground at 11 PM after several hours of drinking is the highest-consequence
-  risk in a weekend, and path lighting costs almost nothing in advance and is
-  unavailable on the night.
-- **Two sites need two owners**, and they can't be the same person.
+**`logistics.md` "Multiple sites" carries the full consequences** — read it
+whenever the answer is more than one.
 
 Camping trips and festival camps are multi-site by definition — the stage, the
 tents, the water and the cooking are in four different places. Treat single-site
@@ -107,7 +99,7 @@ as the special case, not the default.
 ## Ask what's in the garage
 
 **Before sizing anything to rent or buy, ask what they already own.** Power
-stations, solar panels, coolers, speakers, tents, coolers, folding tables,
+stations, solar panels, coolers, speakers, tents, folding tables, generators,
 vehicles. The answer to a logistics problem is very often already in someone's
 garage, and a process that only asks what to *rent* will never find it.
 

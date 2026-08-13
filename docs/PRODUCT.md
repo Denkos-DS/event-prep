@@ -63,7 +63,7 @@ Nine functions. Two of them are the product; the rest are supporting.
 | # | Function | Input → Output | Today | Next |
 |---|---|---|---|---|
 | **F1** | **Event intake** | vague description → structured spec | prose process in SKILL.md | works — formalise the spec schema |
-| **F2** | **Quantity engine** | headcount + dietary split + menu + meal count → amounts | reference tables Claude applies | **→ script** |
+| **F2** | **Quantity engine** | headcount + dietary split + menu + meal count → amounts | **`scripts/quantities.py`** (12 Aug 2026) | recalibrate constants after the event |
 | **F3** | **Plan audit** | existing plan → ranked error list | checklist in SKILL.md | works — needs a test corpus |
 | **F4** | **Budget reconciliation** | committed + estimated + collected → per-person gap | prose | → script (shares F2's spec) |
 | **F5** | **Sourcing router** | item list → store assignments, phone-ahead flags | routing principles | needs a store profile store |
@@ -134,7 +134,7 @@ skill/
 ```
 
 **`quantities.py`** — **built 12 August 2026**, with `test_quantities.py`
-alongside it: 42 tests, standard library only. It owns the bone-in correction,
+alongside it: 53 tests, standard library only. It owns the bone-in correction,
 the meal-count logic, appetite decay, cocktail ratio-matching, ice and water.
 
 It did **not** get the event-spec JSON schema sketched above, and that was
@@ -167,12 +167,17 @@ scripts.
 Lives in the Claude project, not the public repo — it's personal and local.
 
 - **Store profiles** — what each carries, hours, phone, lead time, price posture,
-  which items are non-substitutable there. Montreal: Costco Saint-Laurent, SAQ
-  Dépôt, Adonis, Boucherie d'Orient, Man'oushé.
+  which items are non-substitutable there. A warehouse club, a bottle shop, a
+  specialty grocer, a butcher and a bakery is the usual shape; the worked
+  example in `examples/chalet-weekend-aug-2026` shows one such roster.
 - **Group profiles** — recurring headcount, dietary split, who cooks, who handles
   sound and rentals, drinking rate.
 - **Venue profiles** — chalets and sites used before: oven count, fridge capacity,
   circuit layout, distance to a shop, curfew.
+- **Kit inventory** — what the organiser already owns: power stations, panels,
+  coolers, vehicles. See finding 5.
+- **Standing menu** — the dishes the group returns to, held as per-person rates.
+  See "The repeat event" in `SKILL.md`.
 
 This is what makes F5 (sourcing) work properly, and it's what makes the third
 event dramatically faster than the first.
@@ -186,7 +191,7 @@ Different event shapes have different constraint profiles:
 
 | Type | What changes | Status |
 |---|---|---|
-| Chalet weekend | the baseline — ovens, fridges, multiple buildings | **done** — the source event |
+| Chalet weekend | the baseline — ovens, fridges, multiple buildings | **built**; event 14–17 Aug pending |
 | Camping | no ovens, no fridge, water is a line item | **written**, unvalidated |
 | Festival camp | multi-day, no power, extreme transport constraint | **written**, unvalidated |
 | Day picnic | no cooking, everything transported cold and ready | not built |
@@ -250,13 +255,17 @@ Not analytics — this has one user for now. Direct observations:
 
 ## Open questions
 
-**Blocking Phase 1**
-- What's the spec schema? What exactly does `quantities.py` take as input, and
-  is it hand-written, or does Claude produce it from intake?
+**Deferred — was blocking Phase 1, and stopped being so**
+- What's the spec schema? `quantities.py` shipped without one, deliberately: it
+  takes plain arguments, so a schema can wrap it later, whereas functions cannot
+  easily be extracted back out of a schema. Still open for `reconcile.py`, whose
+  input format is a real design question rather than a deferrable one.
 
-**Blocking Phase 2**
-- Where does personal data live — project knowledge, a private repo, or a file in
-  the project? Project knowledge is easiest but least portable.
+**Answered — was blocking Phase 2**
+- Where does personal data live? **A private working folder** (`event-prep-private`,
+  local git, no remote), and/or Claude project knowledge. Never this repo. This is
+  now a standing decision in `CLAUDE.md`; the skill carries the mechanism and the
+  private layer carries the contents.
 
 **Non-blocking**
 - Are the HTML documents the right format, or should the guest sheet be a PDF or

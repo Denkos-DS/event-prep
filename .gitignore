@@ -6,13 +6,27 @@ node_modules/
 __pycache__/
 
 # Personal data stays out of the public repo — see CLAUDE.md.
-# Store, venue and group profiles live in ../event-prep-private/.
+# Store, venue, group and kit profiles and the standing menu all live in
+# ../event-prep-private/. These patterns are a backstop, not the rule: the rule
+# is that personal data is never written here in the first place.
+#
+# Deliberately broad. The narrow version of this list (private/, *-sourcing.md)
+# would have let venue-notes-private.md, sourcing-notes.md or a .env through on
+# a `git add .` — see finding 11 on why enumerated coverage is the weak kind.
 private/
+*private*
 *-sourcing.md
+*sourcing*
+kit-inventory*
+standing-menu*
+.env
+.env.*
 
 # Session transcripts. They contain whatever was discussed — real prices, what
 # people paid, phone numbers — so they live in ../event-prep-private/transcripts/.
-# Write up the lessons in docs/PHASE-0-FINDINGS.md instead.
+# Write up the lessons in docs/PHASE-0-FINDINGS.md instead. Covers exports in
+# other formats, not just the .jsonl they arrive as.
 *.jsonl
 transcripts/
+*transcript*
 
