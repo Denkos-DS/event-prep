@@ -49,7 +49,7 @@ skill/
 ├── SKILL.md              intake order, audit checklist, budget reconciliation
 ├── scripts/
 │   ├── quantities.py     the per-person maths, as code — ranges, not numbers
-│   └── test_quantities.py  53 tests, stdlib only
+│   └── test_quantities.py  54 tests, stdlib only
 └── references/
     ├── quantities.md     per-person maths for food, drink, ice and water
     ├── logistics.md      sites, venue survey, power, rentals, timelines, cold chain

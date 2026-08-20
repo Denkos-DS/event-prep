@@ -240,7 +240,7 @@ Three things to know before using it:
 - **It has no event-spec schema.** Pass plain arguments. Dietary sub-counts are
   the caller's job: call it once per sub-group with that group's headcount.
 
-`python test_quantities.py` from `scripts/` runs 53 tests if you have changed
+`python test_quantities.py` from `scripts/` runs 54 tests if you have changed
 anything. The rates come from `references/quantities.md`, which stays the source
 of truth — if the script and the reference disagree, the reference wins and the
 script is wrong.

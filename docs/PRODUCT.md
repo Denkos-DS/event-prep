@@ -46,8 +46,13 @@ their slice, not the whole plan.
 
 - **Not a recipe app.** Recipes are an input. The value is scaling, sourcing and
   sequencing them.
-- **Not a group-payments tool.** Splitwise exists. This computes the gap; it
-  doesn't move money.
+- **Not a group-payments tool — but apportionment is in scope.** Narrowed
+  14 August 2026 by Phase 0 finding 12. Splitwise exists and *settles*; it
+  cannot express per-attendee-night buckets with per-bucket exclusions, which
+  is exactly what a real group trip needs and what the organiser's own
+  spreadsheet had been doing by hand. Computing **who owes what** is F4 at
+  per-person resolution and belongs here (`scripts/split.py`). **Moving the
+  money still doesn't.**
 - **Not a booking platform.** It tells you what generator to rent, not where.
 - **Not real-time collaboration.** Multiplayer editing is a v3 question at
   earliest, and probably never.
@@ -65,7 +70,7 @@ Nine functions. Two of them are the product; the rest are supporting.
 | **F1** | **Event intake** | vague description → structured spec | prose process in SKILL.md | works — formalise the spec schema |
 | **F2** | **Quantity engine** | headcount + dietary split + menu + meal count → amounts | **`scripts/quantities.py`** (12 Aug 2026) | recalibrate constants after the event |
 | **F3** | **Plan audit** | existing plan → ranked error list | checklist in SKILL.md | works — needs a test corpus |
-| **F4** | **Budget reconciliation** | committed + estimated + collected → per-person gap | prose | → script (shares F2's spec) |
+| **F4** | **Budget reconciliation** | committed + estimated + collected → per-person gap | prose + **`scripts/split.py`** (14 Aug 2026) | fold the group-level gap into the same module |
 | **F5** | **Sourcing router** | item list → store assignments, phone-ahead flags | routing principles | needs a store profile store |
 | **F6** | **Timeline builder** | serve time + dish timings → backwards schedule | prose method | works |
 | **F7** | **Logistics sizing** | appliance list → circuit load, generator size, sound rig | load tables | works |
@@ -134,7 +139,7 @@ skill/
 ```
 
 **`quantities.py`** — **built 12 August 2026**, with `test_quantities.py`
-alongside it: 53 tests, standard library only. It owns the bone-in correction,
+alongside it: 54 tests, standard library only. It owns the bone-in correction,
 the meal-count logic, appetite decay, cocktail ratio-matching, ice and water.
 
 It did **not** get the event-spec JSON schema sketched above, and that was

@@ -17,7 +17,7 @@ docs/PRODUCT.md             nine functions, five phases — the brief
 docs/PHASE-0-FINDINGS.md    what the skill got wrong — open across events
 ```
 
-`skill/scripts/quantities.py` exists and has 53 passing tests. `reconcile.py`
+`skill/scripts/quantities.py` exists and has 54 passing tests. `reconcile.py`
 and `assets/` don't yet.
 
 ## Where this sits in the plan
@@ -68,7 +68,7 @@ guard tests, not a rewrite.
 ## Phase 1 progress
 
 **Done — `skill/scripts/quantities.py`** (12 August 2026), with
-`test_quantities.py` alongside it: 53 tests, standard library only, run with
+`test_quantities.py` alongside it: 54 tests, standard library only, run with
 `python test_quantities.py` from `skill/scripts/`.
 
 Two design decisions in it worth not reversing:

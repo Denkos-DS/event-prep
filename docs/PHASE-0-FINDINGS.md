@@ -345,6 +345,50 @@ These aren't drift; they're wrong in every copy.
    cross-document-checkable as dollars, and this class of defect is invisible to
    both reading and summing.
 
+12. **Cost apportionment was excluded from scope, and the organiser had been
+    doing it by hand — with a $104.71 leak.**
+
+    Found 14 August 2026, from a real spreadsheet the organiser has used across
+    at least three Kiamika camping trips. It is the first finding sourced from
+    an artefact this project did not create, and the most valuable one so far,
+    because it corrects a **scope decision** rather than a number.
+
+    **The model in the spreadsheet is better than the one in `SKILL.md`.** Each
+    night is its own cost bucket with its own denominator, so somebody present
+    two nights of three pays two nights at the rates those nights actually
+    cost. A five-person Sunday costs those five $78.88 a head where the
+    fifteen-person Saturday cost $26.29. `SKILL.md`'s budget reconciliation
+    divides one scalar gap flatly by headcount and cannot express any of that.
+
+    **And it lost money.** Three vegans were taken off a $453.75 butcher's bill
+    by deleting their cells, but the divisor stayed at 13 — so ten shares were
+    issued against a thirteen-way split and **$104.71 was never charged to
+    anyone.** The organiser absorbed it. Every other column balanced to the
+    cent, which is precisely why nobody noticed.
+
+    **The defect is structural, not clerical.** Eligibility was stored as "did a
+    human paste a value into this cell"; the denominator was stored as an
+    independent cell reference. Nothing tied them together, so the two could
+    disagree indefinitely while the sheet looked finished. This is finding 11's
+    shape again — coverage that silently stops matching what it claims to
+    cover — in a completely different medium.
+
+    **`scripts/split.py` (14 August 2026)** ports the good idea and closes the
+    hole: every denominator is derived from the eligibility rule itself, and
+    the result is refused outright unless charges equal bills to the cent. The
+    real trip is pinned as a regression test.
+
+    **The scope decision it corrects:** `PRODUCT.md` said "not a group-payments
+    tool — Splitwise exists". That conflated *settlement* with *apportionment*.
+    Splitwise moves money; it cannot express per-attendee-night buckets with
+    per-bucket exclusions. The exclusion was starving F4 rather than protecting
+    it. Narrowed, not dropped — moving money is still out.
+
+    **Three things a splitter must assert**, none of which a spreadsheet does
+    natively: the sum of charges equals the sum of bills; every bucket has at
+    least one eligible payer; and the sum of balances equals bills minus what
+    was already fronted.
+
 ## D. Repo hygiene
 
 - `LICENSE` said `Copyright (c) 2026 David`. Set to the full name for a public
